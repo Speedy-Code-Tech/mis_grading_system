@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faculty;
+use App\Models\Student;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
     public function index(){
-        return view("teacher.dashboard");
+        $faculty_id = Faculty::where('user_id',auth()->user()->id)->first()->id;
+        $count = Subject::with('faculty')->where('faculty_id',$faculty_id)->count();
+        $level = Subject::with('faculty')->where('faculty_id',$faculty_id)->first()->level;
+        $studentCount = Student::where('level',$level)->count();
+        return view("teacher.dashboard",compact('count','studentCount'));
     }
 }

@@ -4,7 +4,7 @@
     </div>
     <div class="container d-flex flex-column gap-3 pt-3 pe-0">
       
-        <a href="{{ route('student.index') }}" class="{{ $active=='dashboard'?'active':'' }} p fw-bold ms-4 m-0" style="text-decoration: none; font-size: 1.2em;"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+        {{-- <a href="{{ route('student.index') }}" class="{{ $active=='dashboard'?'active':'' }} p fw-bold ms-4 m-0" style="text-decoration: none; font-size: 1.2em;"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a> --}}
         {{-- <a href="{{ route('semester.index') }}" class="{{ $active=='semester'?'active':'' }} p fw-bold ms-4 m-0" style="text-decoration: none; font-size: 1.2em;"><i class="bi bi-calendar2-week"></i> Semester</a> --}}
         {{-- <p class="text-white fw-bold m-0">DEPARTMENT SECTION</p>
         <a href="{{ route('department.index') }}" class="{{ $active=='department'?'active':'' }} p fw-bold ms-4 m-0" style="text-decoration: none; font-size: 1.2em;"><i class="bi bi-upc"></i> Department</a>
