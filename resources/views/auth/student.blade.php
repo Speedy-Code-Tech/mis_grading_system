@@ -4,11 +4,18 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+    .logo {
+        background:url('/img/logo.jpg');
+        background-repeat: no-repeat;
+        background-size: contain; 
+        background-position: center;   
+        background-color: rgba(255,255,255,0.89);
+        background-blend-mode: lighten;
+    }
 </style>
 @section('content')
-    <div class="container-fluid d-flex justify-content-center align-items-center h-100" style="overflow-y: hidden">
-        <div class="left container h-100 d-flex justify-content-center align-items-center "
-            style="background:url({{ asset('img/logo.jpg') }}); background-repeat: no-repeat; background-size: cover;">
+    <div class="d-flex justify-content-center align-items-center h-100" style="overflow-y: hidden">
+        <div class="left container h-100 d-flex justify-content-center align-items-center logo">
             <div style="width:90%"
                 class="container border rounded bg-white  d-flex flex-column justify-content-center align-items-center p-5 gap-3">
                 <h2 style="color:#189993" class="text-center fw-bold">Moreno Integrated <br> School</h2>

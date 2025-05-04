@@ -30,6 +30,7 @@ class FacultyController extends Controller
     public function store(Request $request)
     {
 
+        // dd($request);
         $data = $request->validate([
             'fname' => 'required|string',
             'mname' => 'nullable|string',

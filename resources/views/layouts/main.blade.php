@@ -13,6 +13,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -20,6 +21,25 @@
         body {
             width: 100vw;
             height: 100vh;
+        }
+
+        a{
+            color:whitesmoke;
+        }
+
+        .active{
+            color:#17908B;
+            background: whitesmoke;
+        }
+
+        
+        .background {
+            background: url('/img/logo.jpg'); 
+            background-repeat: no-repeat;
+            background-size: contain; 
+            background-position: center;   
+            background-color: rgba(255,255,255,0.89);
+            background-blend-mode: lighten;
         }
     </style>
 </head>
@@ -41,13 +61,13 @@
             @endif
 
         
-            <div class="container-fluid h-100 logo" style="background: url({{ asset('img/logo.jpg') }}); background-repeat: no-repeat;background-size: contain; background-position: center;   background-color: rgba(255,255,255,0.6);
-    background-blend-mode: lighten;">
+            <div class="container-fluid h-100 background">
                 @yield('content')
             </div>
         </main>
     </div>
     <script src="//cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
 </body>
+
 
 </html>

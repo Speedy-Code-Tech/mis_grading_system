@@ -13,10 +13,12 @@ use App\Http\Controllers\StudentSubjectController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherSubjectController;
 use App\Models\Student;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
 })->middleware(['checkAuth:admin']);
+
 
 Route::group(['prefix' => 'teacher'], function () {
     Auth::routes();
@@ -92,6 +94,7 @@ Route::group(['prefix' => 'student', 'checkAuth:student'], function () {
 Route::group(['prefix' => 'teacher', 'middleware' => ['checkAuth:teacher']], function () {
     Route::get('/dashboard', [TeacherController::class, 'index'])->name('teacher.index');
     Route::get('/subject', [TeacherSubjectController::class, 'index'])->name('teacher.subject.index');
+    Route::get('/grades', [TeacherSubjectController::class, 'grades'])->name('teacher.grades.grade');
 });
 
 
@@ -102,3 +105,7 @@ Route::group(['prefix' => 'head', 'middleware' => ['checkAuth:head_teacher']], f
     Route::get('/subject', [HeadTeacherSubjectController::class, 'index'])->name('head.subject.index');
 
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

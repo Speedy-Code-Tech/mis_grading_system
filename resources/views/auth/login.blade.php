@@ -91,9 +91,32 @@
                     </div>
                 </div>
             </form>
-            <a href="{{ $prefix == '/admin' ? '/student' : '/admin' }}/login" class="h5 mt-3"
+            <!-- <a href="{{ $prefix == '/admin' ? '/student' : '/admin' }}/login" class="h5 mt-3"
                 style="text-decoration: none; color:grey; font-weight: 600">{{ $prefix == '/admin' ? 'Student' : 'Administrator' }}
-                Login</a>
+                Login</a> -->
+
+            <div class="mt-3 d-flex gap-3 justify-content-center">
+                @php
+                    $roles = [
+                        'admin' => 'Administrator',
+                        'student' => 'Student',
+                        'teacher' => 'Teacher',
+                        'head' => 'Head Teacher',
+                    ];
+                @endphp
+
+                @foreach ($roles as $role => $label)
+                    @if ($prefix !== '/' . $role)
+                        <a href="/{{ $role }}/login"
+                            class="h5"
+                            style="text-decoration: none; color:grey; font-weight: 600"
+                        >
+                            {{ $label }} Login
+                        </a>
+                    @endif
+                @endforeach
+            </div>
+
 
     </div>
 @endsection

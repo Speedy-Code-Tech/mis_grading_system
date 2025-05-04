@@ -55,6 +55,8 @@
                 @endforeach
             </tbody>
         </table>
+
+        <!-- Add Semester -->
         <div class="semester rounded d-none ">
             <div class="d-flex container-fluid">
                 <h4 class="fw-bold p-4" style="width:90%;">Add Semester</h4> <button class="btn close">X</button>
@@ -167,6 +169,8 @@
                 </form>
             </div>
         </div>
+
+        <!-- Edit Semester -->
         <div class="editsemester rounded d-none">
             <div class="d-flex container-fluid">
                 <h4 class="fw-bold p-4" style="width:90%;">Edit Semester</h4> <button class="btn closed">X</button>

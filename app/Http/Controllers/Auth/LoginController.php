@@ -60,13 +60,13 @@ class LoginController extends Controller
             if($user->role=='admin'){
                 return redirect()->intended('/admin/dashboard');
                 
-            }else if($user->role=='student'){
+            } else if($user->role=='student') {
                 return redirect()->intended('/student/dashboard');
                 
-            }else if($user->role=='teacher'){
+            } else if($user->role=='teacher') {
             return redirect()->intended('/teacher/dashboard');
                 
-            }else if($user->role=='head_teacher'){
+            } else if($user->role=='head_teacher') {
             return redirect()->intended('/head/dashboard');
                 
             }
