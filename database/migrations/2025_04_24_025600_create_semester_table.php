@@ -14,15 +14,9 @@ return new class extends Migration
         Schema::create('semesters', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('start_year');
-            $table->string('end_year');
-            $table->string('region');
-            $table->string('division');
-            $table->string('school_name');
-            $table->string('school_id');
-            $table->string('written_work');
-            $table->string('performance_task');
-            $table->string('quarterly_assesment');
+            $table->year('start_year');
+            $table->year('end_year');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -32,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('semester');
+        Schema::dropIfExists('semesters');
     }
 };

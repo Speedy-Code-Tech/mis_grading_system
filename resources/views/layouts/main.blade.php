@@ -45,29 +45,35 @@
 </head>
 
 <body>
-    <div id="app" style="width:100%; height: 100%;">
+    <div id="app" style="width:100%; height: 100vh;">
 
-        <main class="d-flex" style="width:100%; height: 100%;">
+        <main class="d-flex" style="width:100%; min-height: 100vh;">
 
-          
-            @if(auth()->user()->role=='admin')
-                @include('admin.partials.sidebar')
-            @elseif(auth()->user()->role=='student')
-                @include('student.partials.sidebar')
-            @elseif(auth()->user()->role=='teacher')
-                @include('teacher.partials.sidebar')
-            @elseif(auth()->user()->role=='head_teacher')
-                            @include('head.partials.sidebar')
-            @endif
+            <!-- Sidebar -->
+            <!-- Sidebar -->
+            <div class="sticky-top" style="position: sticky; top: 0; height: 100vh; z-index: 1050;">
+                <div class="h-100 d-flex flex-column" style="width:250px; background: #17908B;"> <!-- Adjust sidebar width -->
+                    @if(auth()->user()->role=='admin')
+                        @include('admin.partials.sidebar')
+                    @elseif(auth()->user()->role=='student')
+                        @include('student.partials.sidebar')
+                    @elseif(auth()->user()->role=='teacher')
+                        @include('teacher.partials.sidebar')
+                    @elseif(auth()->user()->role=='head_teacher')
+                        @include('head.partials.sidebar')
+                    @endif
+                </div>
+            </div>
 
-        
+            <!-- Dynamic Main Content -->
             <div class="container-fluid h-100 background">
                 @yield('content')
             </div>
+
         </main>
     </div>
+
     <script src="//cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
 </body>
-
 
 </html>

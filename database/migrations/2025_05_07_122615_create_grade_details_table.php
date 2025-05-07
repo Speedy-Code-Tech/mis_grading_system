@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('semester', function (Blueprint $table) {
-            $table->string('status');
+        Schema::create('grade_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
+            $table->string('criteria');
+            $table->decimal('score', 5, 2);
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('semester', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('grade_details');
     }
 };

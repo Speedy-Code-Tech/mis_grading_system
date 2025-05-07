@@ -93,8 +93,11 @@ Route::group(['prefix' => 'student', 'checkAuth:student'], function () {
 
 Route::group(['prefix' => 'teacher', 'middleware' => ['checkAuth:teacher']], function () {
     Route::get('/dashboard', [TeacherController::class, 'index'])->name('teacher.index');
+    Route::get('/dashboard/grades/{uuid}', [TeacherController::class, 'show'])->name('teacher.grade');
     Route::get('/subject', [TeacherSubjectController::class, 'index'])->name('teacher.subject.index');
     Route::get('/grades', [TeacherSubjectController::class, 'grades'])->name('teacher.grades.grade');
+    Route::post('/grades/save', [TeacherSubjectController::class, 'store'])->name('teacher.grades.save');
+    Route::post('/grades/update', [TeacherSubjectController::class, 'update'])->name('teacher.grades.update');
 });
 
 

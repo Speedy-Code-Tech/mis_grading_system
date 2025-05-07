@@ -22,15 +22,13 @@
                     <th>Department</th>
                     <th>Description</th>
                     <th>Actions</th>
-
                 </tr>
             </thead>
             <tbody>
-
                 @foreach ($departments as $dept)
                     <tr>
-                        <td>{{$dept->department}}</td>
-                        <td>{{$dept->description}}</td>
+                        <td>{{$dept->course_code}}</td>
+                        <td>{{$dept->full_name}}</td>
                         <td>
                             <div class="conatiner-fluid d-flex gap-2">
                                 <a style="text-decoration: none" class="btn edit" id={{ $dept->id }}> <i

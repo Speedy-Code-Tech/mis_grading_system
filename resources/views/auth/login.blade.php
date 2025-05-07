@@ -95,7 +95,7 @@
                 style="text-decoration: none; color:grey; font-weight: 600">{{ $prefix == '/admin' ? 'Student' : 'Administrator' }}
                 Login</a> -->
 
-            <div class="mt-3 d-flex gap-3 justify-content-center">
+            <div class="mt-3 d-flex flex-column gap-3 items-center">
                 @php
                     $roles = [
                         'admin' => 'Administrator',
@@ -108,7 +108,7 @@
                 @foreach ($roles as $role => $label)
                     @if ($prefix !== '/' . $role)
                         <a href="/{{ $role }}/login"
-                            class="h5"
+                            class="h5 text-center"
                             style="text-decoration: none; color:grey; font-weight: 600"
                         >
                             {{ $label }} Login

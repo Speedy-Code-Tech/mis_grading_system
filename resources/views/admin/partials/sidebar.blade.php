@@ -1,4 +1,4 @@
-<div class=" h-100 d-flex flex-column" style="height:100%; width:20%; background: #17908B;">
+<div class=" h-100 d-flex flex-column" style="height:100%; width:100%; background: #17908B;">
     <div class="container d-flex justify-content-center align-items-center pt-4 p-2">
         <img style="border-radius: 50%; width:120px;" src="{{ asset("img/logo.jpg") }}"/>
     </div>

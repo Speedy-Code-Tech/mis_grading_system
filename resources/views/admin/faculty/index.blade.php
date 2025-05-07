@@ -35,10 +35,10 @@
                     <tr>
                         <td>{{$faculty->fname . ' ' . $faculty->mname . ' ' . $faculty->lname}}</td>
                         <td>{{$faculty->user->email}}</td>
-                        <td class='{{$faculty->status == 'active' ? 'text-success' : 'text-danger'}} fw-bold'>
-                            {{$faculty->status == 'active' ? 'Active' : 'Inactive'}}</td>
+                        <td class='{{ $faculty->status == True ? 'text-success' : 'text-danger' }} fw-bold'>
+                            {{$faculty->status == True ? 'Active' : 'Inactive'}}</td>
                         <td>{{$faculty->semester->name}}</td>
-                        <td>{{$faculty->department->department . ' - ' . $faculty->department->description}}</td>
+                        <td>{{$faculty->department->course_code . ' - ' . $faculty->department->full_name}}</td>
                         <td>{{$faculty->department_type == 'head_teacher' ? 'Head Teacher' : 'Teacher'}}</td>
 
                         <td>

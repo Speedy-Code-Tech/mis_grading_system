@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Semester extends Model
 {
-    protected $table = 'semester';
     protected $fillable = [
         'name',
         'start_year',
@@ -18,6 +17,6 @@ class Semester extends Model
         'written_work',
         'performance_task',
         'quarterly_assesment',
-          'status'
+        'status'
     ]; 
 }

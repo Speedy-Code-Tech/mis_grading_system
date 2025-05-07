@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    protected $table = "student";
-
     protected $fillable = [
         'user_id',
         'type',
@@ -28,8 +26,42 @@ class Student extends Model
     ];
 
 
-    public function user(){
+    public function user() {
         return $this->belongsTo(User::class,'user_id','id');
     }
 
+    public function studentSubjects()
+    {
+        return $this->hasMany(StudentSubject::class);
+    }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'student_subjects', 'student_id', 'subject_teacher_id')
+                    ->withPivot('semester_id', 'status')
+                    ->withTimestamps();
+    }
+
+    public function subjectTeachers()
+    {
+        return $this->hasManyThrough(
+            SubjectTeacher::class,
+            StudentSubject::class,
+            'student_id',
+            'id',
+            'id',
+            'subject_teacher_id'
+        );
+    }
+
+    public function semesters()
+    {
+        return $this->belongsToMany(Semester::class, 'student_subjects', 'student_id', 'semester_id')
+                    ->withTimestamps();
+    }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
+    }
 }

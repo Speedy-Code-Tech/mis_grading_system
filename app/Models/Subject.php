@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
 {
-    protected $table = "subject";
     protected $fillable = [
         "name",
         "faculty_id",
@@ -14,10 +13,16 @@ class Subject extends Model
         "department_id"
     ];
 
-    public function faculty(){
+    public function faculty() {
         return $this->belongsTo(Faculty::class, 'faculty_id', 'id');
     }
-    public function department(){
+
+    public function department() {
         return $this->belongsTo(Department::class, 'department_id', 'id');
+    }
+
+    public function subjectTeachers()
+    {
+        return $this->hasMany(SubjectTeacher::class);
     }
 }

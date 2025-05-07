@@ -23,21 +23,21 @@
                 <th>Instructor</th>
                 <th>Name</th>
                 <th>Track</th>
-                <th>Grades</th>
+                <!-- <th>Grades</th> -->
                 <th>Actions</th>
 
             </tr>
         </thead>
         <tbody>
-            {{-- @foreach ($subjects as $subject )
-             <tr>
-                <td>{{$subject->name}}</td>
-                <td>Grade {{$subject->level}}</td>
-                <td>{{$subject->department->department}}</td>
-                <td>Academic Track</td>
+            @foreach ($subjects as $subject )
+            <tr>
+                <td>{{ $subject->subjectTeacher->semester->name ?? 'N/A' }}</td>
+                <td>{{ $subject->subjectTeacher->faculty->fname ?? '' }} {{ $subject->subjectTeacher->faculty->lname ?? '' }}</td>
+                <td>{{ $subject->subjectTeacher->subject->name ?? 'N/A' }}</td>
+                <td>{{ $subject->subjectTeacher->subject->department->course_code ?? 'N/A' }}</td>
                 <td><a href="#" class="btn text-primary"><i class="bi bi-eye-fill"></i> ECR</a></td>
-             </tr>   
-            @endforeach --}}
+            </tr>   
+            @endforeach
 
         </tbody>
     </table>

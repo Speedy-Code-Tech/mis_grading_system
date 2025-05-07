@@ -19,6 +19,8 @@ class SubjectController extends Controller
         $departments = Department::all();
         $faculties = Faculty::all();
         $subjects = Subject::with('faculty','department')->get();
+
+        dd($faculties);
         return view('admin.subject.index',compact('subjects','semesters','departments','faculties'));
     }
 
