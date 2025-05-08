@@ -14,7 +14,7 @@
                     </span>
                 @enderror
                 <select name="subject_id" id="subject_id" class="form-control">
-                    <option value="" class="form-control" disabled selected >Select a Instructor</option>
+                    <option value="" class="form-control" disabled selected >Select a Subject</option>
                     @foreach ($subjects as $subject)
                         <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }} class="form-control">{{ $subject->name }}</option>
                     @endforeach
@@ -29,7 +29,7 @@
                     </span>
                 @enderror
                 <select name="faculty_id" id="faculty_id" class="form-control">
-                    <option value="" class="form-control" disabled selected >Select a Instructor</option>
+                    <option value="" class="form-control" disabled selected >Select an Instructor</option>
                     @foreach ($faculties as $faculty)
                         <option value="{{ $faculty->id }}" {{ old('faculty_id')==$faculty->id?'selected':''}} class="form-control">{{$faculty->fname.' '.$faculty->mname.' '.$faculty->lname}}</option>
                     @endforeach
@@ -44,7 +44,7 @@
                     </span>
                 @enderror
                 <select name="semester_id" id="semester_id" class="form-control">
-                    <option value="" class="form-control" disabled selected >Select a Instructor</option>
+                    <option value="" class="form-control" disabled selected >Select a Semester</option>
                     @foreach ($semesters as $semester)
                         <option value="{{ $semester->id }}" {{ old('semester_id') == $semester->id? 'selected' : '' }} class="form-control">{{ $semester->name }}</option>
                     @endforeach
@@ -90,8 +90,12 @@
                         <strong>{{$message}}</strong>
                     </span>
                 @enderror
-                <input value="{{ old('text') }}" type="text" name="section" id="text" required
-                    class="form-control" placeholder="e.g. Section 12">
+                <select name="section_id" id="section_id" class="form-control">
+                    <option value="" class="form-control" disabled selected >Select a Section</option>
+                    @foreach ($sections as $section)
+                        <option value="{{ $section->id }}" {{ old('section_id') == $semester->id? 'selected' : '' }} class="form-control">{{ $section->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="container">

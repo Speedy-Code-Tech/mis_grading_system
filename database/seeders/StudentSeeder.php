@@ -24,8 +24,8 @@ class StudentSeeder extends Seeder
                 'level'     => rand(11, 12),
                 'strand'    => 'STEM',
                 'fname'     => fake()->firstName(),
-                'mname'     => 'Zaballero',
-                'lname'     => 'Adlawan',
+                'mname'     => fake()->lastName(),
+                'lname'     => fake()->lastName(),
                 'gender'    => rand(1, 2) === 1 ? 'Male' : 'Female',
                 'bdate'     => '200' . rand(1, 9) . '-0' . rand(1, 9) . '-1' . rand(0, 9),
                 'contact'   => '0912' . rand(100000, 999999),
@@ -34,7 +34,7 @@ class StudentSeeder extends Seeder
                 'province'  => 'Surigao del Sur',
                 'city'      => 'Hinatuan',
                 'brgy'      => 'Barangay Maharlike',
-                'section'   => 'Section ' . rand(1, 5),
+                'section_id'   => rand(1, 4),
             ]);
         }
     }

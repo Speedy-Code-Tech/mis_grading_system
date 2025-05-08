@@ -33,7 +33,7 @@
                         <th class="p-2 px-4">NAME</th>
                         <th class="p-2">EMAIL</th>
                         <th class="p-2">TRACK</th>
-                        <th class="p-2">SUBJECT</th>
+                        <!-- <th class="p-2">SUBJECT</th> -->
                         <th class="p-2">STATUS</th>
                         <th class="p-2 text-center">ACTIONS</th>
                     </tr>
@@ -44,7 +44,7 @@
                             <td class="p-2 px-4">{{ $faculty->fname . ' ' . $faculty->lname }}</td>
                             <td class="p-2">{{ $faculty->user->email }}</td>
                             <td class="p-2">{{ $faculty->department->course_code }}</td>
-                            <td class="p-2">{{ $faculty->semester[0]->name }}</td>
+                            {{--  <td class="p-2">{{ $faculty->semester->name }}</td> --}}
                             <td class="p-2">
                                 <span class="badge text-white {{ $faculty->status ? 'current-active' : 'current-inactive' }}">
                                     {{ $faculty->status ? 'Active' : 'Inactive' }}

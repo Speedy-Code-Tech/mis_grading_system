@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Section;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -51,7 +53,7 @@ class StudentController extends Controller
         
                 if ($student) {
                     // Both user and student created successfully
-                    if (auth()->check() && auth()->user()->role == 'admin') {
+                    if (Auth::check() && Auth::user()->role == 'admin') {
                         return redirect('/admin/student/')->with([
                             'msg' => 'Student Registered Successfully!',
                         ]);
@@ -145,7 +147,7 @@ class StudentController extends Controller
     
             DB::commit();
     
-            if (auth()->check() && auth()->user()->role == 'admin') {
+            if (Auth::check() && Auth::user()->role == 'admin') {
                 return redirect('/admin/student/')->with('msg', 'Student Updated Successfully!');
             } else {
                 return redirect('/student/login')->with('msg', 'Student Updated Successfully!');
@@ -176,7 +178,9 @@ class StudentController extends Controller
         }
     }
 
-    public function insert(){
-        return view('auth.student');
+    public function insert() {
+        $sections = Section::all();
+
+        return view('auth.student', compact('sections'));
     }
 }

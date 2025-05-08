@@ -55,7 +55,7 @@
                 <tbody>
                 @foreach($subject_teacher as $subject)
                     <tr>
-                        <td class="bg-transparent">{{ $subject->section }}</td>
+                        <td class="bg-transparent">{{ $subject->section->name }}</td>
                         <td class="bg-transparent">{{ $subject->subject->name }}</td>
                         <td class="bg-transparent">{{ $subject->department ? $subject->department->course_code : 'N/A' }}</td>
                         <td class="bg-transparent">{{ $subject->subject->level }}</td>

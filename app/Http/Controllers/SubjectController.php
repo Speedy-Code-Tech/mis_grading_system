@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Faculty;
+use App\Models\Section;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\SubjectTeacher;
@@ -33,7 +34,14 @@ class SubjectController extends Controller
         $departments = Department::all();
         $faculties = Faculty::all();
         $subjects = Subject::with(['faculty','department'])->get();
-        $subjecAssignment = SubjectTeacher::with(['subject', 'faculty', 'semester', 'department'])->get();
+        $sections = Section::all();
+        $subjecAssignment = SubjectTeacher::with([
+            'subject', 
+            'faculty', 
+            'semester', 
+            'department', 
+            'section'
+        ])->get();
 
         return view('admin.assign-subjects.index',
             compact(
@@ -41,7 +49,8 @@ class SubjectController extends Controller
                 'semesters',
                 'departments',
                 'faculties',
-                'subjecAssignment'
+                'subjecAssignment',
+                'sections',
             )
         );
     }
@@ -54,9 +63,7 @@ class SubjectController extends Controller
         
         $data = $request->validate([
             'name'=>"required|string",
-            'faculty_id'=>"required",
             'level'=>"required",
-            'department_id'=>"required",
         ]);
         Subject::create($data);
         return redirect()->back()->with(['msg'=>'Subject Added Succesfuly']);
@@ -71,7 +78,7 @@ class SubjectController extends Controller
             'semester_id'=>"required",
             'level'=>"required",
             'department_id'=>"required",
-            'section'=>"required",
+            'section_id'=>"required",
         ]);
 
         $data['uuid'] = Str::uuid();

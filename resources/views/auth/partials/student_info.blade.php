@@ -90,7 +90,7 @@
             </div>
             <div strand="HE"
                 class="strand flex-shrink-0 container border rounded d-flex gap-3 p-3 align-items-center">
-                <img src="{{ asset('img/he.png') }}" style="width:40px; height:40px; : " />
+                <img src="{{ asset('img/he.png') }}" style="width:40px; height:40px;" />
                 <div class="container ">
                     <h5 class="fw-bold">HE</h5>
                     <p class="text-secondary m-0">Home economics</p>

@@ -29,7 +29,7 @@ class SubjectTeacherSeeder extends Seeder
                     'faculty_id' => $faculty->id,
                     'semester_id' => 1,
                     'department_id' => rand(1, 5),
-                    'section' => 'Section ' . rand(1, 10),
+                    'section_id' => rand(1, 4),
                 ]);
             }
         }

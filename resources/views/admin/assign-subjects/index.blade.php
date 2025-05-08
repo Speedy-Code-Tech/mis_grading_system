@@ -44,7 +44,7 @@
                         <!-- <td class="p-2">STEM</td> -->
                         <td class="p-2">{{ $subject->department->course_code }}</td>
                         <td class="p-2">Grade {{ $subject->subject->level }}</td>
-                        <td class="p-2">{{ $subject->section }}</td>
+                        <td class="p-2">{{ $subject->section->name }}</td>
                         <td class="p-2">{{ $subject->faculty->fname }} {{ $subject->faculty->lname }}</td>
 
                         <td class="p-2">

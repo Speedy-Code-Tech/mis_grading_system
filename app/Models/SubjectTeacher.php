@@ -18,7 +18,7 @@ class SubjectTeacher extends Model
         'faculty_id',
         'semester_id',
         'department_id',
-        'section',
+        'section_id',
     ];
 
     public function subject()
@@ -40,5 +40,9 @@ class SubjectTeacher extends Model
 
     public function department() {
         return $this->belongsTo(Department::class, 'department_id', 'id');
+    }
+
+    public function section() {
+        return $this->belongsTo(Section::class);
     }
 }

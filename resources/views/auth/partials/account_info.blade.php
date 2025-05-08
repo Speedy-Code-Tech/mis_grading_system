@@ -23,14 +23,16 @@
             </div>
         </div>
         <div class="col">
-            <div class="row-p-0 m-0 d-flex"><label for="" class="fw-bold h6 m-0">Section</label> <span
-                    class="text-danger ps-2" id="errorsection"></span></div>
-            <div class="row d-flex justify-content-center align-items-center">
-                <div class="col">
-                    <input type="text" name="section" id="section" placeholder="Select"
-                        class="form-control">
-                </div>
+            <div class="row-p-0 m-0 d-flex">
+                <label for="" class="fw-bold h6 m-0">Section</label> 
+                <span class="text-danger ps-2" id="errorsection"></span>
             </div>
+            <select name="section" id="section" class="form-control">
+                <option value="" class="form-control" disabled selected >Select Section</option>
+                @foreach ($sections as $section)
+                    <option value="{{ $section->id }}" {{ old('section') == $section->id ? 'selected' : '' }} class="form-control">{{ $section->name }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="row mt-3 d-flex">
             <div class="col">

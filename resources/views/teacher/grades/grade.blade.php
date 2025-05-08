@@ -11,7 +11,7 @@
                     <div class="d-flex flex-column gap-1">
                         <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">TEACHER:</strong> {{ $subject_teacher->faculty->fname }} {{ $subject_teacher->faculty->lname }}</p>
                         <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">ACADEMIC TRACK:</strong> GENERAL ACADEMIC STRAND</p>
-                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">GRADE & SECTION:</strong>Grade {{ $subject_teacher->subject->level }} - {{ $subject_teacher->section }}</p>
+                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">GRADE & SECTION:</strong>Grade {{ $subject_teacher->subject->level }} - {{ $subject_teacher->section->name }}</p>
                         <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">SUBJECT:</strong> {{ $subject_teacher->subject->name }}</p>
                         <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">REGION:</strong> V</p>
                         <!-- <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">Data:</strong> {{ $subject_teacher }}</p> -->

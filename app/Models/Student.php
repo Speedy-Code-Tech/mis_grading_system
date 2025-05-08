@@ -22,7 +22,7 @@ class Student extends Model
         'province',
         'city',
         'brgy',
-        'section'
+        'section_id'
     ];
 
 
