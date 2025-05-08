@@ -1,18 +1,13 @@
 @extends('layouts.main', ['title' => 'SEMESTER', 'active' => 'semester'])
 
-<style>
-    .logo {}
-</style>
-
 @section('content')
     <div class="container pt-5 w-100">
-        <div class="d-flex gap-5 align-items-center">
-            <h4>SEMESTER LIST</h4>
-            <p class="m-0">Home - Semester</p>
-        </div>
-        <div class="container-fluid d-flex justify-content-end">
-            
-            <button class="btn btn-success addsem" ><i class="bi bi-plus-lg"></i> Add Semester</button>
+        <div class="d-flex justify-content-between items-center mb-5">
+            <div class="d-flex gap-3 items-center w-50">
+                <h4>SEMESTER LIST</h4>
+                <p class="m-0">Home - Semester</p>
+            </div>
+            <button class="btn text-white addsem" style="background:#189993; "><i class="bi bi-plus-lg"></i> Add Semester</button>
         </div>
         @if (session('msg'))
         <div class="alert alert-info mt-3">
@@ -25,10 +20,6 @@
                 <tr>
                     <th>Name</th>
                     <th>School Year</th>
-                    <th>Region</th>
-                    <th>Division</th>
-                    <th>School Name</th>
-                    <th>School ID</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -39,10 +30,6 @@
                     <tr>
                         <td>{{$sem->name}}</td>
                         <td>{{$sem->start_year.' - '.$sem->end_year}}</td>
-                        <td>{{$sem->region}}</td>
-                        <td>{{$sem->division}}</td>
-                        <td>{{$sem->school_name}}</td>
-                        <td>{{$sem->school_id}}</td>
                         <td><span class="fw-bold {{$sem->status=='active'?"text-success":"text-warning"}}">{{$sem->status=='active'?"Active":"Inactive"}}</span></td>
                         <td>
                            <div class="conatiner-fluid d-flex gap-2">

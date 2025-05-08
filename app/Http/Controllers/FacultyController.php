@@ -37,8 +37,8 @@ class FacultyController extends Controller
             'lname' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'semester_id' => 'required|exists:semester,id',
-            'department_id' => 'required|exists:department,id',
+            'semester_id' => 'required|exists:semesters,id',
+            'department_id' => 'required|exists:departments,id',
             'department_type' => 'required|string',
         ]);
 

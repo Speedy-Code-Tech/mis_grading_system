@@ -1,14 +1,14 @@
-@extends('layouts.main', ['title' => 'DEPARTMENT', 'active' => 'department'])
+@extends('layouts.main', ['title' => 'TRACK', 'active' => 'track'])
 
 
 @section('content')
     <div class="container pt-5 w-100">
-        <div class="d-flex gap-5 align-items-center">
-            <h4>DEPARTMENT LIST</h4>
-            <p class="m-0">Home - Departments</p>
-        </div>
-        <div class="container-fluid d-flex justify-content-end">
-            <button class="btn btn-success adddept"><i class="bi bi-plus-lg"></i> Add Department</button>
+        <div class="d-flex justify-content-between items-center mb-3">
+            <div class="d-flex gap-3 items-center w-50">
+                <h4>TRACK</h4>
+                <p class="m-0">Home - track</p>
+            </div>
+            <button class="btn text-white adddept" style="background:#189993; "><i class="bi bi-plus-lg"></i> Track</button>
         </div>
         @if (session('msg'))
             <div class="alert alert-info mt-3">

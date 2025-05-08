@@ -37,7 +37,7 @@
                         <td>{{$faculty->user->email}}</td>
                         <td class='{{ $faculty->status == True ? 'text-success' : 'text-danger' }} fw-bold'>
                             {{$faculty->status == True ? 'Active' : 'Inactive'}}</td>
-                        <td>{{$faculty->semester->name}}</td>
+                        <td>{{$faculty->semester[0]->name}}</td>
                         <td>{{$faculty->department->course_code . ' - ' . $faculty->department->full_name}}</td>
                         <td>{{$faculty->department_type == 'head_teacher' ? 'Head Teacher' : 'Teacher'}}</td>
 

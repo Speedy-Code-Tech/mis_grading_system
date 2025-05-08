@@ -66,7 +66,7 @@
             </div>
 
             <!-- Dynamic Main Content -->
-            <div class="container-fluid h-100 background">
+            <div class="container-fluid background">
                 @yield('content')
             </div>
 
