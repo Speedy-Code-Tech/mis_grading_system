@@ -4,7 +4,7 @@
 @section('content')
     <div class="container pt-5 w-100">
         <div class="d-flex gap-5 align-items-center">
-            <h4>STUDENT LIST</h4>
+            <h4 class="fw-semibold">STUDENT LIST</h4>
             <p class="m-0">Home - Student</p>
         </div>
         <div class="container-fluid d-flex justify-content-end">

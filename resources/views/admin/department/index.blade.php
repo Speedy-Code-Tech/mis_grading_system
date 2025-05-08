@@ -5,7 +5,7 @@
     <div class="container pt-5 w-100">
         <div class="d-flex justify-content-between items-center mb-3">
             <div class="d-flex gap-3 items-center w-50">
-                <h4>TRACK</h4>
+                <h4 class="fw-semibold">ACADEMIC TRACK</h4>
                 <p class="m-0">Home - track</p>
             </div>
             <button class="btn text-white adddept" style="background:#189993; "><i class="bi bi-plus-lg"></i> Track</button>
@@ -19,23 +19,26 @@
         <table id="myTable" class="table table-hover table-white rounded">
             <thead>
                 <tr>
-                    <th>Department</th>
-                    <th>Description</th>
-                    <th>Actions</th>
+                    <th class="p-2 px-4">TRACK</th>
+                    <!-- <th class="p-2">SCHOOL YEAR</th>
+                    <th class="p-2">SEMESTER</th> -->
+                    <th class="p-2">DESCRIPTION</th>
+                    <th class="p-2">ACTION</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($departments as $dept)
                     <tr>
-                        <td>{{$dept->course_code}}</td>
-                        <td>{{$dept->full_name}}</td>
-                        <td>
-                            <div class="conatiner-fluid d-flex gap-2">
-                                <a style="text-decoration: none" class="btn edit" id={{ $dept->id }}> <i
-                                        class="text-warning bi bi-pencil-square"></i> </a>
-                                <a href="{{ route('department.destroy', $dept->id) }}" style="text-decoration: none" class="btn">
-                                    <i class="text-danger bi bi-trash3-fill"></i> </a>
-
+                        <td class="p-2 px-4">{{$dept->course_code}}</td>
+                        <td class="p-2">{{$dept->full_name}}</td>
+                        <td class="p-2">
+                            <div class="" role="group">
+                                <button style="background: #189993;" class="btn text-white edit" id="{{ $dept->id }}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <a href="{{ route('department.destroy', $dept->id) }}" class="btn btn-danger">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
@@ -159,7 +162,7 @@
                 const datas = await response.json();  // parse JSON
                 const data = datas.data
                 console.log('Semester data:', data);
-                $('#edepartment').val(data.department);
+                $('#edepartment').val(data.course_code);
                 $('#edescription').val(data.description);
                
 

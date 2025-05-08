@@ -4,7 +4,7 @@
     <div class="container pt-5 w-100">
         <div class="d-flex justify-content-between items-center mb-5">
             <div class="d-flex gap-3 items-center w-50">
-                <h4>SEMESTER LIST</h4>
+                <h4 class="fw-semibold">SEMESTER LIST</h4>
                 <p class="m-0">Home - Semester</p>
             </div>
             <button class="btn text-white addsem" style="background:#189993; "><i class="bi bi-plus-lg"></i> Add Semester</button>

@@ -18,10 +18,21 @@ class SubjectController extends Controller
         $semesters = Semester::all();
         $departments = Department::all();
         $faculties = Faculty::all();
-        $subjects = Subject::with('faculty','department')->get();
+        $subjects = Subject::with(['faculty','department'])->get();
 
-        dd($faculties);
-        return view('admin.subject.index',compact('subjects','semesters','departments','faculties'));
+        // dd($faculties);
+        return view('admin.subject.index', compact('subjects','semesters','departments','faculties'));
+    }
+
+    public function teacherAssignment ()
+    {
+        //
+        $semesters = Semester::all();
+        $departments = Department::all();
+        $faculties = Faculty::all();
+        $subjects = Subject::with(['faculty','department'])->get();
+
+        return view('admin.assign-subjects.index', compact('subjects','semesters','departments','faculties'));
     }
 
     /**

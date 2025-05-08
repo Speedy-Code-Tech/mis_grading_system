@@ -1,21 +1,15 @@
 @extends('layouts.main', ['title' => 'SUBJECT', 'active' => 'subject'])
 
-
 @section('content')
     <div class="container pt-5 w-100">
         <div class="d-flex justify-content-between items-center mb-3">
             <div class="d-flex gap-3 items-center w-50">
-                <h4 class="fw-semibold">SUBJECT</h4>
-                <p class="m-0">Home - Subject</p>
+                <h4 class="fw-semibold">SUBJECT ASSIGNMENT</h4>
+                <p class="m-0">Home - Subject Assignment</p>
             </div>
-            <div class="d-flex gap-2">
-                <button class="btn text-white addsubject" style="background: #189993; ">
-                    <i class="bi bi-plus-lg"></i> Subject
-                </button>
-                <a href="{{ route('assign-subjects.index') }}" class="btn text-white" style="background:rgb(4, 183, 156);">
-                    <i class="bi bi-person-plus"></i> Assign Teachers
-                </a>
-            </div>
+            <button class="btn text-white addassignment" style="background: #189993; ">
+                <i class="bi bi-plus-lg"></i> Assign
+            </button>
         </div>
 
         @if (session('msg'))
@@ -27,9 +21,13 @@
         <table id="myTable" class="table table-hover table-white rounded">
             <thead>
                 <tr>
-                    <th class="p-2 px-4">Subject Name</th>
-                    <th class="p-2">Grade Level</th>
-                    <th class="p-2">Actions</th>
+                    <th class="p-2 px-4">SUBJECT</th>
+                    <th class="p-2">SCHOOL YEAR</th>
+                    <th class="p-2">TRACK</th>
+                    <th class="p-2">GRADE LEVEL</th>
+                    <th class="p-2">SECTION</th>
+                    <th class="p-2">TEACHER</th>
+                    <th class="p-2">ACTION</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,8 +37,8 @@
                         <td class="p-2 px-4">{{$subject->name}}</td>
                         <!-- <td class="p-2">
                             {{ $subject->fname . ' ' . 
-                               ($subject->mname != null ? $subject->mname[0] : '') . 
-                               ' ' . $subject->lname }}
+                                ($subject->mname != null ? $subject->mname[0] : '') . 
+                                ' ' . $subject->lname }}
                         </td> -->
                         <td class="p-2">Grade {{$subject->level}}</td>
                         <!-- <td class="p-2">{{$subject->department->department}}</td> -->
@@ -59,30 +57,8 @@
                 @endforeach
             </tbody>
         </table>
-        {{-- ADD NEW FACULTY --}}
-        @include('admin.subject.add')
-        
-            {{-- EDIT A FACULTY --}}
-            @include('admin.subject.edit')
-
-
-
-
     </div>
-    <style>
-        .subject,
-        .editsubject {
-            background: white;
-            width: 40%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            padding-bottom: 20px;
-            transform: translate(-50%, -50%);
-            overflow-y: scroll;
 
-        }
-    </style>
     <script>
         $(document).ready(() => {
             $(".addsubject").click(() => {

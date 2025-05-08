@@ -1,14 +1,24 @@
 @extends('layouts.main', ['title' => 'FACULTY', 'active' => 'faculty'])
 
+<style>
+    .status-active {
+        color: #189993;
+    }
+
+    .status-inactive {
+        color: red;
+    }
+
+</style>
 
 @section('content')
     <div class="container pt-5 w-100">
-        <div class="d-flex gap-5 align-items-center">
-            <h4>FACULTY LIST</h4>
-            <p class="m-0">Home - Faculty</p>
-        </div>
-        <div class="container-fluid d-flex justify-content-end">
-            <button class="btn btn-success addfaculty"><i class="bi bi-plus-lg"></i> Add Faculty</button>
+        <div class="d-flex justify-content-between items-center mb-3">
+            <div class="d-flex gap-3 items-center w-50">
+                <h4 class="fw-semibold">FACULTY LIST</h4>
+                <p class="m-0">Home - Faculty</p>
+            </div>
+            <button class="btn text-white addfaculty" style="background: #189993"><i class="bi bi-plus-lg"></i> Add Faculty</button>
         </div>
         @if (session('msg'))
             <div class="alert alert-info mt-3">
@@ -16,45 +26,45 @@
             </div>
         @endif
 
-        <table id="myTable" class="table table-hover table-white rounded">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Semester</th>
-                    <th>Department</th>
-                    <th>Department Type</th>
-                    <th>Actions</th>
-
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach ($faculties as $faculty)
+        <div class="container mt-4">
+            <table id="myTable" class="table table-hover table-striped rounded shadow-sm">
+                <thead class="bg-primary text-white">
                     <tr>
-                        <td>{{$faculty->fname . ' ' . $faculty->mname . ' ' . $faculty->lname}}</td>
-                        <td>{{$faculty->user->email}}</td>
-                        <td class='{{ $faculty->status == True ? 'text-success' : 'text-danger' }} fw-bold'>
-                            {{$faculty->status == True ? 'Active' : 'Inactive'}}</td>
-                        <td>{{$faculty->semester[0]->name}}</td>
-                        <td>{{$faculty->department->course_code . ' - ' . $faculty->department->full_name}}</td>
-                        <td>{{$faculty->department_type == 'head_teacher' ? 'Head Teacher' : 'Teacher'}}</td>
-
-                        <td>
-                            <div class="conatiner-fluid d-flex gap-2">
-                                <a style="text-decoration: none" class="btn edit" id={{ $faculty->id }}> <i
-                                        class="text-warning bi bi-pencil-square"></i> </a>
-                                <a href="{{ route('faculty.destroy', $faculty->id) }}" style="text-decoration: none"
-                                    class="btn">
-                                    <i class="text-danger bi bi-trash3-fill"></i> </a>
-
-                            </div>
-                        </td>
+                        <th class="p-2 px-4">NAME</th>
+                        <th class="p-2">EMAIL</th>
+                        <th class="p-2">TRACK</th>
+                        <th class="p-2">SUBJECT</th>
+                        <th class="p-2">STATUS</th>
+                        <th class="p-2 text-center">ACTIONS</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($faculties as $faculty)
+                        <tr class="align-middle">
+                            <td class="p-2 px-4">{{ $faculty->fname . ' ' . $faculty->lname }}</td>
+                            <td class="p-2">{{ $faculty->user->email }}</td>
+                            <td class="p-2">{{ $faculty->department->course_code }}</td>
+                            <td class="p-2">{{ $faculty->semester[0]->name }}</td>
+                            <td class="p-2">
+                                <span class="badge text-white {{ $faculty->status ? 'current-active' : 'current-inactive' }}">
+                                    {{ $faculty->status ? 'Active' : 'Inactive' }}
+                                </span>
+                            </td>
+                            <td class="p-2 text-center">
+                                <div class="" role="group">
+                                    <button style="background: #189993;" class="btn text-white edit" id="{{ $faculty->id }}">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <a href="{{ route('faculty.destroy', $faculty->id) }}" class="btn btn-danger">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         {{-- ADD NEW FACULTY --}}
         @include('admin.faculty.add')
         {{-- EDIT A FACULTY --}}
@@ -76,6 +86,14 @@
             transform: translate(-50%, -50%);
             overflow-y: scroll;
 
+        }
+
+        .current-active {
+            background-color: #189993;
+        }
+
+        .current-inactive {
+            background-color: red;
         }
     </style>
     <script>
@@ -110,7 +128,7 @@
                 $('.fname').val(data.faculties.fname);
                 $('.mname').val(data.faculties.mname);
                 $('.lname').val(data.faculties.lname);
-                if(data.faculties.status=='active'){
+                if(data.faculties.status == 1){
                     $('.status')
                         .prop('checked', true)                  // set the checkbox state
                         .trigger('change');   
@@ -120,7 +138,7 @@
                         .trigger('change');   
                 }
                 $('.email').val(data.faculties.user.email);
-                $('.semester_id').val(data.faculties.semester.id).change();
+                $('.semester_id').val(data.faculties.semester[0].id).change();
                 $('.department_id').val(data.faculties.department.id).change();
                 $('.department_type').val(data.faculties.department_type).change();
                 

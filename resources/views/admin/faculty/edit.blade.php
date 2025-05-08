@@ -5,12 +5,12 @@
     <div class="container-fluid d-flex flex-column gap-3">
         <form method="POST"  id="editFacultyForm" action="" class="d-flex flex-column gap-3">
             @csrf
-
             <div class="container d-flex align-items-center">
                 <label>Status </label>
-                <div class="form-check form-switch mb-0">
-                    <input class="form-check-input status" type="checkbox" name="status" value="1"
-                           {{ old('status') ? 'checked' : '' }}>
+                <div class="form-check form-switch mb-0 ms-2">
+                    <input 
+                        class="form-check-input status" type="checkbox" name="status" value="1"
+                        {{ old('status') ? 'checked' : '' }}>
                 </div>
             </div>
 
@@ -66,17 +66,17 @@
                 </select>
             </div>
             <div class="container">
-                <label class="fw-bold">Department</label>
+                <label class="fw-bold">Track</label>
                 @error('department_id')
                     <span class="text-danger p" style="font-size:10px;">
                         <strong>{{$message}}</strong>
                     </span>
                 @enderror
                 <select name="department_id"  class="form-control department_id">
-                    <option value="" class="form-control" disabled selected>Select a Department</option>
+                    <option value="" class="form-control" disabled selected>Select a Track</option>
                     @foreach ($departments as $dept)
                         <option value="{{ $dept->id }}" class="form-control"  {{ old('department_id')==$dept->id?'selected':''}}>
-                            {{$dept->department . ' - ' . $dept->description}}</option>
+                            {{ $dept->course_code }}</option>
                     @endforeach
                 </select>
             </div>

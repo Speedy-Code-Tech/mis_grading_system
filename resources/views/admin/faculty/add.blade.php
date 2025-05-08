@@ -9,7 +9,7 @@
 
             <div class="container d-flex align-items-center">
                 <label>Status </label>
-                <div class="form-check form-switch mb-0">
+                <div class="form-check form-switch mb-0 ms-2">
                     <input class="form-check-input" type="checkbox" id="status" name="status" value="1"
                            {{ old('status') ? 'checked' : '' }}>
                 </div>

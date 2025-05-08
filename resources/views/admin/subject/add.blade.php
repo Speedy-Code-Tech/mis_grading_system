@@ -6,9 +6,6 @@
     <div class="container-fluid d-flex flex-column gap-3">
         <form method="POST" action="{{ route('subject.store') }}" class="d-flex flex-column gap-3">
             @csrf
-
-         
-
             <div class="container">
                 <label class="fw-bold">Subject Name</label>@error('name')
                     <span class="text-danger p" style="font-size:10px;">
@@ -16,10 +13,10 @@
                     </span>
                 @enderror
                 <input value="{{ old('text') }}" type="text" name="name" id="text" required
-                    class="form-control">
+                    class="form-control" placeholder="e.g. General Mathematics">
             </div>
          
-            <div class="container">
+            <!-- <div class="container">
                 <label class="fw-bold">Instructor</label>
                 @error('instructor')
                     <span class="text-danger p" style="font-size:10px;">
@@ -32,7 +29,7 @@
                         <option value="{{ $faculty->id }}" {{ old('faculty_id')==$faculty->id?'selected':''}} class="form-control">{{$faculty->fname.' '.$faculty->mname.' '.$faculty->lname}}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> -->
             <div class="container">
                 <label class="fw-bold">Grade Level</label>
                 @error('semester_id')
@@ -48,8 +45,8 @@
 
                 </select>
             </div>
-            <div class="container">
-                <label class="fw-bold">Department</label>
+            <!-- <div class="container">
+                <label class="fw-bold">Track</label>
                 @error('department_id')
                     <span class="text-danger p" style="font-size:10px;">
                         <strong>{{$message}}</strong>
@@ -59,10 +56,10 @@
                     <option value="" class="form-control" disabled selected>Select a Department</option>
                     @foreach ($departments as $dept)
                         <option value="{{ $dept->id }}" class="form-control"  {{ old('department_id')==$dept->id?'selected':''}}>
-                            {{$dept->department . ' - ' . $dept->description}}</option>
+                            {{$dept->course_code . ' - ' . $dept->full_name}}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> -->
           
 
             <div class="container">

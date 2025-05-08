@@ -17,7 +17,7 @@
                     class="form-control">
             </div>
          
-            <div class="container">
+            <!-- <div class="container">
                 <label class="fw-bold">Instructor</label>
                 @error('instructor')
                     <span class="text-danger p" style="font-size:10px;">
@@ -30,7 +30,8 @@
                         <option value="{{ $faculty->id }}" {{ old('faculty_id')==$faculty->id?'selected':''}} class="form-control">{{$faculty->fname.' '.$faculty->mname.' '.$faculty->lname}}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> -->
+
             <div class="container">
                 <label class="fw-bold">Grade Level</label>
                 @error('semester_id')
@@ -41,13 +42,13 @@
                 <select name="level" id="level" class="level form-control">
                     <option value="" class="form-control" disabled selected >Select a Level</option>
 
-                        <option value="11" {{ old('level')==11?'selected':''}} class="form-control">Grade 11</option>
-                        <option value="12" {{ old('level')==12?'selected':''}} class="form-control">Grade 12</option>
+                        <option value="11" {{ old('level') == 11? 'selected' : '' }} class="form-control">Grade 11</option>
+                        <option value="12" {{ old('level') == 12? 'selected' : '' }} class="form-control">Grade 12</option>
 
                 </select>
             </div>
-            <div class="container">
-                <label class="fw-bold">Department</label>
+            <!-- <div class="container">
+                <label class="fw-bold">Track</label>
                 @error('department_id')
                     <span class="text-danger p" style="font-size:10px;">
                         <strong>{{$message}}</strong>
@@ -57,10 +58,10 @@
                     <option value="" class="form-control" disabled selected>Select a Department</option>
                     @foreach ($departments as $dept)
                         <option value="{{ $dept->id }}" class="form-control"  {{ old('department_id')==$dept->id?'selected':''}}>
-                            {{$dept->department . ' - ' . $dept->description}}</option>
+                            {{$dept->course_code . ' - ' . $dept->full_name}}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> -->
           
 
             <div class="container">
