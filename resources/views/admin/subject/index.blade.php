@@ -33,17 +33,10 @@
                 </tr>
             </thead>
             <tbody>
-
                 @foreach ($subjects as $subject)
                     <tr>
                         <td class="p-2 px-4">{{$subject->name}}</td>
-                        <!-- <td class="p-2">
-                            {{ $subject->fname . ' ' . 
-                               ($subject->mname != null ? $subject->mname[0] : '') . 
-                               ' ' . $subject->lname }}
-                        </td> -->
                         <td class="p-2">Grade {{$subject->level}}</td>
-                        <!-- <td class="p-2">{{$subject->department->department}}</td> -->
 
                         <td class="p-2">
                             <div class="d-flex justify-center gap-1" role="group">

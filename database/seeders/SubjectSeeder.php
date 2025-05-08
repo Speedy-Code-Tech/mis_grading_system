@@ -15,14 +15,14 @@ class SubjectSeeder extends Seeder
     {
         //
         $subjects = [
-            ['name' => 'General Mathematics', 'level' => 11, 'department_id' => 1],
-            ['name' => 'Physical Science', 'level' => 11, 'department_id' => 2],
-            ['name' => 'English for Academic Purposes', 'level' => 11, 'department_id' => 3],
-            ['name' => 'Programming 1', 'level' => 11, 'department_id' => 4],
-            ['name' => 'Entrepreneurship', 'level' => 12, 'department_id' => 1],
-            ['name' => 'Earth and Life Science', 'level' => 12, 'department_id' => 2],
-            ['name' => '21st Century Literature', 'level' => 12, 'department_id' => 3],
-            ['name' => 'Networking and Communications', 'level' => 12, 'department_id' => 4],
+            ['name' => 'General Mathematics', 'level' => 11],
+            ['name' => 'Physical Science', 'level' => 11],
+            ['name' => 'English for Academic Purposes', 'level' => 11],
+            ['name' => 'Programming 1', 'level' => 11],
+            ['name' => 'Entrepreneurship', 'level' => 12],
+            ['name' => 'Earth and Life Science', 'level' => 12],
+            ['name' => '21st Century Literature', 'level' => 12],
+            ['name' => 'Networking and Communications', 'level' => 12],
         ];
 
         foreach ($subjects as $subject) {

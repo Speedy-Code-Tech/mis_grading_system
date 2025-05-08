@@ -57,7 +57,7 @@
                     <tr>
                         <td class="bg-transparent">{{ $subject->section }}</td>
                         <td class="bg-transparent">{{ $subject->subject->name }}</td>
-                        <td class="bg-transparent">{{ $subject->subject->department ? $subject->subject->department->course_code : 'N/A' }}</td>
+                        <td class="bg-transparent">{{ $subject->department ? $subject->department->course_code : 'N/A' }}</td>
                         <td class="bg-transparent">{{ $subject->subject->level }}</td>
                         <td class="bg-transparent">36</td>
                         <td class="bg-transparent">2024-2025</td>

@@ -6,7 +6,9 @@ use App\Models\Department;
 use App\Models\Faculty;
 use App\Models\Semester;
 use App\Models\Subject;
+use App\Models\SubjectTeacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SubjectController extends Controller
 {
@@ -31,8 +33,17 @@ class SubjectController extends Controller
         $departments = Department::all();
         $faculties = Faculty::all();
         $subjects = Subject::with(['faculty','department'])->get();
+        $subjecAssignment = SubjectTeacher::with(['subject', 'faculty', 'semester', 'department'])->get();
 
-        return view('admin.assign-subjects.index', compact('subjects','semesters','departments','faculties'));
+        return view('admin.assign-subjects.index',
+            compact(
+                'subjects',
+                'semesters',
+                'departments',
+                'faculties',
+                'subjecAssignment'
+            )
+        );
     }
 
     /**
@@ -49,6 +60,24 @@ class SubjectController extends Controller
         ]);
         Subject::create($data);
         return redirect()->back()->with(['msg'=>'Subject Added Succesfuly']);
+    }
+
+    public function storeAssignment(Request $request)
+    {
+        
+        $data = $request->validate([
+            'subject_id'=>"required",
+            'faculty_id'=>"required",
+            'semester_id'=>"required",
+            'level'=>"required",
+            'department_id'=>"required",
+            'section'=>"required",
+        ]);
+
+        $data['uuid'] = Str::uuid();
+
+        SubjectTeacher::create($data);
+        return redirect()->back()->with(['msg'=>'Assigned Teacher Succesfully']);
     }
 
     /**

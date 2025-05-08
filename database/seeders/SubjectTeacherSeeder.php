@@ -28,6 +28,7 @@ class SubjectTeacherSeeder extends Seeder
                     'subject_id' => $subject->id,
                     'faculty_id' => $faculty->id,
                     'semester_id' => 1,
+                    'department_id' => rand(1, 5),
                     'section' => 'Section ' . rand(1, 10),
                 ]);
             }

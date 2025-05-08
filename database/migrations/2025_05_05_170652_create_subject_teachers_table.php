@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('subject_id')->constrained()->onDelete('cascade');
             $table->foreignId('faculty_id')->constrained('faculties')->onDelete('cascade');
             $table->foreignId('semester_id')->constrained()->onDelete('cascade');
+            $table->foreignId('department_id')->constrained()->onDelete('cascade');
             $table->string('section');
             $table->timestamps();
         });

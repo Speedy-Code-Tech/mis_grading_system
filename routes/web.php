@@ -79,7 +79,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkAuth:admin']], functio
         Route::get('/destroy/{subject}', [SubjectController::class, 'destroy'])->name('subject.destroy');
         Route::get('/edit/{subject}', [SubjectController::class, 'show'])->name('subject.edit');
         Route::post('/edit/{subject}', [SubjectController::class, 'update'])->name('subject.updates');
-
+        
+        Route::post('/store', [SubjectController::class, 'storeAssignment'])->name('assign-subjects.store');
         Route::get('/assign-subject', [SubjectController::class, 'teacherAssignment'])->name('assign-subjects.index');
     });
 });

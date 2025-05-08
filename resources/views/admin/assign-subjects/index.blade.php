@@ -5,7 +5,12 @@
         <div class="d-flex justify-content-between items-center mb-3">
             <div class="d-flex gap-3 items-center w-50">
                 <h4 class="fw-semibold">SUBJECT ASSIGNMENT</h4>
-                <p class="m-0">Home - Subject Assignment</p>
+                <p class="m-0">
+                    Home - 
+                    <a href="{{ route('subject.index') }}" class="text-dark">Subject</a>
+                    /
+                    <a href="{{ route('assign-subjects.index') }}" class="text-dark">Subject Assignment</a>
+                </p>
             </div>
             <button class="btn text-white addassignment" style="background: #189993; ">
                 <i class="bi bi-plus-lg"></i> Assign
@@ -22,7 +27,7 @@
             <thead>
                 <tr>
                     <th class="p-2 px-4">SUBJECT</th>
-                    <th class="p-2">SCHOOL YEAR</th>
+                    <!-- <th class="p-2">SCHOOL YEAR</th> -->
                     <th class="p-2">TRACK</th>
                     <th class="p-2">GRADE LEVEL</th>
                     <th class="p-2">SECTION</th>
@@ -32,16 +37,15 @@
             </thead>
             <tbody>
 
-                @foreach ($subjects as $subject)
+                @foreach ($subjecAssignment as $subject)
                     <tr>
-                        <td class="p-2 px-4">{{$subject->name}}</td>
-                        <!-- <td class="p-2">
-                            {{ $subject->fname . ' ' . 
-                                ($subject->mname != null ? $subject->mname[0] : '') . 
-                                ' ' . $subject->lname }}
-                        </td> -->
-                        <td class="p-2">Grade {{$subject->level}}</td>
-                        <!-- <td class="p-2">{{$subject->department->department}}</td> -->
+                        <td class="p-2 px-4">{{ $subject->subject->name }}</td>
+                        <!-- <td class="p-2">2025</td> -->
+                        <!-- <td class="p-2">STEM</td> -->
+                        <td class="p-2">{{ $subject->department->course_code }}</td>
+                        <td class="p-2">Grade {{ $subject->subject->level }}</td>
+                        <td class="p-2">{{ $subject->section }}</td>
+                        <td class="p-2">{{ $subject->faculty->fname }} {{ $subject->faculty->lname }}</td>
 
                         <td class="p-2">
                             <div class="d-flex justify-center gap-1" role="group">
@@ -57,11 +61,30 @@
                 @endforeach
             </tbody>
         </table>
+
+        <!-- includes -->
+        
+        @include('admin.assign-subjects.add')
     </div>
+
+    <style>
+        .subject,
+        .editsubject {
+            background: white;
+            width: 40%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            padding-bottom: 20px;
+            transform: translate(-50%, -50%);
+            overflow-y: scroll;
+
+        }
+    </style>
 
     <script>
         $(document).ready(() => {
-            $(".addsubject").click(() => {
+            $(".addassignment").click(() => {
                 $(".subject").removeClass('d-none')
             })
 

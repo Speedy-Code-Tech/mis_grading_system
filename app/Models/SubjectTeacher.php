@@ -13,9 +13,11 @@ class SubjectTeacher extends Model
     // }
 
     protected $fillable = [
+        'uuid',
         'subject_id',
         'faculty_id',
         'semester_id',
+        'department_id',
         'section',
     ];
 
@@ -34,5 +36,9 @@ class SubjectTeacher extends Model
     public function semester()
     {
         return $this->belongsTo(Semester::class);
+    }
+
+    public function department() {
+        return $this->belongsTo(Department::class, 'department_id', 'id');
     }
 }
