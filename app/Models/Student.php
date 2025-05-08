@@ -32,7 +32,7 @@ class Student extends Model
 
     public function studentSubjects()
     {
-        return $this->hasMany(StudentSubject::class);
+        return $this->hasMany(StudentSubject::class, 'section_id', 'id');
     }
 
     public function subjects()
@@ -63,5 +63,10 @@ class Student extends Model
     public function grades()
     {
         return $this->hasMany(Grade::class);
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class, 'section_id', 'id');
     }
 }

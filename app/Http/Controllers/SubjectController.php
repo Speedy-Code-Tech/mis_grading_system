@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\Faculty;
 use App\Models\Section;
 use App\Models\Semester;
+use App\Models\StudentSubject;
 use App\Models\Subject;
 use App\Models\SubjectTeacher;
 use Illuminate\Http\Request;
@@ -83,7 +84,14 @@ class SubjectController extends Controller
 
         $data['uuid'] = Str::uuid();
 
-        SubjectTeacher::create($data);
+        $subjectTeacher = SubjectTeacher::create($data);
+
+        StudentSubject::create([
+            'subject_teacher_id' => $subjectTeacher->id,
+            'section_id' => $data['section_id'],
+            'semester_id' => $data['semester_id'],
+        ]);
+
         return redirect()->back()->with(['msg'=>'Assigned Teacher Succesfully']);
     }
 

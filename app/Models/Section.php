@@ -13,4 +13,9 @@ class Section extends Model
         'level',
         'department_id',
     ];
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

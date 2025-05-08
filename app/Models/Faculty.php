@@ -27,7 +27,7 @@ class Faculty extends Model
 
     public function semester() {
         return $this->belongsToMany(Semester::class, 'subject_teachers', 'subject_id', 'semester_id')
-                ->withPivot('faculty_id', 'section')
+                ->withPivot('faculty_id', 'section_id')
                 ->withTimestamps();
     }
 

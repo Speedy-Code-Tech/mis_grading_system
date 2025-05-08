@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Section;
 use App\Models\Semester;
 use App\Models\Student;
 use App\Models\StudentSubject;
@@ -27,16 +28,16 @@ class StudentSubjectSeeder extends Seeder
         $subjectTeachers = SubjectTeacher::all();
 
         $students = Student::all();
+        $sections = Section::all();
 
-        foreach ($students as $student) {
+        foreach ($sections as $section) {
             $randomSubjects = $subjectTeachers->random(rand(3, 5));
 
             foreach ($randomSubjects as $subjectTeacher) {
                 StudentSubject::create([
-                    'student_id'         => $student->id,
+                    'section_id'         => $section->id,
                     'subject_teacher_id' => $subjectTeacher->id,
                     'semester_id'        => $semester->id,
-                    'status'             => 'Enrolled'
                 ]);
             }
         }

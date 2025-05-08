@@ -8,10 +8,9 @@ class StudentSubject extends Model
 {
     //
     protected $fillable = [
-        'student_id',
+        'section_id',
         'subject_teacher_id',
         'semester_id',
-        'status',
     ];
 
     // Relationship to SubjectTeacher
@@ -30,5 +29,11 @@ class StudentSubject extends Model
     public function student()
     {
         return $this->belongsTo(Student::class, 'student_id', 'id');
+    }
+
+    // Relationship to Section
+    public function section()
+    {
+        return $this->belongsTo(Section::class, 'section_id', 'id');
     }
 }

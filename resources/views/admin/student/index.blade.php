@@ -3,12 +3,12 @@
 
 @section('content')
     <div class="container pt-5 w-100">
-        <div class="d-flex gap-5 align-items-center">
-            <h4 class="fw-semibold">STUDENT LIST</h4>
-            <p class="m-0">Home - Student</p>
-        </div>
-        <div class="container-fluid d-flex justify-content-end">
-            <a href="{{ route('student.create') }}" class="btn btn-success addfaculty"><i class="bi bi-plus-lg"></i> Add Student</a>
+        <div class="d-flex justify-content-between items-center mb-3">
+            <div class="d-flex gap-3 items-center w-50">
+                <h4 class="fw-semibold">STUDENT LIST</h4>
+                <p class="m-0">Home - Student</p>
+            </div>
+            <a href="{{ route('student.create') }}" class="btn text-white addfaculty" style="background:#189993; "><i class="bi bi-plus-lg"></i> Student</a>
         </div>
         @if (session('msg'))
             <div class="alert alert-info mt-3">
@@ -24,7 +24,7 @@
                     <th>Email</th>
                     <th>Strand</th>
                     <th>Grade Level</th>
-                    <th>Section</th>
+                    <!-- <th>Section</th> -->
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -37,8 +37,7 @@
                         <td>{{$student->user->email}}</td>
                         <td>{{$student->strand }}</td>
                         <td>Grade - {{$student->level}}</td>
-                        <td>{{$student->section}}</td>
-                        
+                        <!-- <td>{{ $student->section }}</td> -->
                         <td>
                             <div class="conatiner-fluid d-flex gap-2">
                                 <a style="text-decoration: none" class="btn edit" href="{{ route('student.edit',$student->id) }}" id={{ $student->id }}> <i
