@@ -15,14 +15,14 @@ class SubjectSeeder extends Seeder
     {
         //
         $subjects = [
-            ['name' => 'General Mathematics', 'level' => 11],
-            ['name' => 'Physical Science', 'level' => 11],
-            ['name' => 'English for Academic Purposes', 'level' => 11],
-            ['name' => 'Programming 1', 'level' => 11],
-            ['name' => 'Entrepreneurship', 'level' => 12],
-            ['name' => 'Earth and Life Science', 'level' => 12],
-            ['name' => '21st Century Literature', 'level' => 12],
-            ['name' => 'Networking and Communications', 'level' => 12],
+            ['subject_code' => 'MAT-101', 'name' => 'General Mathematics', 'level' => 11, 'hrs' => 3],
+            ['subject_code' => 'SCI-101', 'name' => 'Physical Science', 'level' => 11, 'hrs' => 2],
+            ['subject_code' => 'ENG-101', 'name' => 'English for Academic Purposes', 'level' => 11, 'hrs' => 3],
+            ['subject_code' => 'PROG-101', 'name' => 'Programming 1', 'level' => 11, 'hrs' => 3],
+            ['subject_code' => 'ENT-201', 'name' => 'Entrepreneurship', 'level' => 12, 'hrs' => 2],
+            ['subject_code' => 'SCI-201', 'name' => 'Earth and Life Science', 'level' => 12, 'hrs' => 3],
+            ['subject_code' => 'LIT-201', 'name' => '21st Century Literature', 'level' => 12, 'hrs' => 2],
+            ['subject_code' => 'NET-201', 'name' => 'Networking and Communications', 'level' => 12, 'hrs' => 3],
         ];
 
         foreach ($subjects as $subject) {

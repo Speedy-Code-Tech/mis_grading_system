@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Subject extends Model
 {
     protected $fillable = [
+        "subject_code",
         "name",
-        "faculty_id",
         "level",
-        "department_id"
+        "hrs",
     ];
 
     public function faculty() {

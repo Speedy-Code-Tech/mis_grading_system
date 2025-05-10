@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->string('subject_code');
             $table->string('name');
             $table->integer('level');
+            $table->integer('hrs');
             $table->timestamps();
         });
     }

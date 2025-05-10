@@ -23,9 +23,24 @@ class SubjectController extends Controller
         $departments = Department::all();
         $faculties = Faculty::all();
         $subjects = Subject::with(['faculty','department'])->get();
+        $sections = Section::all();
+        $subjecAssignment = SubjectTeacher::with([
+            'subject', 
+            'faculty', 
+            'semester', 
+            'department', 
+            'section'
+        ])->get();
 
         // dd($faculties);
-        return view('admin.subject.index', compact('subjects','semesters','departments','faculties'));
+        return view('admin.subject.index', compact(
+            'subjects',
+            'semesters',
+            'departments',
+            'faculties',
+            'subjecAssignment',
+            'sections',
+        ));
     }
 
     public function teacherAssignment ()
@@ -63,8 +78,10 @@ class SubjectController extends Controller
     {
         
         $data = $request->validate([
+            'subject_code'=>"required|string",
             'name'=>"required|string",
             'level'=>"required",
+            'hrs'=>"required",
         ]);
         Subject::create($data);
         return redirect()->back()->with(['msg'=>'Subject Added Succesfuly']);

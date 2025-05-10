@@ -18,9 +18,14 @@
         </div>
 
         @if (session('msg'))
-            <div class="alert alert-info mt-3">
-                {{ session('msg') }}
-            </div>
+            <script>
+                Swal.fire({
+                    title: 'Successful',
+                    text: "{{ session('msg') }}",
+                    icon: 'success',
+                    // confirmButtonText: 'OK'
+                });
+            </script>
         @endif
 
         <table id="myTable" class="table table-hover table-white rounded">

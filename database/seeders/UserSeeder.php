@@ -34,9 +34,9 @@ class UserSeeder extends Seeder
             User::factory()->create($user);
         }
 
-        for($i = 1; $i <= 20; $i++) {
+        for($i = 1; $i <= 10; $i++) {
             User::factory()->create([
-                'name' => 'Student ' . $i,
+                'name' => fake()->firstName(),
                 'email' => 'user' . $i . '@gmail.com',
                 'password' => 'user' . $i,
                 'role' => 'student',

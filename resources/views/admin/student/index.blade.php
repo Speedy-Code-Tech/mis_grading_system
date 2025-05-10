@@ -10,48 +10,54 @@
             </div>
             <a href="{{ route('student.create') }}" class="btn text-white addfaculty" style="background:#189993; "><i class="bi bi-plus-lg"></i> Student</a>
         </div>
+
         @if (session('msg'))
-            <div class="alert alert-info mt-3">
-                {{ session('msg') }}
-            </div>
+            <script>
+                Swal.fire({
+                    title: 'Successful',
+                    text: "{{ session('msg') }}",
+                    icon: 'success',
+                });
+            </script>
         @endif
 
-        <table id="myTable" class="table table-hover table-white rounded">
-            <thead>
-                <tr>
-                    <th>Student Name</th>
-                    <th>Age</th>
-                    <th>Email</th>
-                    <th>Strand</th>
-                    <th>Grade Level</th>
-                    <!-- <th>Section</th> -->
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach ($students as $student)
+        <div class="bg-white p-4 shadow rounded">
+            <table id="studentTable" class="table table-hover table-white rounded">
+                <thead>
                     <tr>
-                        <td>{{$student->fname . ' ' . $student->mname . ' ' . $student->lname}}</td>
-                        <td>{{\Carbon\Carbon::parse($student->bdate)->age}} Y/o</td>
-                        <td>{{$student->user->email}}</td>
-                        <td>{{$student->strand }}</td>
-                        <td>Grade - {{$student->level}}</td>
-                        <!-- <td>{{ $student->section }}</td> -->
-                        <td>
-                            <div class="conatiner-fluid d-flex gap-2">
-                                <a style="text-decoration: none" class="btn edit" href="{{ route('student.edit',$student->id) }}" id={{ $student->id }}> <i
-                                        class="text-warning bi bi-pencil-square"></i> </a>
-                                <a href="{{ route('student.destroy', $student->id) }}" style="text-decoration: none"
-                                    class="btn">
-                                    <i class="text-danger bi bi-trash3-fill"></i> </a>
-
-                            </div>
-                        </td>
+                        <th>Student Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Strand</th>
+                        <th>Grade Level</th>
+                        <!-- <th>Section</th> -->
+                        <th>Actions</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($students as $student)
+                        <tr>
+                            <td>{{ $student->fname . ' ' . $student->mname . ' ' . $student->lname}}</td>
+                            <td>{{ \Carbon\Carbon::parse($student->bdate)->age }} Y/o</td>
+                            <td>{{ $student->user->email }}</td>
+                            <td>{{ $student->department->course_code }}</td>
+                            <td>Grade - {{ $student->level }}</td>
+                            <!-- <td>{{ $student->section }}</td> -->
+                            <td>
+                                <div class="d-flex justify-center gap-1" role="group">
+                                    <a style="background: #189993; text-decoration: none" class="btn text-white text-white edit" href="{{ route('student.edit',$student->id) }}" id={{ $student->id }}> 
+                                        <i class="bi bi-pencil-square"></i> 
+                                    </a>
+                                    <a href="{{ route('student.destroy', $student->id) }}" style="text-decoration: none" class="btn btn-danger">
+                                        <i class="bi bi-trash3-fill"></i> 
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         {{-- ADD NEW FACULTY --}}
         {{-- @include('admin.faculty.add') --}}
         {{-- EDIT A FACULTY --}}
@@ -129,6 +135,31 @@
                 $('.editfaculty').removeClass('d-none');
             });
 
+        });
+
+        $(document).ready(function () {
+            $('#studentTable').DataTable({
+                responsive: true,
+                paging: true,
+                pageLength: 5,
+                lengthMenu: [5, 10, 25],
+                searching: true,
+                ordering: true,
+                columnDefs: [
+                    { orderable: false, targets: 4 }
+                ],
+                language: {
+                    search: "Search Records:",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "No records available",
+                    zeroRecords: "No matching records found",
+                    paginate: {
+                        previous: "Previous",
+                        next: "Next"
+                    }
+                }
+            });
         });
     </script>
 @endsection

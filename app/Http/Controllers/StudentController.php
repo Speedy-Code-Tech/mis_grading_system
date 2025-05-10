@@ -18,7 +18,7 @@ class StudentController extends Controller
      * Display a listing of the resource.
      */
     public function index() {
-        $students = Student::with(['user', 'section'])->get();
+        $students = Student::with(['user', 'section', 'department'])->get();
 
         return view('admin.student.index', compact('students'));
     }

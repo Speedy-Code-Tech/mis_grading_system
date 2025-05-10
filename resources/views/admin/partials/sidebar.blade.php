@@ -15,7 +15,7 @@
         
         <p class="text-center text-white fw-bold m-0">STUDENT SECTION</p>
         
-        <a href="" class="{{ $active=='section'?'active':'' }} py-1 ps-3 fw-normal ms-4 rounded-start" style="text-decoration: none; font-size: 1.2em;"><i class="pe-2 bi bi-book-half"></i> Section</a>
+        <!-- <a href="" class="{{ $active=='section'?'active':'' }} py-1 ps-3 fw-normal ms-4 rounded-start" style="text-decoration: none; font-size: 1.2em;"><i class="pe-2 bi bi-book-half"></i> Section</a> -->
         <a href="{{ route('subject.index') }}" class="{{ $active=='subject'?'active':'' }} py-1 ps-3 fw-normal ms-4 rounded-start" style="text-decoration: none; font-size: 1.2em;"><i class="pe-2 bi bi-book-half"></i> Subject</a>
         
         <p class="text-center text-white fw-bold m-0">MANAGE ACCOUNT</p>
