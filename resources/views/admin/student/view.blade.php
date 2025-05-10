@@ -19,7 +19,7 @@
             <div class="col-3 fw-bold">Profile Details</div>
             <div class="col-9 d-flex justify-content-end gap-3 align-items-center">
                 <div class="d-flex justify-content-center gap-3 align-items-center">
-                    <a href="{{ route('student.edit',$student->id) }}" class="btn btn-primary"><i class="bi bi-arrow-bar-left"></i> Back</a>
+                    <a href="{{ route('student.edit',$student->student_id) }}" class="btn btn-primary"><i class="bi bi-arrow-bar-left"></i> Back</a>
                 </div>
             </div>
         </div>
@@ -338,7 +338,7 @@
                     </div>
                     <div class="col-9 d-flex justify-content-even gap-3">
                         <div class="col">
-                            <input disabled type="text" name="section" placeholder="Section" value="{{ old('section')?old('section'):$student->section }}"
+                            <input disabled type="text" name="section" placeholder="Section" value="{{ old('section')?old('section'):$student->section->name }}"
                                 class="form-control @error('section'){{ $class }}@enderror">
                             @error('section')
                                 <span class="text-danger fw-bold" style="font-size:10px;">{{$message}}</span>

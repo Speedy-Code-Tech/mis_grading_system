@@ -27,21 +27,21 @@
             <table id="subjectTable" class="table table-hover table-white rounded">
                 <thead>
                     <tr>
-                        <th class="p-2 px-4">Code</th>
-                        <th class="p-2">Subject Name</th>
-                        <th class="p-2">Grade Level</th>
-                        <th class="p-2">No. of Hours</th>
-                        <th class="p-2">Actions</th>
+                        <th class="bg-transparent p-2 px-4">Code</th>
+                        <th class="bg-transparent p-2">Subject Name</th>
+                        <th class="bg-transparent p-2">Grade Level</th>
+                        <th class="bg-transparent p-2">No. of Hours</th>
+                        <th class="bg-transparent p-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($subjects as $subject)
                         <tr>
-                            <td class="p-2 px-4">{{ $subject->subject_code }}</td>
-                            <td class="p-2">{{ $subject->name }}</td>
-                            <td class="p-2">Grade {{ $subject->level }}</td>
-                            <td class="p-2">{{ $subject->hrs }} hrs</td>
-                            <td class="p-2">
+                            <td class="bg-transparent p-2 px-4">{{ $subject->subject_code }}</td>
+                            <td class="bg-transparent p-2">{{ $subject->name }}</td>
+                            <td class="bg-transparent p-2">Grade {{ $subject->level }}</td>
+                            <td class="bg-transparent p-2">{{ $subject->hrs }} hrs</td>
+                            <td class="bg-transparent p-2">
                                 <div class="d-flex justify-center gap-1" role="group">
                                     <button class="btn btn-warning text-white assign-teacher" data-id="{{ $subject->id }}" data-bs-toggle="modal" data-bs-target="#assignTeacherModal">
                                         <i class="bi bi-person-plus-fill"></i>
@@ -323,7 +323,7 @@
 
         }
     </style>
-    
+
     <script>
         $(document).ready(() => {
             $(".addsubject").click(() => {

@@ -25,27 +25,27 @@
             <table id="studentTable" class="table table-hover table-white rounded">
                 <thead>
                     <tr>
-                        <th>Student Name</th>
-                        <th>Age</th>
-                        <th>Email</th>
-                        <th>Strand</th>
-                        <th>Grade Level</th>
-                        <!-- <th>Section</th> -->
-                        <th>Actions</th>
+                        <th class="bg-transparent p-2 px-4">Student Name</th>
+                        <th class="bg-transparent p-2">Age</th>
+                        <th class="bg-transparent p-2">Email</th>
+                        <th class="bg-transparent p-2">Strand</th>
+                        <th class="bg-transparent p-2">Grade Level</th>
+                        <th class="bg-transparent p-2">Section</th>
+                        <th class="bg-transparent p-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($students as $student)
                         <tr>
-                            <td>{{ $student->fname . ' ' . $student->mname . ' ' . $student->lname}}</td>
-                            <td>{{ \Carbon\Carbon::parse($student->bdate)->age }} Y/o</td>
-                            <td>{{ $student->user->email }}</td>
-                            <td>{{ $student->department->course_code }}</td>
-                            <td>Grade - {{ $student->level }}</td>
-                            <!-- <td>{{ $student->section }}</td> -->
-                            <td>
+                            <td class="bg-transparent p-2 px-4">{{ $student->fname . ' ' . $student->mname . ' ' . $student->lname}}</td>
+                            <td class="bg-transparent p-2">{{ \Carbon\Carbon::parse($student->bdate)->age }} Y/o</td>
+                            <td class="bg-transparent p-2">{{ $student->user->email }}</td>
+                            <td class="bg-transparent p-2">{{ $student->department->course_code }}</td>
+                            <td class="bg-transparent p-2">Grade - {{ $student->level }}</td>
+                            <td class="bg-transparent p-2">{{ $student->section->name }}</td>
+                            <td class="bg-transparent p-2">
                                 <div class="d-flex justify-center gap-1" role="group">
-                                    <a style="background: #189993; text-decoration: none" class="btn text-white text-white edit" href="{{ route('student.edit',$student->id) }}" id={{ $student->id }}> 
+                                    <a style="background: #189993; text-decoration: none" class="btn text-white text-white edit" href="{{ route('student.edit',$student->student_id) }}" id={{ $student->id }}> 
                                         <i class="bi bi-pencil-square"></i> 
                                     </a>
                                     <a href="{{ route('student.destroy', $student->id) }}" style="text-decoration: none" class="btn btn-danger">
@@ -58,15 +58,13 @@
                 </tbody>
             </table>
         </div>
+
         {{-- ADD NEW FACULTY --}}
         {{-- @include('admin.faculty.add') --}}
         {{-- EDIT A FACULTY --}}
         {{-- @include('admin.faculty.edit') --}}
-
-
-
-
     </div>
+
     <style>
         .faculty,
         .editfaculty {

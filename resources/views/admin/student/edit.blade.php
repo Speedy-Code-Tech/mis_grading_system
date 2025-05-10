@@ -19,14 +19,14 @@
             <div class="col-3 fw-bold">Profile Details</div>
             <div class="col-9 d-flex justify-content-end gap-3 align-items-center">
                 <div class="d-flex justify-content-center gap-3 align-items-center">
-                    <a href="{{ route('student.view',$student->id) }}" class="fw-bold btn" style="color:#189993; text-decoration: none;"><i
+                    <a href="{{ route('student.view',$student->student_id) }}" class="fw-bold btn" style="color:#189993; text-decoration: none;"><i
                             class="bi bi-info-circle-fill"></i> View</a>
                     <a href="{{ route('student.index') }}" class="btn btn-primary"><i class="bi bi-arrow-bar-left"></i> Back</a>
                 </div>
             </div>
         </div>
         <div class="container-fluid pt-5 p-0 m-0 d-flex flex-column">
-            <form action="{{ route('student.update',$student->id) }}" method="POST"" class="container-fluid pt-5 m-0 d-flex flex-column gap-3">
+            <form action="{{ route('student.update',$student->id) }}" method="POST" class="container-fluid pt-5 m-0 d-flex flex-column gap-3">
              @csrf
                 {{-- FULLNAME --}}
                 <div class="row d-flex">
@@ -356,7 +356,7 @@
                     </div>
                     <div class="col-9 d-flex justify-content-even gap-3">
                         <div class="col">
-                            <input type="text" name="section" placeholder="Section" value="{{ old('section')?old('section'):$student->section }}"
+                            <input type="text" name="section" placeholder="Section" value="{{ old('section')?old('section'):$student->section->name }}"
                                 class="form-control @error('section'){{ $class }}@enderror">
                             @error('section')
                                 <span class="text-danger fw-bold" style="font-size:10px;">{{$message}}</span>

@@ -21,7 +21,7 @@ class TeacherSeeder extends Seeder
             'lname' => 'Adlawan',
             'semester_id' => rand(1, 2),
             'department_id' => rand(1, 3),
-            'department_type' => 'Academic',
+            'department_type' => 'head_of_track',
             'status' => true,
         ]);
     }

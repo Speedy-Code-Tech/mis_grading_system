@@ -17,28 +17,23 @@ class DepartmentSeeder extends Seeder
         $departments = [
             [
                 'course_code' => 'ABM',
-                'full_name' => 'Accountancy, Business, and Management',
-                'description' => 'Focused on business principles, accounting, and management studies.'
+                'description' => 'Accountancy, Business, and Management',
             ],
             [
                 'course_code' => 'STEM',
-                'full_name' => 'Science, Technology, Engineering, and Mathematics',
-                'description' => 'Concentrates on scientific, technological, engineering, and mathematical concepts.'
+                'description' => 'Science, Technology, Engineering, and Mathematics',
             ],
             [
                 'course_code' => 'HUMSS',
-                'full_name' => 'Humanities and Social Sciences',
-                'description' => 'Covers studies in humanities, social sciences, and public administration.'
+                'description' => 'Humanities and Social Sciences',
             ],
             [
                 'course_code' => 'ICT',
-                'full_name' => 'Information and Communications Technology',
-                'description' => 'Focuses on computer studies, programming, and IT essentials.'
+                'description' => 'Information and Communications Technology',
             ],
             [
                 'course_code' => 'TVL',
-                'full_name' => 'Technical-Vocational-Livelihood',
-                'description' => 'Hands-on courses in various vocational and livelihood skills.'
+                'description' => 'Technical-Vocational-Livelihood',
             ]
         ];
         

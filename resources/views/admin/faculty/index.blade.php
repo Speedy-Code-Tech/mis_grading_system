@@ -12,36 +12,48 @@
             </button>
         </div>
         @if (session('msg'))
-            <div class="alert alert-info mt-3">
-                {{ session('msg') }}
-            </div>
+            <script>
+                Swal.fire({
+                    title: 'Successful',
+                    text: "{{ session('msg') }}",
+                    icon: 'success',
+                });
+            </script>
+        @endif
+
+        @if (session('error'))
+            <script>
+                Swal.fire({
+                    title: 'Error',
+                    text: "{{ session('error') }}",
+                    icon: 'error',
+                });
+            </script>
         @endif
 
         <div class="bg-white p-4 shadow rounded">
             <table id="teacherTable" class="table table-hover table-white rounded">
-                <thead class="bg-primary text-white">
+                <thead class="text-white">
                     <tr>
-                        <th class="p-2 px-4">Name</th>
-                        <th class="p-2">Email</th>
-                        <th class="p-2">Track</th>
-                        <!-- <th class="p-2">Subject</th> -->
-                        <th class="p-2">Status</th>
-                        <th class="p-2 text-center">Action</th>
+                        <th class="bg-transparent p-2 px-4">Name</th>
+                        <th class="bg-transparent p-2">Email</th>
+                        <th class="bg-transparent p-2">Track</th>
+                        <th class="bg-transparent p-2">Status</th>
+                        <th class="bg-transparent p-2 text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($faculties as $faculty)
                         <tr class="align-middle">
-                            <td class="p-2 px-4">{{ $faculty->fname . ' ' . $faculty->lname }}</td>
-                            <td class="p-2">{{ $faculty->user->email }}</td>
-                            <td class="p-2">{{ $faculty->department->course_code }}</td>
-                            {{--  <td class="p-2">{{ $faculty->semester->name }}</td> --}}
-                            <td class="p-2">
+                            <td class="bg-transparent p-2 px-4">{{ $faculty->fname . ' ' . $faculty->lname }}</td>
+                            <td class="bg-transparent p-2">{{ $faculty->user->email }}</td>
+                            <td class="bg-transparent p-2">{{ $faculty->department->course_code }}</td>
+                            <td class="bg-transparent p-2">
                                 <span class="badge text-white {{ $faculty->status ? 'current-active' : 'current-inactive' }}">
                                     {{ $faculty->status ? 'Active' : 'Inactive' }}
                                 </span>
                             </td>
-                            <td class="p-2 text-center">
+                            <td class="bg-transparent p-2 text-center">
                                 <div class="" role="group">
                                     <button style="background: #189993;" class="btn text-white edit" id="{{ $faculty->id }}" data-bs-toggle="modal" data-bs-target="#editFacultyModal">
                                         <i class="bi bi-pencil-square"></i>
@@ -149,7 +161,7 @@
                                     <option value="" disabled selected>Select a Department</option>
                                     @foreach ($departments as $dept)
                                         <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>
-                                            {{ $dept->course_code . ' - ' . $dept->full_name }}
+                                            {{ $dept->course_code . ' - ' . $dept->description }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -166,8 +178,12 @@
                                 @enderror
                                 <select name="department_type" id="department_type" class="form-control">
                                     <option value="" disabled selected>Select a Department Type</option>
-                                    <option value="head_teacher" {{ old('department_type') == 'head_teacher' ? 'selected' : '' }}>Head Teacher</option>
-                                    <option value="teacher" {{ old('department_type') == 'teacher' ? 'selected' : '' }}>Teacher</option>
+                                    <option value="head_of_track" {{ old('department_type') == 'head_of_track' ? 'selected' : '' }}>Head of Track</option>
+                                    <option value="track_coordinator" {{ old('department_type') == 'track_coordinator' ? 'selected' : '' }}>Track Coordinator</option>
+                                    <option value="senior_teacher" {{ old('department_type') == 'senior_teacher' ? 'selected' : '' }}>Senior Teacher</option>
+                                    <option value="junior_teacher" {{ old('department_type') == 'junior_teacher' ? 'selected' : '' }}>Junior Teacher</option>
+                                    <option value="substitute_teacher" {{ old('department_type') == 'substitute_teacher' ? 'selected' : '' }}>Substitute Teacher</option>
+                                    <option value="teaching_assistant" {{ old('department_type') == 'teaching_assistant' ? 'selected' : '' }}>Teaching Assistant</option>
                                 </select>
                             </div>
                         </div>
@@ -219,10 +235,20 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="fw-bold">Email</label>
+                                @error('email')
+                                    <span class="text-danger p" style="font-size:10px;">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                @enderror
                                 <input type="email" name="email" required class="form-control email">
                             </div>
                             <div class="col-md-6">
                                 <label class="fw-bold">Password</label>
+                                @error('password')
+                                    <span class="text-danger p" style="font-size:10px;">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                @enderror
                                 <input type="password" name="password" class="form-control password">
                             </div>
                         </div>
@@ -230,15 +256,35 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="fw-bold">Semester</label>
+                                @error('semester_id')
+                                    <span class="text-danger p" style="font-size:10px;">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                @enderror
                                 <select name="semester_id" class="form-control semester_id">
                                     <option value="" disabled selected>Select a Semester</option>
+                                    @foreach ($semesters as $sem)
+                                        <option value="{{ $sem->id }}" {{ old('semester_id') == $sem->id ? 'selected' : '' }}>
+                                            {{ $sem->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
 
                             <div class="col-md-6">
                                 <label class="fw-bold">Department</label>
+                                @error('department_id')
+                                    <span class="text-danger p" style="font-size:10px;">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                @enderror
                                 <select name="department_id" class="form-control department_id">
                                     <option value="" disabled selected>Select a Department</option>
+                                    @foreach ($departments as $dept)
+                                        <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>
+                                            {{ $dept->course_code . ' - ' . $dept->description }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -246,10 +292,19 @@
                         <div class="row g-3">
                             <div class="col">
                                 <label class="fw-bold">Department Type</label>
-                                <select name="department_type" class="form-control department_type">
+                                @error('department_type')
+                                    <span class="text-danger p" style="font-size:10px;">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                @enderror
+                                <select name="department_type" id="department_type" class="form-control">
                                     <option value="" disabled selected>Select a Department Type</option>
-                                    <option value="head_teacher">Head Teacher</option>
-                                    <option value="teacher">Teacher</option>
+                                    <option value="head_of_track" {{ old('department_type') == 'head_of_track' ? 'selected' : '' }}>Head of Track</option>
+                                    <option value="track_coordinator" {{ old('department_type') == 'track_coordinator' ? 'selected' : '' }}>Track Coordinator</option>
+                                    <option value="senior_teacher" {{ old('department_type') == 'senior_teacher' ? 'selected' : '' }}>Senior Teacher</option>
+                                    <option value="junior_teacher" {{ old('department_type') == 'junior_teacher' ? 'selected' : '' }}>Junior Teacher</option>
+                                    <option value="substitute_teacher" {{ old('department_type') == 'substitute_teacher' ? 'selected' : '' }}>Substitute Teacher</option>
+                                    <option value="teaching_assistant" {{ old('department_type') == 'teaching_assistant' ? 'selected' : '' }}>Teaching Assistant</option>
                                 </select>
                             </div>
                         </div>

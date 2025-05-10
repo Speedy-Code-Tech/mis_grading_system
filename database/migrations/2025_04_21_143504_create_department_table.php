@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
             $table->string('course_code');
-            $table->string('full_name');
             $table->text('description');
             $table->timestamps();
         });

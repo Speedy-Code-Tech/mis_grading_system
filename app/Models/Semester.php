@@ -7,16 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 class Semester extends Model
 {
     protected $fillable = [
+        'status',
         'name',
         'start_year',
         'end_year',
-        'region',
-        'division',
-        'school_name',
-        'school_id',
-        'written_work',
-        'performance_task',
-        'quarterly_assesment',
-        'status'
     ]; 
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if ($model->status) {
+                // If status is true, make all others false
+                self::where('status', true)->update(['status' => false]);
+            }
+        });
+
+        static::updating(function ($model) {
+            if ($model->status) {
+                // If status is true, make all others false
+                self::where('status', true)->where('id', '!=', $model->id)->update(['status' => false]);
+            }
+        });
+    }
 }

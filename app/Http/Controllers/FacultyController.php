@@ -42,8 +42,6 @@ class FacultyController extends Controller
             'department_type' => 'required|string',
         ]);
 
-        $data['status'] = $request->input('status') == 1 ? 'active' : 'inactive';
-
         DB::beginTransaction();
 
         try {
@@ -52,7 +50,7 @@ class FacultyController extends Controller
                 'name' => $data['fname'] . ' ' . $data['lname'],
                 'email' => $data['email'],
                 'password' => $data['password'],
-                'role' => $data['department_type'],
+                'role' => 'teacher',
             ]);
 
             $data['user_id'] = $user->id;
@@ -66,7 +64,7 @@ class FacultyController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()->with('msg', 'Failed to add a Faculty: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to add a Faculty: ' . $e->getMessage());
         }
     }
 

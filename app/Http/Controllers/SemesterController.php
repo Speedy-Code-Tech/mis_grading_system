@@ -23,26 +23,19 @@ class SemesterController extends Controller
     {
         try {
             $data = $request->validate([
+                'status' => 'required',
                 'name' => 'required|string',
-
                 'start_year' => 'required|integer',
                 'end_year' => 'required|integer',
-                'region' => 'required|string',
-                'division' => 'required|string',
-                'school_name' => 'required|string',
-                'school_id' => 'required|string',
-                'written_work' => 'required|integer',
-                'performance_task' => 'required|integer',
-                'quarterly_assesment' => 'required|integer'
             ]);
-            $data['status'] = $request->input('status') == 1 ? 'active' : 'inactive';
 
             Semester::create($data);
+
             return redirect()
                 ->route('semester.index')
                 ->with('msg', 'Semester added successfully!');
         } catch (\Exception $e) {
-            return back()->with('msg', $e->getMessage());
+            return back()->with('error', $e->getMessage());
         }
     }
 
@@ -72,37 +65,26 @@ class SemesterController extends Controller
         try {
        
             $data = $request->validate([
+                'estatus' => 'required',
                 'ename' => 'required|string',
                 'estart_year' => 'required|integer',
                 'eend_year' => 'required|integer',
-                'eregion' => 'required|string',
-                'edivision' => 'required|string',
-                'eschool_name' => 'required|string',
-                'eschool_id' => 'required|string',
-                'ewritten_work' => 'required|integer',
-                'eperformance_task' => 'required|integer',
-                'equarterly_assesment' => 'required|integer'
             ]);
-            $data['estatus'] = $request->input('estatus') == 1 ? 'active' : 'inactive';
+
             $value = [
                 'name' => $data['ename'],
                 'status'=>$data['estatus'],
                 'start_year' => $data['estart_year'],
                 'end_year' => $data['eend_year'],
-                'region' => $data['eregion'],
-                'division' => $data['edivision'],
-                'school_name' => $data['eschool_name'],
-                'school_id' => $data['eschool_id'],
-                'written_work' => $data['ewritten_work'],
-                'performance_task' => $data['eperformance_task'],
-                'quarterly_assesment' => $data['equarterly_assesment']
             ];
+
             $semester->update($value);
+
             return redirect()
                 ->route('semester.index')
                 ->with('msg', 'Semester Edited successfully!');
         } catch (\Exception $e) {
-            return back()->with('msg', $e->getMessage());
+            return back()->with('error', $e->getMessage());
         }
     }
 

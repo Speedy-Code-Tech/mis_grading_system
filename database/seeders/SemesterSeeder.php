@@ -16,13 +16,13 @@ class SemesterSeeder extends Seeder
         //
         $semesters = [
             [
-                'name' => 'First Semester',
+                'name' => '1st Semester',
                 'start_year' => 2024,
                 'end_year' => 2025,
                 'status' => True
             ],
             [
-                'name' => 'Second Semester',
+                'name' => '2nd Semester',
                 'start_year' => 2024,
                 'end_year' => 2025,
                 'status' => False

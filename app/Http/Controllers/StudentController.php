@@ -50,6 +50,7 @@ class StudentController extends Controller
         
             if ($user) {
                 $data['user_id'] = $user->id;
+                $data['student_id'] = 'STU-' . str_pad(Student::count() + 1, 6, '0', STR_PAD_LEFT);
         
                 $student = Student::create($data);
         
@@ -91,14 +92,18 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Student $student)
+    public function show($student_id)
     {
-        return view('admin.student.edit', ['student'=> $student]);
+        $student = Student::where('student_id', $student_id)->firstOrFail();
+        return view('admin.student.edit', ['student' => $student]);
     }
-    public function view(Student $student)
+    
+    public function view($student_id)
     {
-        return view('admin.student.view', ['student'=> $student]);
+        $student = Student::where('student_id', $student_id)->firstOrFail();
+        return view('admin.student.view', ['student' => $student]);
     }
+    
 
     /**
      * Update the specified resource in storage.

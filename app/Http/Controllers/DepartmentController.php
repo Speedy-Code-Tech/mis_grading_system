@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DepartmentController extends Controller
 {
@@ -24,16 +25,21 @@ class DepartmentController extends Controller
         try {
             $data = $request->validate(
                 [
-                    'department' => 'required|string',
+                    'course_code' => 'required|string',
                     'description' => 'required|string',
                 ]
             );
             Department::create($data);
             return redirect()->route('department.index')->with('msg', 'Department Added Successfully!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('msg', 'Failed to Add a Department!');
+            // Log the error message for debugging
+            Log::error($e->getMessage());  // This will print the error message in the Laravel log
+
+            // Return the error message with the exception's message included
+            return redirect()->back()->with('error', 'Failed to Add a Department! Error: ' . $e->getMessage());
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -64,15 +70,17 @@ class DepartmentController extends Controller
                 ]
             );
             $value = [
-                'department' => $data['edepartment'],
+                'course_code' => $data['edepartment'],
                 'description' =>  $data['edescription'],
             ];
+
             $department->update($value);
+            
             return redirect()
             ->route('department.index')
-            ->with('msg', 'Department Updated successfully!');
+            ->with('msg', 'Department updated successfully!');
         } catch (\Exception $e) {
-            return back()->with('msg', $e->getMessage());
+            return back()->with('error', $e->getMessage());
         }
     }
 

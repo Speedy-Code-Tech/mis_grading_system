@@ -67,8 +67,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkAuth:admin']], functio
         Route::get('/create', [StudentController::class, 'insert'])->name('student.create');
         Route::post('/store', [StudentController::class, 'store'])->name('student.store');
         Route::get('/destroy/{student}', [StudentController::class, 'destroy'])->name('student.destroy');
-        Route::get('/edit/{student}', [StudentController::class, 'show'])->name('student.edit');
-        Route::get('/view/{student}', [StudentController::class, 'view'])->name('student.view');
+        Route::get('/edit/{student_id}', [StudentController::class, 'show'])->name('student.edit');
+        Route::get('/view/{student_id}', [StudentController::class, 'view'])->name('student.view');
         Route::post('/edit/{student}', [StudentController::class, 'update'])->name('student.update');
     });
 
