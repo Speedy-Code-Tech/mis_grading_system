@@ -19,7 +19,6 @@ class TeacherSeeder extends Seeder
             'fname' => 'Joshi',
             'mname' => 'Zaballero',
             'lname' => 'Adlawan',
-            'semester_id' => rand(1, 2),
             'department_id' => rand(1, 3),
             'department_type' => 'head_of_track',
             'status' => true,

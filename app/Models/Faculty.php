@@ -11,7 +11,6 @@ class Faculty extends Model
         'mname',
         'lname',
         'user_id',
-        'semester_id',
         'department_id',
         'department_type',
         'status'

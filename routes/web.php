@@ -59,7 +59,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkAuth:admin']], functio
         Route::post('/store', [FacultyController::class, 'store'])->name('faculty.store');
         Route::get('/destroy/{faculty}', [FacultyController::class, 'destroy'])->name('faculty.destroy');
         Route::get('/edit/{faculty}', [FacultyController::class, 'show'])->name('faculty.edit');
-        Route::post('/edit/{faculty}', [FacultyController::class, 'update'])->name('faculty.updates');
+        Route::post('/update/{faculty}', [FacultyController::class, 'update'])->name('faculty.updates');
     });
 
     Route::prefix('/student')->group(function () {

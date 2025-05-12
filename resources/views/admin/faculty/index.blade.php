@@ -55,7 +55,21 @@
                             </td>
                             <td class="bg-transparent p-2 text-center">
                                 <div class="" role="group">
-                                    <button style="background: #189993;" class="btn text-white edit" id="{{ $faculty->id }}" data-bs-toggle="modal" data-bs-target="#editFacultyModal">
+                                    <button 
+                                        style="background: #189993;" 
+                                        class="btn text-white edit" 
+                                        id="{{ $faculty->id }}"
+                                        data-id="{{ $faculty->id }}"
+                                        data-fname="{{ $faculty->fname }}"
+                                        data-mname="{{ $faculty->mname }}"
+                                        data-lname="{{ $faculty->lname }}"
+                                        data-email="{{ $faculty->user->email }}"
+                                        data-department-id="{{ $faculty->department->id }}"
+                                        data-department-type="{{ $faculty->department_type }}"
+                                        data-status="{{ $faculty->status }}"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#editFacultyModal"
+                                    >
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                     <a href="{{ route('faculty.destroy', $faculty->id) }}" class="btn btn-danger">
@@ -133,24 +147,7 @@
                         </div>
 
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="fw-bold">Semester</label>
-                                @error('semester_id')
-                                    <span class="text-danger p" style="font-size:10px;">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                @enderror
-                                <select name="semester_id" id="semester_id" class="form-control">
-                                    <option value="" disabled selected>Select a Semester</option>
-                                    @foreach ($semesters as $sem)
-                                        <option value="{{ $sem->id }}" {{ old('semester_id') == $sem->id ? 'selected' : '' }}>
-                                            {{ $sem->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-6">
+                            <div class="col-7">
                                 <label class="fw-bold">Department</label>
                                 @error('department_id')
                                     <span class="text-danger p" style="font-size:10px;">
@@ -166,10 +163,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
 
-                        <div class="row g-3">
-                            <div class="col">
+                            <div class="col-5">
                                 <label class="fw-bold">Department Type</label>
                                 @error('department_type')
                                     <span class="text-danger p" style="font-size:10px;">
@@ -213,6 +208,7 @@
                             <div class="d-flex align-items-center gap-2">
                                 <label class="fw-bold">Status:</label>
                                 <div class="form-check form-switch">
+                                    <input type="hidden" name="status" value="0">
                                     <input class="form-check-input status" type="checkbox" name="status" value="1"
                                         {{ old('status') ? 'checked' : '' }} style="transform: scale(1.2);">
                                 </div>
@@ -249,29 +245,12 @@
                                         <strong>{{$message}}</strong>
                                     </span>
                                 @enderror
-                                <input type="password" name="password" class="form-control password">
+                                <input type="password" name="password" class="form-control password" autocomplete="new-password">
                             </div>
                         </div>
 
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="fw-bold">Semester</label>
-                                @error('semester_id')
-                                    <span class="text-danger p" style="font-size:10px;">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                @enderror
-                                <select name="semester_id" class="form-control semester_id">
-                                    <option value="" disabled selected>Select a Semester</option>
-                                    @foreach ($semesters as $sem)
-                                        <option value="{{ $sem->id }}" {{ old('semester_id') == $sem->id ? 'selected' : '' }}>
-                                            {{ $sem->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-6">
+                            <div class="col-7">
                                 <label class="fw-bold">Department</label>
                                 @error('department_id')
                                     <span class="text-danger p" style="font-size:10px;">
@@ -287,17 +266,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
 
-                        <div class="row g-3">
-                            <div class="col">
+                            <div class="col-5">
                                 <label class="fw-bold">Department Type</label>
                                 @error('department_type')
                                     <span class="text-danger p" style="font-size:10px;">
                                         <strong>{{$message}}</strong>
                                     </span>
                                 @enderror
-                                <select name="department_type" id="department_type" class="form-control">
+                                <select name="department_type" id="department_type" class="form-control department_type">
                                     <option value="" disabled selected>Select a Department Type</option>
                                     <option value="head_of_track" {{ old('department_type') == 'head_of_track' ? 'selected' : '' }}>Head of Track</option>
                                     <option value="track_coordinator" {{ old('department_type') == 'track_coordinator' ? 'selected' : '' }}>Track Coordinator</option>
@@ -356,43 +333,24 @@
                 $(".editfaculty").addClass('d-none')
             })
 
-            $('.edit').click(async function () {
-
-                const id = $(this).attr('id');
-                const response = await fetch(`/admin/faculty/edit/${id}`, {
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
-                }
-
-                const datas = await response.json(); 
-                const data = datas
-                console.log('Faculty data:', data);
-                $('.fname').val(data.faculties.fname);
-                $('.mname').val(data.faculties.mname);
-                $('.lname').val(data.faculties.lname);
-                if(data.faculties.status == 1){
-                    $('.status')
-                        .prop('checked', true)                  // set the checkbox state
-                        .trigger('change');   
-                }else{
-                    $('#estatus')
-                        .prop('checked', false)                  // set the checkbox state
-                        .trigger('change');   
-                }
-                $('.email').val(data.faculties.user.email);
-                $('.semester_id').val(data.faculties.semester[0].id).change();
-                $('.department_id').val(data.faculties.department.id).change();
-                $('.department_type').val(data.faculties.department_type).change();
+            $('.edit').click(function () {
+                const button = $(this);
+                $('.password').val('');
                 
-                
-                
-                const form = $('#editFacultyForm');
-                const action = `/admin/faculty/edit/${data.faculties.id}`;
-                form.attr('action', action);
-                $('.editfaculty').removeClass('d-none');
+                // Get the values from data attributes
+                $('.fname').val(button.data('fname'));
+                $('.mname').val(button.data('mname'));
+                $('.lname').val(button.data('lname'));
+                $('.email').val(button.data('email'));
+                $('.department_id').val(button.data('department-id')).change();
+                const deptType = button.data('department-type').trim();
+                $('.department_type').val(deptType).change();
+
+                // $('#department_type').val(button.data('department-type')).change();
+                $('.status').prop('checked', button.data('status') == 1);
+
+                // Set the form action for updating
+                $('#editFacultyForm').attr('action', `/admin/faculty/update/${button.data('id')}`);
             });
 
         });

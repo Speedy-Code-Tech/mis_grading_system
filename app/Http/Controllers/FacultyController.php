@@ -37,7 +37,6 @@ class FacultyController extends Controller
             'lname' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'semester_id' => 'required|exists:semesters,id',
             'department_id' => 'required|exists:departments,id',
             'department_type' => 'required|string',
         ]);
@@ -89,19 +88,17 @@ class FacultyController extends Controller
      */
     public function update(Request $request, Faculty $faculty)
     {
-
         $data = $request->validate([
             'fname' => 'required|string',
             'mname' => 'nullable|string',
             'lname' => 'required|string',
             'email' => 'required|email|unique:users,email,' . $faculty->user_id, // Ignore current user in unique check
             'password' => 'nullable|string|min:8',
-            'semester_id' => 'required|exists:semester,id',
-            'department_id' => 'required|exists:department,id',
+            'department_id' => 'required',
+            'status' => 'required',
             'department_type' => 'required|string',
         ]);
 
-        $data['status'] = $request->input('status') == 1 ? 'active' : 'inactive';
 
         DB::beginTransaction();
 
@@ -115,8 +112,12 @@ class FacultyController extends Controller
             ];
             
             if (!empty($data['password'])) {
-                $updateData['password'] = Hash::make($data['password']); // Hash the password properly
+                $updateData['password'] = Hash::make($data['password']);
             }
+
+            $updateData = [
+                'role' => 'teacher',
+            ];
             
             $user->update($updateData);
 
@@ -130,7 +131,7 @@ class FacultyController extends Controller
             return redirect()->back()->with('msg', 'Faculty Updated Successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('msg', 'Failed to Update a Faculty: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to Update a Faculty: ' . $e->getMessage());
         }
     }
 
