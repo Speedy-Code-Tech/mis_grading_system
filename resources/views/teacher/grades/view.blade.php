@@ -53,41 +53,43 @@
 
         <div class="bg-white p-4 shadow rounded">
             <!-- Filters -->
-            <div class="d-flex gap-4 my-4 text-center fw-bold w-100">
-                <div class="">
-                    <label for="written" class="form-0 mb-0">Written Works</label>
-                    <select id="written" class="form-select form-select-sm rounded-pill bg-transparent border-success">
-                        <option selected>20%</option>
-                        <option>30%</option>
-                        <option>50%</option>
-                    </select>
+            <div class="d-flex justify-content-between align-items-center">
+                
+                <div class="d-flex gap-4 my-4 text-center fw-bold w-100">
+                    <div class="">
+                        <label for="written" class="form-0 mb-0">Written Works</label>
+                        <select id="written" class="form-select form-select-sm rounded-pill bg-transparent border-success">
+                            <option selected>20%</option>
+                            <option>30%</option>
+                            <option>50%</option>
+                        </select>
+                    </div>
+                    <div class="">
+                        <label for="performance" class="form-label mb-0">Performance Task</label>
+                        <select id="performance" class="form-select form-select-sm rounded-pill bg-transparent border-success">
+                            <option>20%</option>
+                            <option selected>30%</option>
+                            <option>50%</option>
+                        </select>
+                    </div>
+                    <div class="">
+                        <label for="exam" class="form-label mb-0">Exam</label>
+                        <select id="exam" class="form-select form-select-sm rounded-pill bg-transparent border-success">
+                            <option>20%</option>
+                            <option>30%</option>
+                            <option selected>50%</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="">
-                    <label for="performance" class="form-label mb-0">Performance Task</label>
-                    <select id="performance" class="form-select form-select-sm rounded-pill bg-transparent border-success">
-                        <option>20%</option>
-                        <option selected>30%</option>
-                        <option>50%</option>
-                    </select>
-                </div>
-                <div class="">
-                    <label for="exam" class="form-label mb-0">Exam</label>
-                    <select id="exam" class="form-select form-select-sm rounded-pill bg-transparent border-success">
-                        <option>20%</option>
-                        <option>30%</option>
-                        <option selected>50%</option>
-                    </select>
-                </div>
+
+                <a href="{{ route('teacher.grade.edit', $uuid) }}" class="btn text-white rounded-pill" style="background-color: #189993; width: 10rem">
+                    Input Grades
+                </a>
             </div>
 
-            <form 
-                action="{{ route('teacher.grades.save') }}" 
-                method="post" 
-                class="mb-4"
-            >
+            <form action="{{ route('teacher.grades.save') }}" method="post" class="mb-4">
                 @csrf
                 <input type="hidden" name="subject_id" value="{{ $subject_teacher->subject->id }}">
-                
                 <div class="table-responsive">
                     <table class="table table-bordered text-center align-middle">
                         <thead class="fw-bold border-bottom">
@@ -164,90 +166,100 @@
                             <tr>
                                 <td style="background-color: transparent;">{{ $key + 1 }}</td>
                                 <td style="background-color: transparent;">{{ $student->fname }}</td>
+
                                 <!-- Written Work -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="written-work" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
                                         @if (!empty($student->written_work_scores) && count($student->written_work_scores))
-                                        @foreach ($student->written_work_scores as $i => $score)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                            @foreach ($student->written_work_scores as $i => $score)
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
-                                                    name="grades[{{ $student->id }}][written_work][{{ $i }}]"
-                                                    oninput="calculateTotal(this)"
-                                                    value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
+                                                    name="grades[{{ $student->id }}][written_work][]"
                                                 >
+                                                    <div class="border">
+                                                        {{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}
+                                                    </div>
+                                                </div>
                                             @endforeach
                                         @else
                                             @for ($i = 0; $i < 5; $i++)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][written_work][]"
-                                                    value="0"
-                                                    oninput="calculateTotal(this)"
                                                 >
+                                                    <div class="border">
+                                                        0
+                                                    </div>
+                                                </div>
                                             @endfor
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Performance Task -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="performance-task" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
                                         @if (!empty($student->performance_task_scores) && count($student->performance_task_scores))
                                             @foreach ($student->performance_task_scores as $i => $score)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
-                                                    name="grades[{{ $student->id }}][performance_task][{{ $i }}]"
-                                                    oninput="calculateTotal(this)"
-                                                    value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
+                                                    name="grades[{{ $student->id }}][performance_task][]"
                                                 >
+                                                    <div class="border">
+                                                        {{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}
+                                                    </div>
+                                                </div>
                                             @endforeach
                                         @else
                                             @for ($i = 0; $i < 5; $i++)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][performance_task][]"
-                                                    value="0"
-                                                    oninput="calculateTotal(this)"
                                                 >
+                                                    <div class="border">
+                                                        0
+                                                    </div>
+                                                </div>
                                             @endfor
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Exam -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="exam" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
                                         @if (!empty($student->exam_scores) && count($student->exam_scores))
                                             @foreach ($student->exam_scores as $i => $score)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
-                                                    name="grades[{{ $student->id }}][exam][{{ $i }}]"
-                                                    oninput="calculateTotal(this)"
-                                                    value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
+                                                    name="grades[{{ $student->id }}][exam][]"
                                                 >
+                                                    <div class="border">
+                                                        {{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}
+                                                    </div>
+                                                </div>
                                             @endforeach
                                         @else
                                             @for ($i = 0; $i < 5; $i++)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][exam][]"
-                                                    value="0"
-                                                    oninput="calculateTotal(this)"
                                                 >
+                                                    <div class="border">
+                                                        0
+                                                    </div>
+                                                </div>
                                             @endfor
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Quarterly Grade -->
                                 <td style="background-color: transparent;" class="total-grade">
                                     0
@@ -263,7 +275,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            
+
                             <!-- Female -->
                             <tr>
                                 <th class="bg-transparent">No.</th>
@@ -321,93 +333,106 @@
                                 <th class="bg-transparent"></th>
                             </tr>
                             @foreach ($Fstudents as $key => $student)
+                            <input type="hidden" name="grades[{{ $student->id }}][student_id]" value="{{ $student->id }}">
+                            <input type="hidden" class="final-grade-input" name="grades[{{ $student->id }}][final_grade]" value="0">
+                            <input type="hidden" class="remarks-input" name="grades[{{ $student->id }}][remarks]" value="">
                             <tr>
                                 <td style="background-color: transparent;">{{ $key + 1 }}</td>
                                 <td style="background-color: transparent;">{{ $student->fname }}</td>
+
                                 <!-- Written Work -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="written-work" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
                                         @if (!empty($student->written_work_scores) && count($student->written_work_scores))
                                             @foreach ($student->written_work_scores as $i => $score)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
-                                                    name="grades[{{ $student->id }}][written_work][{{ $i }}]"
-                                                    oninput="calculateTotal(this)"
-                                                    value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
+                                                    name="grades[{{ $student->id }}][written_work][]"
                                                 >
+                                                    <div class="border">
+                                                        {{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}
+                                                    </div>
+                                                </div>
                                             @endforeach
                                         @else
                                             @for ($i = 0; $i < 5; $i++)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][written_work][]"
-                                                    value="0"
-                                                    oninput="calculateTotal(this)"
                                                 >
+                                                    <div class="border">
+                                                        0
+                                                    </div>
+                                                </div>
                                             @endfor
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Performance Task -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="performance-task" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
                                         @if (!empty($student->performance_task_scores) && count($student->performance_task_scores))
                                             @foreach ($student->performance_task_scores as $i => $score)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
-                                                    name="grades[{{ $student->id }}][performance_task][{{ $i }}]"
-                                                    oninput="calculateTotal(this)"
-                                                    value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
+                                                    name="grades[{{ $student->id }}][performance_task][]"
                                                 >
+                                                    <div class="border">
+                                                        {{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}
+                                                    </div>
+                                                </div>
                                             @endforeach
                                         @else
                                             @for ($i = 0; $i < 5; $i++)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][performance_task][]"
-                                                    value="0"
-                                                    oninput="calculateTotal(this)"
                                                 >
+                                                    <div class="border">
+                                                        0
+                                                    </div>
+                                                </div>
                                             @endfor
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Exam -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="exam" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
                                         @if (!empty($student->exam_scores) && count($student->exam_scores))
                                             @foreach ($student->exam_scores as $i => $score)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
-                                                    name="grades[{{ $student->id }}][exam][{{ $i }}]"
-                                                    oninput="calculateTotal(this)"
-                                                    value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
+                                                    name="grades[{{ $student->id }}][exam][]"
                                                 >
+                                                    <div class="border">
+                                                        {{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}
+                                                    </div>
+                                                </div>
                                             @endforeach
                                         @else
                                             @for ($i = 0; $i < 5; $i++)
-                                                <input
-                                                    type="text"
-                                                    class="grade-input text-center"
+                                                <div
+                                                    class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][exam][]"
-                                                    value="0"
-                                                    oninput="calculateTotal(this)"
                                                 >
+                                                    <div class="border">
+                                                        0
+                                                    </div>
+                                                </div>
                                             @endfor
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Quarterly Grade -->
                                 <td style="background-color: transparent;" class="total-grade">
                                     0
@@ -426,14 +451,13 @@
                         </tbody>
                     </table>
                 </div>
-
-                <div class="d-flex justify-content-between mt-3">
-                    <a href="{{ route('teacher.grade.view', $uuid) }}" class="btn btn-outline-secondary">Back</a>
+                <!-- <div class="d-flex justify-content-between mt-3">
+                    <a href="{{ route('teacher.index') }}" class="btn btn-outline-secondary">Back</a>
                     <div class="d-flex gap-2">
                         <button type="reset" class="btn btn-outline-secondary">Discard</button>
                         <button type="submit" class="btn btn-info text-white">Save</button>
                     </div>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>

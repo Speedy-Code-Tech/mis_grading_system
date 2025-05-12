@@ -42,7 +42,8 @@ class SubjectTeacher extends Model
         return $this->belongsTo(Department::class, 'department_id', 'id');
     }
 
-    public function section() {
-        return $this->belongsTo(Section::class);
+    public function section()
+    {
+        return $this->belongsTo(Section::class, 'section_id', 'id');
     }
 }

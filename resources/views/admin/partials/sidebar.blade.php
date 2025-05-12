@@ -10,7 +10,8 @@
         <!-- Main Section Links -->
         <a href="{{ route('admin.dashboard') }}" 
            class="{{ $active == 'dashboard' ? 'active' : '' }} py-1 ps-3 fw-normal ms-4 rounded-start"
-           style="text-decoration: none; font-size: 1.2em;">
+           style="text-decoration: none; font-size: 1.2em;"
+        >
             <i class="pe-2 bi bi-grid-1x2-fill"></i> Dashboard
         </a>
 

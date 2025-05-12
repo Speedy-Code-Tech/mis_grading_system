@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('grade_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedTinyInteger('score_index')->default(0);
             $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
             $table->string('criteria');
             $table->decimal('score', 5, 2);

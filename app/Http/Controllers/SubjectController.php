@@ -76,7 +76,6 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        
         $data = $request->validate([
             'subject_code'=>"required|string",
             'name'=>"required|string",
@@ -84,6 +83,7 @@ class SubjectController extends Controller
             'hrs'=>"required",
         ]);
         Subject::create($data);
+
         return redirect()->back()->with(['msg'=>'Subject Added Succesfuly']);
     }
 
@@ -133,10 +133,10 @@ class SubjectController extends Controller
     public function update(Request $request, Subject $subject)
     {
         $data = $request->validate([
+            'subject_code'=>"required|string",
             'name'=>"required|string",
-            'faculty_id'=>"required",
             'level'=>"required",
-            'department_id'=>"required",
+            'hrs'=>"required",
         ]);
 
         $subject = Subject::findOrFail($subject->id);

@@ -43,10 +43,28 @@
                             <td class="bg-transparent p-2">{{ $subject->hrs }} hrs</td>
                             <td class="bg-transparent p-2">
                                 <div class="d-flex justify-center gap-1" role="group">
-                                    <button class="btn btn-warning text-white assign-teacher" data-id="{{ $subject->id }}" data-bs-toggle="modal" data-bs-target="#assignTeacherModal">
+                                    <button 
+                                        class="btn btn-warning text-white assign-teacher" 
+                                        data-id="{{ $subject->id }}"
+                                        data-subject-name="{{ $subject->name }}"
+                                        data-subject-level="{{ $subject->level }}"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#assignTeacherModal"
+                                    >
                                         <i class="bi bi-person-plus-fill"></i>
                                     </button>
-                                    <button style="background: #189993;" class="btn text-white edit" data-id="{{ $subject->id }}" data-bs-toggle="modal" data-bs-target="#editSubjectModal">
+                                    <button 
+                                        style="background: #189993" 
+                                        class="btn text-white edit" 
+                                        data-id="{{ $subject->id }}" 
+                                        data-subject-code="{{ $subject->subject_code }}" 
+                                        data-name="{{ $subject->name }}" 
+                                        data-level="{{ $subject->level }}" 
+                                        data-hrs="{{ $subject->hrs }}" 
+                                        data-department-id="{{ $subject->department_id }}"  
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#editSubjectModal"
+                                    >
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                     <a href="{{ route('subject.destroy', $subject->id) }}" class="btn btn-danger">
@@ -146,7 +164,7 @@
                                 <option value="" class="form-control" disabled selected>Select a Track</option>
                                 @foreach ($departments as $dept)
                                     <option value="{{ $dept->id }}" class="form-control"  {{ old('department_id')==$dept->id?'selected':''}}>
-                                        {{$dept->course_code . ' - ' . $dept->full_name}}</option>
+                                        {{$dept->course_code . ' - ' . $dept->description}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -325,6 +343,30 @@
     </style>
 
     <script>
+        document.querySelectorAll('.assign-teacher').forEach(button => {
+            button.addEventListener('click', function () {
+                const subjectName = this.dataset.subjectName;
+                const subjectLevel = this.dataset.subjectLevel;
+
+                // Automatically select the Subject Name in the dropdown
+                const subjectSelect = document.getElementById('subject_id');
+                [...subjectSelect.options].forEach(option => {
+                    if (option.text === subjectName) {
+                        option.selected = true;
+                    }
+                });
+
+                // Automatically select the Grade Level in the dropdown
+                const levelSelect = document.getElementById('level');
+                [...levelSelect.options].forEach(option => {
+                    if (option.value === subjectLevel) {
+                        option.selected = true;
+                    }
+                });
+            });
+        });
+
+
         $(document).ready(() => {
             $(".addsubject").click(() => {
                 $(".subject").removeClass('d-none')
@@ -339,33 +381,26 @@
                 $(".editsubject").addClass('d-none')
             })
 
-            $('.edit').click(async function () {
+            $('.edit').click(function () {
+                // Get the values from data attributes
+                const id = $(this).data('id');
+                const subjectCode = $(this).data('subject-code');
+                const name = $(this).data('name');
+                const level = $(this).data('level');
+                const hrs = $(this).data('hrs');
+                const departmentId = $(this).data('department-id');
 
-                const id = $(this).attr('data-id');
-                const response = await fetch(`/admin/subject/edit/${id}`, {
-                    headers: { 'Accept': 'application/json' }
-                });
+                // Set the values in the form
+                $('#subject_code').val(subjectCode);
+                $('#name').val(name);
+                $('#hrs').val(hrs);
 
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
-                }
+                // Use .val() and .change() to trigger the UI update
+                $('.level').val(level).change();
+                $('.department_id').val(departmentId).change();
 
-                const datas = await response.json();
-                const data = datas
-                console.log('Subject data:', data);
-                $('#subject_code').val(data.subject.subject_code);
-                $('#name').val(data.subject.name);
-                $('#hrs').val(data.subject.hrs);
-                $('.department_id').val(data.subject.department_id).change();
-                $('.level').val(data.subject.level).change();
-                $('.faculty_id').val(data.subject.faculty_id).change();
-
-
-
-                const form = $('#editSubjectForm');
-                const action = `/admin/subject/edit/${data.subject.id}`;
-                form.attr('action', action);
-                $('.editsubject').removeClass('d-none');
+                // Update the form action
+                $('#editSubjectForm').attr('action', `/admin/subject/edit/${id}`);
             });
 
         });

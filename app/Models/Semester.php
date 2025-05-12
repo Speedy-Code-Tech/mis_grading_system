@@ -13,6 +13,11 @@ class Semester extends Model
         'end_year',
     ]; 
 
+    public function subject_teachers()
+    {
+        return $this->hasMany(SubjectTeacher::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

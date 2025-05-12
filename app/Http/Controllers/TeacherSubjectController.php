@@ -30,40 +30,36 @@ class TeacherSubjectController extends Controller
     public function store(Request $request)
     {
         $subject_id = $request->input('subject_id');
-        $grades = $request->input('grades');
+        $grades    = $request->input('grades', []); 
 
-        foreach ($grades as $studentId => $data) {
-            $student = Student::where('id', (int)$studentId)->first();
+        foreach ((array)$grades as $studentId => $data) {
+            $student = Student::find((int)$studentId);
             if (!$student) {
-                return back()->withErrors(['error' => "Student with ID $studentId does not exist."]);
+                return back()->withErrors(["Student with ID {$studentId} does not exist."]);
             }
 
-            // Check if there's already a grade entry for the student
             $grade = Grade::firstOrCreate(
                 ['student_id' => $studentId, 'subject_id' => $subject_id],
-                [
-                    'student_id' => $studentId,
-                    'subject_id' => $subject_id,
-                    'quarter_id' => $data['quarter_id'] ?? 1,
-                ]
+                ['quarter_id' => $data['quarter_id'] ?? 1]
             );
-
             $gradeId = $grade->id;
+            
+            GradeDetails::where('grade_id', $gradeId)->delete();
 
             foreach (['written_work', 'performance_task', 'exam'] as $criteria) {
                 $scores = $data[$criteria] ?? [];
-
+                
                 foreach ($scores as $index => $score) {
                     GradeDetails::create([
-                        'grade_id' => $gradeId,
-                        'criteria' => $criteria,
-                        'score' => $score ?? 0,
+                        'grade_id'     => $gradeId,
+                        'criteria'     => $criteria,
+                        'score_index'  => $index,
+                        'score'        => $score ?? 0,
                     ]);
                 }
             }
         }
-
-        return back()->with('success', 'Grades saved successfully.');
+        return back()->with('msg','Grades saved successfully.');
     }
 
     public function update(Request $request)
