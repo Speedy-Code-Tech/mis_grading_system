@@ -54,9 +54,20 @@
                             </td>
                             <td class="bg-transparent p-2">
                                 <div class="" role="group">
-                                    <button style="background: #189993" class="btn text-white edit" id="{{ $sem->id }}" data-bs-toggle="modal" data-bs-target="#editSemesterModal"> 
+                                    <button 
+                                        style="background: #189993" 
+                                        class="btn text-white edit" 
+                                        id="{{ $sem->id }}" 
+                                        data-name="{{ $sem->name }}" 
+                                        data-start_year="{{ $sem->start_year }}" 
+                                        data-end_year="{{ $sem->end_year }}" 
+                                        data-status="{{ $sem->status }}" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#editSemesterModal"
+                                    > 
                                         <i class="bi bi-pencil-square"></i> 
                                     </button>
+
                                     <a href="{{ route('semester.destroy', $sem->id) }}" style="text-decoration: none" class="btn btn-danger"> 
                                         <i class="bi bi-trash3-fill"></i> 
                                     </a>
@@ -178,7 +189,7 @@
                                 </div>
                             </div>
                             <div class="container">
-                                <button type="submit" class="btn text-white form-control" style="background: #189993">Submit</button>
+                                <button type="submit" class="btn text-white form-control" style="background: #189993">Update</button>
                             </div>
                         </form>
                     </div>
@@ -219,26 +230,21 @@
             })
           
 
-            $('.edit').click(async function() {
-           
+            $('.edit').click(function() {
                 const id = $(this).attr('id');
-                const response = await fetch(`/admin/semester/edit/${id}`, {
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
-                }
-
-                const datas = await response.json();
-                const data = datas.data
-                console.log('Semester data:', data);
-                $('#id').val(data.id);
-                $('#ename').val(data.name);
-                $('#estart_year').val(data.start_year);
-                $('#eend_year').val(data.end_year);
                 
-                if(data.status == 1) {
+                const name = $(this).data('name');
+                const startYear = $(this).data('start_year');
+                const endYear = $(this).data('end_year');
+                const status = $(this).data('status');
+
+                // Populate the form fields
+                $('#id').val(id);
+                $('#ename').val(name);
+                $('#estart_year').val(startYear);
+                $('#eend_year').val(endYear);
+
+                if (status == 1) {
                     $('#estatus')
                         .prop('checked', true)
                         .trigger('change');   
@@ -248,9 +254,12 @@
                         .trigger('change');   
                 }
 
+                // Set form action URL
                 const form = $('#editSemesterForm');
-                const action = `/admin/semester/edit/${data.id}`;
+                const action = `/admin/semester/edit/${id}`;
                 form.attr('action', action);
+
+                // Show the modal
                 $('.editsemester').removeClass('d-none');
             });
 

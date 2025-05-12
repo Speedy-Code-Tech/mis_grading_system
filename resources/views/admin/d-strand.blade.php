@@ -13,10 +13,9 @@
         </div>
 
         <div class="card">
-            <div class="card-header bg-primary text-white text-center">
+            <div class="card-header text-white text-center opacity-75" style="background: #2874B3">
                 <h4>Strands</h4>
             </div>
-            <ul class="list-group list-group-flush">
 
             <ul class="list-group list-group-flush">
 

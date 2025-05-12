@@ -52,9 +52,18 @@
                             <td class="bg-transparent p-2">{{$dept->description}}</td>
                             <td class="bg-transparent p-2">
                                 <div class="" role="group">
-                                    <button style="background: #189993;" class="btn text-white edit" id="{{ $dept->id }}" data-bs-toggle="modal" data-bs-target="#editTrackModal">
+                                    <button 
+                                        style="background: #189993;" 
+                                        class="btn text-white edit" 
+                                        id="{{ $dept->id }}" 
+                                        data-course_code="{{ $dept->course_code }}" 
+                                        data-description="{{ $dept->description }}" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#editTrackModal"
+                                    >
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
+
                                     <a href="{{ route('department.destroy', $dept->id) }}" class="btn btn-danger">
                                         <i class="bi bi-trash3-fill"></i>
                                     </a>
@@ -144,7 +153,7 @@
                             </div>
 
                             <div class="container">
-                                <button type="submit" class="btn text-white form-control" style="background: #189993">Submit</button>
+                                <button type="submit" class="btn text-white form-control" style="background: #189993">Update</button>
                             </div>
                         </form>
                     </div>
@@ -183,29 +192,27 @@
                 $(".editdepartment").addClass('d-none')
             })
 
-            $('.edit').click(async function () {
-
+            $('.edit').click(function () {
+                // Get the ID from the button
                 const id = $(this).attr('id');
-                const response = await fetch(`/admin/department/edit/${id}`, {
-                    headers: { 'Accept': 'application/json' }
-                });
 
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
-                }
+                // Directly get the data from data-* attributes
+                const courseCode = $(this).data('course_code');
+                const description = $(this).data('description');
 
-                const datas = await response.json();  // parse JSON
-                const data = datas.data
-                console.log('Semester data:', data);
-                $('#edepartment').val(data.course_code);
-                $('#edescription').val(data.description);
-               
+                // Populate the form fields
+                $('#edepartment').val(courseCode);
+                $('#edescription').val(description);
 
+                // Set the form action URL
                 const form = $('#editDepartmentForm');
-                const action = `/admin/department/edit/${data.id}`;
+                const action = `/admin/department/edit/${id}`;
                 form.attr('action', action);
+
+                // Show the modal
                 $('.editdepartment').removeClass('d-none');
             });
+
 
         });
 

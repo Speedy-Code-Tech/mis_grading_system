@@ -159,11 +159,13 @@
                             </tr>
                             @foreach ($Mstudents as $key => $student)
                             <input type="hidden" name="grades[{{ $student->id }}][student_id]" value="{{ $student->id }}">
-                            <input type="hidden" class="final-grade-input" name="grades[{{ $student->id }}][final_grade]" value="0">
-                            <input type="hidden" class="remarks-input" name="grades[{{ $student->id }}][remarks]" value="">
-                            <tr>
+                            <input type="hidden" name="grades[{{ $student->id }}][remarks]" class="remarks-input" value="">
+                            <input type="hidden" name="grades[{{ $student->id }}][final_grade]" class="final-grade-input">
+                            <input type="hidden" name="grades[{{ $student->id }}][total_grade]" class="total-grade-input">
+                            <tr data-student-id="{{ $student->id }}">
                                 <td style="background-color: transparent;">{{ $key + 1 }}</td>
                                 <td style="background-color: transparent;">{{ $student->fname }}</td>
+                                
                                 <!-- Written Work -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="written-work" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
@@ -192,6 +194,7 @@
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Performance Task -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="performance-task" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
@@ -220,6 +223,7 @@
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Exam -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="exam" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
@@ -248,19 +252,22 @@
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Quarterly Grade -->
-                                <td style="background-color: transparent;" class="total-grade">
+                                <td class="total-grade bg-transparent">
                                     0
                                 </td>
+
                                 <!-- Remarks -->
-                                <td style="background-color: transparent;">
-                                    <input
-                                        type="text"
-                                        placeholder="remarks..."
-                                        class="text-center"
-                                        style="border: none; outline: none; width: 100%; height: 100%; padding: 0; margin: 0; background-color: transparent;"
+                                <td class="bg-transparent">
+                                    <div 
+                                        class="remarks badge rounded-pill text-white" 
+                                        style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"
                                     >
+                                        remarks...
+                                    </div>
                                 </td>
+
                             </tr>
                             @endforeach
                             
@@ -321,9 +328,14 @@
                                 <th class="bg-transparent"></th>
                             </tr>
                             @foreach ($Fstudents as $key => $student)
-                            <tr>
+                            <input type="hidden" name="grades[{{ $student->id }}][student_id]" value="{{ $student->id }}">
+                            <input type="hidden" name="grades[{{ $student->id }}][remarks]" class="remarks-input" value="">
+                            <input type="hidden" name="grades[{{ $student->id }}][final_grade]" class="final-grade-input">
+                            <input type="hidden" name="grades[{{ $student->id }}][total_grade]" class="total-grade-input">
+                            <tr data-student-id="{{ $student->id }}">
                                 <td style="background-color: transparent;">{{ $key + 1 }}</td>
                                 <td style="background-color: transparent;">{{ $student->fname }}</td>
+                                
                                 <!-- Written Work -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="written-work" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
@@ -352,6 +364,7 @@
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Performance Task -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="performance-task" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
@@ -380,6 +393,7 @@
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Exam -->
                                 <td style="background-color: transparent; padding: 0;">
                                     <div class="exam" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
@@ -408,18 +422,20 @@
                                         @endif
                                     </div>
                                 </td>
+
                                 <!-- Quarterly Grade -->
-                                <td style="background-color: transparent;" class="total-grade">
+                                <td class="total-grade bg-transparent">
                                     0
                                 </td>
+
                                 <!-- Remarks -->
-                                <td style="background-color: transparent">
-                                    <input
-                                        type="text"
-                                        placeholder="remarks..."
-                                        class="text-center"
-                                        style="border: none; outline: none; width: 100%; height: 100%; padding: 0; margin: 0; background-color: transparent;"
+                                <td class="bg-transparent">
+                                    <div 
+                                        class="remarks badge rounded-pill text-white" 
+                                        style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"
                                     >
+                                        remarks...
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -439,11 +455,12 @@
     </div>
 
     <script>
-        function calculateTotal(input) {
+        // Function definition moved to global scope
+        const calculateTotal = (input) => {
             const row = input.closest('tr');
 
             const getTotal = (className) => {
-                const inputs = row.querySelectorAll(`.${className} input`);
+                const inputs = row.querySelectorAll(`.${className} .grade-input`);
                 let total = 0;
                 inputs.forEach(inp => {
                     const val = parseFloat(inp.value) || 0;
@@ -456,7 +473,6 @@
             const ptTotal = getTotal('performance-task');
             const examTotal = getTotal('exam');
 
-            // Normalize each to 100, then apply weights
             const wwScore = (wwTotal / 50) * 100 * 0.3;
             const ptScore = (ptTotal / 50) * 100 * 0.5;
             const examScore = (examTotal / 250) * 100 * 0.2;
@@ -465,6 +481,28 @@
 
             const gradeCell = row.querySelector('.total-grade');
             if (gradeCell) gradeCell.textContent = finalGrade.toFixed(2);
-        }
+
+            const remarksDiv = row.querySelector('.remarks');
+            if (remarksDiv) {
+                if (finalGrade >= 75) {
+                    remarksDiv.textContent = 'Passed';
+                    remarksDiv.classList.remove('bg-danger');
+                    remarksDiv.classList.add('bg-success');
+                } else {
+                    remarksDiv.textContent = 'Failed';
+                    remarksDiv.classList.remove('bg-success');
+                    remarksDiv.classList.add('bg-danger');
+                }
+            }
+        };
+
+        // DOM Ready Event Listener
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.grade-input').forEach(input => {
+                calculateTotal(input); // Calculate totals on page load
+                input.addEventListener('input', (e) => calculateTotal(e.target)); // Recalculate on input change
+            });
+        });
+
     </script>
 @endsection

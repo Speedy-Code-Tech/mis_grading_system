@@ -287,7 +287,7 @@
                         </div>
 
                         <div class="container mt-3">
-                            <button type="submit" class="btn text-white form-control" style="background: #189993">Submit</button>
+                            <button type="submit" class="btn text-white form-control" style="background: #189993">Update</button>
                         </div>
                     </form>
                 </div>

@@ -15,7 +15,7 @@
         <div class="card-body">
             <table class="table table-bordered table-hover">
                 <thead>
-                    <tr>
+                    <tr class="card-header">
                         <th class="p-2 px-4 text-white opacity-75" style="background: #33BA5C">Faculty Names</th>
                         <th class="p-2 px-4 text-white opacity-75" style="background: #33BA5C">Position</th>
                     </tr>

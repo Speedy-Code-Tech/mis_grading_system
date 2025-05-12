@@ -1,7 +1,7 @@
 @extends('layouts.main',['title'=>'GRADES','active'=>'my_classes'])
 
 @section('content')
-<div class="w-100 h-100 px-5 py-2">
+    <div class="w-100 h-100 px-5 py-2">
         <!-- <h2 class="mb-3">DASHBOARD</h2> -->
 
         @if (session('msg'))
@@ -87,7 +87,7 @@
                 </a>
             </div>
 
-            <form action="{{ route('teacher.grades.save') }}" method="post" class="mb-4">
+            <div class="mb-4">
                 @csrf
                 <input type="hidden" name="subject_id" value="{{ $subject_teacher->subject->id }}">
                 <div class="table-responsive">
@@ -103,6 +103,7 @@
                                 <th class="bg-transparent">Remarks</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             <!-- Male -->
                             <tr>
@@ -159,11 +160,14 @@
                                 <th class="bg-transparent">Quarterly</th>
                                 <th class="bg-transparent"></th>
                             </tr>
+
                             @foreach ($Mstudents as $key => $student)
                             <input type="hidden" name="grades[{{ $student->id }}][student_id]" value="{{ $student->id }}">
-                            <input type="hidden" class="final-grade-input" name="grades[{{ $student->id }}][final_grade]" value="0">
-                            <input type="hidden" class="remarks-input" name="grades[{{ $student->id }}][remarks]" value="">
-                            <tr>
+                            <input type="hidden" name="grades[{{ $student->id }}][remarks]" class="remarks-input" value="">
+                            <input type="hidden" name="grades[{{ $student->id }}][final_grade]" class="final-grade-input">
+                            <input type="hidden" name="grades[{{ $student->id }}][total_grade]" class="total-grade-input">
+                            
+                            <tr data-student-id="{{ $student->id }}">
                                 <td style="background-color: transparent;">{{ $key + 1 }}</td>
                                 <td style="background-color: transparent;">{{ $student->fname }}</td>
 
@@ -176,6 +180,7 @@
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][written_work][]"
+                                                    data-value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
                                                 >
                                                     <div class="border">
                                                         {{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}
@@ -188,6 +193,7 @@
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][written_work][]"
+                                                    data-value="0"
                                                 >
                                                     <div class="border">
                                                         0
@@ -206,6 +212,7 @@
                                                 <div
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
+                                                    data-value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
                                                     name="grades[{{ $student->id }}][performance_task][]"
                                                 >
                                                     <div class="border">
@@ -218,6 +225,7 @@
                                                 <div
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
+                                                    data-value="0"
                                                     name="grades[{{ $student->id }}][performance_task][]"
                                                 >
                                                     <div class="border">
@@ -238,6 +246,7 @@
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][exam][]"
+                                                    data-value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
                                                 >
                                                     <div class="border">
                                                         {{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}
@@ -249,6 +258,7 @@
                                                 <div
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
+                                                    data-value="0"
                                                     name="grades[{{ $student->id }}][exam][]"
                                                 >
                                                     <div class="border">
@@ -261,17 +271,18 @@
                                 </td>
 
                                 <!-- Quarterly Grade -->
-                                <td style="background-color: transparent;" class="total-grade">
+                                <td class="total-grade bg-transparent">
                                     0
                                 </td>
+
                                 <!-- Remarks -->
-                                <td style="background-color: transparent;">
-                                    <input
-                                        type="text"
-                                        placeholder="remarks..."
-                                        class="text-center"
-                                        style="border: none; outline: none; width: 100%; height: 100%; padding: 0; margin: 0; background-color: transparent;"
+                                <td class="bg-transparent">
+                                    <div 
+                                        class="remarks badge rounded-pill text-white" 
+                                        style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"
                                     >
+                                        remarks...
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -280,63 +291,17 @@
                             <tr>
                                 <th class="bg-transparent">No.</th>
                                 <th class="bg-transparent">Female</th>
-                                <!-- Written Work -->
-                                <!-- <th class="p-0">
-                                    <div class="exam" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
-                                        @for ($i = 0; $i < 5; $i++)
-                                        <div
-                                            class="grade-display text-center"
-                                            data-max="10"
-                                            data-index="{{ $i }}"
-                                            style="border-right: 1px solid #cbd5e1; width: 100%; height: 100%; padding: 4px; background-color: transparent;"
-                                        >10</div>
-                                        @endfor
-                                    </div>
-                                    <div class="text-center pt-1">
-                                        Total: <span id="writtenWorkTotal">{{ 10 * 5 }}</span>
-                                    </div>
-                                </th> -->
-                                <!-- Performance Task -->
-                                <!-- <th class="p-0">
-                                    <div class="exam" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
-                                        @for ($i = 0; $i < 5; $i++)
-                                        <div
-                                            class="grade-display text-center"
-                                            data-max="10"
-                                            data-index="{{ $i }}"
-                                            style="border-right: 1px solid #cbd5e1; width: 100%; height: 100%; padding: 4px; background-color: transparent;"
-                                        >10</div>
-                                        @endfor
-                                    </div>
-                                    <div class="text-center pt-1">
-                                        Total: <span id="performanceTaskTotal">{{ 10 * 5 }}</span>
-                                    </div>
-                                </th> -->
-                                <!-- Exam -->
-                                <!-- <th class="p-0">
-                                    <div class="exam" style="display: grid; grid-template-columns: repeat(5, 2rem); border: 1px solid #cbd5e1;">
-                                        @for ($i = 0; $i < 5; $i++)
-                                        <div
-                                            class="grade-display text-center"
-                                            data-max="10"
-                                            data-index="{{ $i }}"
-                                            style="border-right: 1px solid #cbd5e1; width: 100%; height: 100%; padding: 4px; background-color: transparent;"
-                                        >10</div>
-                                        @endfor
-                                    </div>
-                                    <div class="text-center pt-1">
-                                        Total: <span id="examTotal">{{ 10 * 5 }}</span>
-                                    </div>
-                                </th> -->
                                 <th class="bg-transparent" colspan="3"></th>
                                 <th class="bg-transparent">Quarterly</th>
                                 <th class="bg-transparent"></th>
                             </tr>
+
                             @foreach ($Fstudents as $key => $student)
                             <input type="hidden" name="grades[{{ $student->id }}][student_id]" value="{{ $student->id }}">
-                            <input type="hidden" class="final-grade-input" name="grades[{{ $student->id }}][final_grade]" value="0">
-                            <input type="hidden" class="remarks-input" name="grades[{{ $student->id }}][remarks]" value="">
-                            <tr>
+                            <input type="hidden" name="grades[{{ $student->id }}][remarks]" class="remarks-input" value="">
+                            <input type="hidden" name="grades[{{ $student->id }}][final_grade]" class="final-grade-input">
+                            <input type="hidden" name="grades[{{ $student->id }}][total_grade]" class="total-grade-input">
+                            <tr data-student-id="{{ $student->id }}">
                                 <td style="background-color: transparent;">{{ $key + 1 }}</td>
                                 <td style="background-color: transparent;">{{ $student->fname }}</td>
 
@@ -349,6 +314,7 @@
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][written_work][]"
+                                                    data-value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
                                                 >
                                                     <div class="border">
                                                         {{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}
@@ -360,6 +326,7 @@
                                                 <div
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
+                                                    data-value="0"
                                                     name="grades[{{ $student->id }}][written_work][]"
                                                 >
                                                     <div class="border">
@@ -379,6 +346,7 @@
                                                 <div
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
+                                                    data-value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
                                                     name="grades[{{ $student->id }}][performance_task][]"
                                                 >
                                                     <div class="border">
@@ -391,6 +359,7 @@
                                                 <div
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
+                                                    data-value="0"
                                                     name="grades[{{ $student->id }}][performance_task][]"
                                                 >
                                                     <div class="border">
@@ -411,6 +380,7 @@
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][exam][]"
+                                                    data-value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
                                                 >
                                                     <div class="border">
                                                         {{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}
@@ -423,6 +393,7 @@
                                                     class="grade-display text-center"
                                                     data-index="{{ $i }}"
                                                     name="grades[{{ $student->id }}][exam][]"
+                                                    data-value="0"
                                                 >
                                                     <div class="border">
                                                         0
@@ -434,17 +405,18 @@
                                 </td>
 
                                 <!-- Quarterly Grade -->
-                                <td style="background-color: transparent;" class="total-grade">
+                                <td class="total-grade bg-transparent">
                                     0
                                 </td>
+
                                 <!-- Remarks -->
-                                <td style="background-color: transparent">
-                                    <input
-                                        type="text"
-                                        placeholder="remarks..."
-                                        class="text-center"
-                                        style="border: none; outline: none; width: 100%; height: 100%; padding: 0; margin: 0; background-color: transparent;"
+                                <td class="bg-transparent">
+                                    <div 
+                                        class="remarks badge rounded-pill text-white" 
+                                        style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"
                                     >
+                                        remarks...
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -458,37 +430,56 @@
                         <button type="submit" class="btn btn-info text-white">Save</button>
                     </div>
                 </div> -->
-            </form>
+            </div>
         </div>
     </div>
 
     <script>
-        function calculateTotal(input) {
-            const row = input.closest('tr');
+        function calculateTotal() {
+            const rows = document.querySelectorAll('tr');
+            
+            rows.forEach(row => {
+                const getTotal = (className) => {
+                    const gradeDisplays = row.querySelectorAll(`.${className} .grade-display`);
+                    let total = 0;
+                    gradeDisplays.forEach(display => {
+                        const val = parseFloat(display.dataset.value) || 0;
+                        total += val;
+                    });
+                    return total;
+                };
 
-            const getTotal = (className) => {
-                const inputs = row.querySelectorAll(`.${className} input`);
-                let total = 0;
-                inputs.forEach(inp => {
-                    const val = parseFloat(inp.value) || 0;
-                    total += val;
-                });
-                return total;
-            };
+                const wwTotal = getTotal('written-work');
+                const ptTotal = getTotal('performance-task'); // Adjust according to your other score classes
+                const examTotal = getTotal('exam');
 
-            const wwTotal = getTotal('written-work');
-            const ptTotal = getTotal('performance-task');
-            const examTotal = getTotal('exam');
+                // Normalize each to 100, then apply weights
+                const wwScore = (wwTotal / 50) * 100 * 0.3;
+                const ptScore = (ptTotal / 50) * 100 * 0.5;
+                const examScore = (examTotal / 250) * 100 * 0.2;
 
-            // Normalize each to 100, then apply weights
-            const wwScore = (wwTotal / 50) * 100 * 0.3;
-            const ptScore = (ptTotal / 50) * 100 * 0.5;
-            const examScore = (examTotal / 250) * 100 * 0.2;
+                const finalGrade = wwScore + ptScore + examScore;
 
-            const finalGrade = wwScore + ptScore + examScore;
+                const gradeCell = row.querySelector('.total-grade');
+                if (gradeCell) gradeCell.textContent = finalGrade.toFixed(2);
 
-            const gradeCell = row.querySelector('.total-grade');
-            if (gradeCell) gradeCell.textContent = finalGrade.toFixed(2);
+                const remarksDiv = row.querySelector('.remarks');
+                if (remarksDiv) {
+                    if (finalGrade >= 75) {
+                        remarksDiv.textContent = 'Passed';
+                        remarksDiv.classList.remove('bg-danger');
+                        remarksDiv.classList.add('bg-success');
+                    } else {
+                        remarksDiv.textContent = 'Failed';
+                        remarksDiv.classList.remove('bg-success');
+                        remarksDiv.classList.add('bg-danger');
+                    }
+                }
+            });
         }
+
+        // Call the function on page load
+        document.addEventListener('DOMContentLoaded', calculateTotal);
+
     </script>
 @endsection

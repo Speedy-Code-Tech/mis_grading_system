@@ -82,7 +82,7 @@ class SemesterController extends Controller
 
             return redirect()
                 ->route('semester.index')
-                ->with('msg', 'Semester Edited successfully!');
+                ->with('msg', 'Semester Updated Successfully!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

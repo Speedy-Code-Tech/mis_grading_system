@@ -30,7 +30,7 @@ class TeacherSubjectController extends Controller
     public function store(Request $request)
     {
         $subject_id = $request->input('subject_id');
-        $grades    = $request->input('grades', []); 
+        $grades = $request->input('grades', []);
 
         foreach ((array)$grades as $studentId => $data) {
             $student = Student::find((int)$studentId);
@@ -42,6 +42,7 @@ class TeacherSubjectController extends Controller
                 ['student_id' => $studentId, 'subject_id' => $subject_id],
                 ['quarter_id' => $data['quarter_id'] ?? 1]
             );
+
             $gradeId = $grade->id;
             
             GradeDetails::where('grade_id', $gradeId)->delete();
@@ -59,7 +60,9 @@ class TeacherSubjectController extends Controller
                 }
             }
         }
-        return back()->with('msg','Grades saved successfully.');
+        return redirect()
+                ->route('teacher.grade.view')
+                ->with('msg', 'Grades Saved Successfully!');
     }
 
     public function update(Request $request)
