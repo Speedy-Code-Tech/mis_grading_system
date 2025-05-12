@@ -19,4 +19,20 @@ class DashboardController extends Controller
         $subjectCount = Subject::count();
         return view("admin.dashboard",compact('semesterCount','departmentCount','facultyCount','studentCount','subjectCount'));
     }
+
+    public function strand()
+    {
+        return view("admin.d-strand");
+    }
+
+    public function faculty()
+    {
+        $faculties = Faculty::all();
+        return view("admin.d-faculty", compact('faculties'));
+    }
+
+    public function student()
+    {
+        return view("admin.d-student");
+    }
 }

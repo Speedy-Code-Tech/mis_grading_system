@@ -38,6 +38,10 @@ Route::group(['prefix' => 'student'], function () {
 Route::group(['prefix' => 'admin', 'middleware' => ['checkAuth:admin']], function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard/strand', [DashboardController::class, 'strand'])->name('admin.dashboard.strand');
+    Route::get('/dashboard/faculty', [DashboardController::class, 'faculty'])->name('admin.dashboard.faculty');
+    Route::get('/dashboard/student', [DashboardController::class, 'student'])->name('admin.dashboard.student');
+
     Route::prefix('/semester')->group(function () {
         Route::get('/', [SemesterController::class, 'index'])->name('semester.index');
         Route::post('/store', [SemesterController::class, 'store'])->name('semester.store');
