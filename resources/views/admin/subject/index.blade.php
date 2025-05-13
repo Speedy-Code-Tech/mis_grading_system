@@ -39,6 +39,7 @@
                     <tr>
                         <th class="bg-transparent p-2 px-4">Code</th>
                         <th class="bg-transparent p-2">Subject Name</th>
+                        <th class="bg-transparent p-2">Track</th>
                         <th class="bg-transparent p-2">Grade Level</th>
                         <th class="bg-transparent p-2">No. of Hours</th>
                         <th class="bg-transparent p-2">Actions</th>
@@ -49,6 +50,7 @@
                         <tr>
                             <td class="bg-transparent p-2 px-4">{{ $subject->subject_code }}</td>
                             <td class="bg-transparent p-2">{{ $subject->name }}</td>
+                            <td class="bg-transparent p-2">{{ $subject->department->course_code }} - {{ $subject->department->description }}</td>
                             <td class="bg-transparent p-2">Grade {{ $subject->level }}</td>
                             <td class="bg-transparent p-2">{{ $subject->hrs }} hrs</td>
                             <td class="bg-transparent p-2">
@@ -58,6 +60,8 @@
                                         data-id="{{ $subject->id }}"
                                         data-subject-name="{{ $subject->name }}"
                                         data-subject-level="{{ $subject->level }}"
+                                        data-department-id="{{ $subject->department_id }}"
+                                        data-department-text="{{ $subject->department->course_code . ' - ' . $subject->department->description }}"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#assignTeacherModal"
                                     >
@@ -77,6 +81,7 @@
                                     >
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
+
                                     <a href="{{ route('subject.destroy', $subject->id) }}" class="btn btn-danger">
                                         <i class="bi bi-trash3-fill"></i>
                                     </a>
@@ -143,7 +148,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="assignTeacherModalLabel">Assign Teacher</h5>
+                    <h5 class="modal-title" id="assignTeacherModalLabel">Assign Instructor</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -153,19 +158,26 @@
                         <div class="row g-3">
                             <div class="col-md-7">
                                 <label class="fw-bold">Subject Name</label>
-                                @error('name')
+                                @error('subject_id')
                                     <span class="text-danger" style="font-size:10px;">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                <select name="subject_id" id="subject_id" class="form-control">
-                                    <option value="" disabled selected>Select a Subject</option>
-                                    @foreach ($subjects as $subject)
-                                        <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
-                                            {{ $subject->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="subject_name" 
+                                    value="{{ $selectedSubject->name ?? 'No Subject Selected' }}" 
+                                    readonly
+                                >
+
+                                <input 
+                                    type="hidden" 
+                                    name="subject_id" 
+                                    id="subject_id" 
+                                    value="{{ $selectedSubject->id ?? '' }}"
+                                >
                             </div>
 
                             <div class="col-md-5">
@@ -205,23 +217,50 @@
 
                             <div class="col-md-4">
                                 <label class="fw-bold">Grade Level</label>
-                                <select name="level" id="level" class="form-control">
-                                    <option value="" disabled selected>Select a Level</option>
-                                    <option value="11" {{ old('level') == 11 ? 'selected' : '' }}>Grade 11</option>
-                                    <option value="12" {{ old('level') == 12 ? 'selected' : '' }}>Grade 12</option>
-                                </select>
+                                @error('level')
+                                    <span class="text-danger" style="font-size:10px;">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="level_display" 
+                                    value="{{ $selectedSubject->level ?? 'Not Set' }}" 
+                                    readonly
+                                >
+
+                                <input 
+                                    type="hidden" 
+                                    name="level" 
+                                    id="level" 
+                                    value="{{ $selectedSubject->level ?? '' }}"
+                                >
                             </div>
 
                             <div class="col-md-6">
                                 <label class="fw-bold">Track</label>
-                                <select name="department_id" id="department_id" class="form-control">
-                                    <option value="" disabled selected>Select a Track</option>
-                                    @foreach ($departments as $dept)
-                                        <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>
-                                            {{ $dept->course_code . ' - ' . $dept->description }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                @error('department_id')
+                                    <span class="text-danger" style="font-size:10px;">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="department_display" 
+                                    value="{{ isset($selectedSubject) && $selectedSubject->department ? $selectedSubject->department->course_code . ' - ' . $selectedSubject->department->description : 'No Track Selected' }}" 
+                                    readonly
+                                >
+
+                                <input 
+                                    type="hidden" 
+                                    name="department_id" 
+                                    id="department_id" 
+                                    value="{{ $selectedSubject->department_id ?? '' }}"
+                                >
                             </div>
 
                             <div class="col-md-6">
@@ -238,7 +277,7 @@
 
                             <div class="col-md-12">
                                 <button type="submit" class="btn text-white form-control mt-3" style="background: #189993">
-                                    Assign Instructor
+                                    Assign
                                 </button>
                             </div>
                         </div>
@@ -303,6 +342,22 @@
                         @enderror
                         <input value="{{ old('hrs') }}" type="text" name="hrs" id="hrs" required
                             class="form-control">
+                    </div>
+
+                    <div class="container">
+                        <label class="fw-bold">Track</label>
+                        @error('department_id')
+                            <span class="text-danger p" style="font-size:10px;">
+                                <strong>{{$message}}</strong>
+                            </span>
+                        @enderror
+                        <select name="department_id" id="department_id" class="department_id form-control">
+                            <option value="" class="form-control" disabled selected>Select a Department</option>
+                            @foreach ($departments as $dept)
+                                <option value="{{ $dept->id }}" class="form-control"  {{ old('department_id')==$dept->id?'selected':''}}>
+                                    {{$dept->course_code . ' - ' . $dept->description}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="container">
@@ -375,6 +430,22 @@
                         </div>
 
                         <div class="container">
+                            <label class="fw-bold">Track</label>
+                            @error('department_id')
+                                <span class="text-danger p" style="font-size:10px;">
+                                    <strong>{{$message}}</strong>
+                                </span>
+                            @enderror
+                            <select name="department_id" id="department_id" class="department_id form-control">
+                                <option value="" class="form-control" disabled selected>Select a Department</option>
+                                @foreach ($departments as $dept)
+                                    <option value="{{ $dept->id }}" class="form-control"  {{ old('department_id')==$dept->id?'selected':''}}>
+                                        {{$dept->course_code . ' - ' . $dept->description}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="container">
                             <button type="submit" class="btn text-white form-control" style="background: #189993">Submit</button>
                         </div>
                     </form>
@@ -430,24 +501,23 @@
         // Assign Instructor Listeners
         document.querySelectorAll('.assign-teacher').forEach(button => {
             button.addEventListener('click', function () {
+                const subjectId = this.dataset.id;
                 const subjectName = this.dataset.subjectName;
                 const subjectLevel = this.dataset.subjectLevel;
+                const departmentId = this.dataset.departmentId;
+                const departmentText = this.dataset.departmentText;
 
-                // Automatically select the Subject Name in the dropdown
-                const subjectSelect = document.getElementById('subject_id');
-                [...subjectSelect.options].forEach(option => {
-                    if (option.text === subjectName) {
-                        option.selected = true;
-                    }
-                });
+                // Set Subject
+                document.getElementById('subject_name').value = subjectName;
+                document.getElementById('subject_id').value = subjectId;
 
-                // Automatically select the Grade Level in the dropdown
-                const levelSelect = document.getElementById('level');
-                [...levelSelect.options].forEach(option => {
-                    if (option.value === subjectLevel) {
-                        option.selected = true;
-                    }
-                });
+                // Set Grade Level
+                document.getElementById('level_display').value = subjectLevel;
+                document.getElementById('level').value = subjectLevel;
+
+                // Set Track/Department
+                document.getElementById('department_display').value = departmentText;
+                document.getElementById('department_id').value = departmentId;
             });
         });
 

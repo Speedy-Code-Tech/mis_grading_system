@@ -11,6 +11,7 @@ class Subject extends Model
         "name",
         "level",
         "hrs",
+        "department_id",
     ];
 
     public function faculty() {

@@ -41,6 +41,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkAuth:admin']], functio
     Route::get('/dashboard/strand', [DashboardController::class, 'strand'])->name('admin.dashboard.strand');
     Route::get('/dashboard/faculty', [DashboardController::class, 'faculty'])->name('admin.dashboard.faculty');
     Route::get('/dashboard/student', [DashboardController::class, 'student'])->name('admin.dashboard.student');
+    Route::get('/dashboard/student/{level}/{track}', [DashboardController::class, 'studentDetails'])->name('admin.dashboard.student-details');
+    Route::get('/dashboard/subject', [DashboardController::class, 'subject'])->name('admin.dashboard.subject');
+    Route::get('/dashboard/subject/{level}/{track}', [DashboardController::class, 'subjectDetails'])->name('admin.dashboard.subject-details');
 
     Route::prefix('/semester')->group(function () {
         Route::get('/', [SemesterController::class, 'index'])->name('semester.index');

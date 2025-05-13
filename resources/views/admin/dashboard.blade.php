@@ -36,7 +36,7 @@
                 </div>
             </a>
 
-            <a href="" class="container d-flex align-items-center p-5 text-white rounded" style="background:#EA3865; height: 120px; cursor: pointer; text-decoration: none">
+            <a href="{{ route('admin.dashboard.subject') }}" class="container d-flex align-items-center p-5 text-white rounded" style="background:#EA3865; height: 120px; cursor: pointer; text-decoration: none">
                 <img src="{{ asset('img/book1.png') }}" alt="subject" width="70">
                 <div class="d-flex flex-column w-100">
                     <h5 class="text-end m-0">SUBJECT</h5>

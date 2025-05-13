@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="w-100 h-100 p-5">
-        <div class="d-flex align-items-center mb-5">
+        <div class="d-flex align-items-center mb-3">
             <a href="{{ route('admin.dashboard') }}">
                 <h2 class="me-2" style="color: #A6DBD8; font-weight: 600;">Dashboard</h2>
             </a>
@@ -12,20 +12,20 @@
             </a>
         </div>
 
-        <div class="card-body">
-            <table class="table table-bordered table-hover">
+        <div class="card-body bg-white p-4 shadow rounded">
+            <table class="table table-hover">
                 <thead>
                     <tr class="card-header">
-                        <th class="p-2 px-4 text-white opacity-75" style="background: #33BA5C">Faculty Names</th>
-                        <th class="p-2 px-4 text-white opacity-75" style="background: #33BA5C">Position</th>
+                        <th class="p-2 px-4 text-white" style="background: #33BA5C">Faculty Names</th>
+                        <th class="p-2 px-4 text-white" style="background: #33BA5C">Position</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     @foreach ($faculties as $faculty)
                         <tr>
-                            <td class="p-2 px-4 bg-white">{{ $faculty->fname }} {{ $faculty->lname }}</td>
-                            <td class="p-2 px-4 bg-white">{{ $faculty->department_type }}</td>
+                            <td class="bg-transparent p-2 px-4">{{ $faculty->fname }} {{ $faculty->lname }}</td>
+                            <td class="bg-transparent p-2 px-4">{{ $faculty->department_type }}</td>
                         </tr>
                     @endforeach
                 </tbody>

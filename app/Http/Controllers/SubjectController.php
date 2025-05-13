@@ -86,6 +86,7 @@ class SubjectController extends Controller
             'name'=>"required|string",
             'level'=>"required",
             'hrs'=>"required",
+            'department_id'=>"required",
         ]);
         Subject::create($data);
 
@@ -159,6 +160,7 @@ class SubjectController extends Controller
             'name'=>"required|string",
             'level'=>"required",
             'hrs'=>"required",
+            'department_id'=>"required",
         ]);
 
         $subject = Subject::findOrFail($subject->id);

@@ -9,7 +9,7 @@
             </a>
             <span style="color: #A6DBD8; font-size: 1.5rem;">/</span>
             <a href="{{ route('admin.dashboard.student') }}">
-                <h2 class="ms-2" style="color: #E9D819; font-weight: 600;">Student</h2>
+                <h2 class="ms-2" style="color: #EA3865; font-weight: 600;">Subject</h2>
             </a>
         </div>
 
@@ -137,9 +137,9 @@
                 const strand = strandInput.value;
 
                 if (level && strand) {
-                    nextBtn.href = `/admin/dashboard/student/${level}/${strand}`;
+                    nextBtn.href = `/admin/dashboard/subject/${level}/${strand}`;
                 } else {
-                    nextBtn.href = "/admin/dashboard/student/11/ABM";
+                    nextBtn.href = "/admin/dashboard/subject/11/ABM";
                 }
             }
 
