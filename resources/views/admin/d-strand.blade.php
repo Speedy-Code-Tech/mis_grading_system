@@ -18,23 +18,15 @@
             </div>
 
             <ul class="list-group list-group-flush">
-
-                @php
-                    $strands = [
-                        ['image' => 'abm.png', 'title' => 'ABM', 'desc' => 'Accountancy, Business, and Management'],
-                        ['image' => 'stem.png', 'title' => 'STEM', 'desc' => 'Science, technology, engineering, and mathematics'],
-                        ['image' => 'humss.png', 'title' => 'HUMSS', 'desc' => 'Humanities and Social Sciences'],
-                        ['image' => 'gas.png', 'title' => 'GAS', 'desc' => 'General Academic Strand'],
-                        ['image' => 'he.png', 'title' => 'TVL', 'desc' => 'Technical Vocational Livelihood'],
-                    ];
-                @endphp
-
                 @foreach ($strands as $strand)
                     <li class="list-group-item d-flex align-items-center">
-                        <img src="{{ asset('img/' . $strand['image']) }}" alt="{{ $strand['title'] }}" class="me-3" style="width: 40px; height: 40px;">
+                        <div class="image-wrapper me-3">
+                            <img src="{{ asset('img/' . strtolower($strand->course_code) . '.png') }}" alt="{{ $strand->course_code }} Logo"
+                                class="strand-image" />
+                        </div>
                         <div>
-                            <strong>{{ $strand['title'] }}</strong><br>
-                            <small class="text-muted">{{ $strand['desc'] }}</small>
+                            <strong>{{ $strand->course_code }}</strong><br>
+                            <small class="text-muted">{{ $strand->description }}</small>
                         </div>
                     </li>
                 @endforeach

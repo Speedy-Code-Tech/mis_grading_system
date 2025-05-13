@@ -21,7 +21,7 @@ class StudentSeeder extends Seeder
             Student::create([
                 'user_id'   => $user->id,
                 'student_id' => 'STU-' . str_pad($key + 1, 6, '0', STR_PAD_LEFT),
-                'type'      => 'Regular',
+                'type'      => rand(1, 2) === 1 ? 'old' : 'new',
                 'level'     => rand(11, 12),
                 'department_id'    => rand(1, 5),
                 'fname'     => fake()->firstName(),

@@ -1,6 +1,9 @@
 // BUTTON CONTAINERS
+let back = document.getElementById('back')
 let step1 = document.getElementById('step1')
+let back2 = document.getElementById('back2')
 let step2 = document.getElementById('step2')
+let back3 = document.getElementById('back3')
 
 // CONTAINERS
 let box1 = document.getElementById('box1')
@@ -55,6 +58,24 @@ check5blue.classList.add('d-none')
 check5grey.classList.add('d-flex')
 check5check.classList.add('d-none')
 
+back.addEventListener('click', () => {
+    box1.classList.remove('d-none');
+    box1.classList.add('d-block');
+
+    box2.classList.remove('d-block');
+    box2.classList.add('d-none');
+
+    check1.classList.remove('d-flex');
+    check1.classList.add('d-none');
+    check.classList.remove('d-none');
+    check.classList.add('d-flex');
+
+    check2grey.classList.remove('d-none');
+    check2grey.classList.add('d-flex');
+    check2blue.classList.remove('d-flex');
+    check2blue.classList.add('d-none');
+})
+
 step1.addEventListener('click', () => {
     if (!type.value) {
         alert("Please Select your Registration Type")
@@ -75,6 +96,26 @@ step1.addEventListener('click', () => {
     check2blue.classList.add('d-flex')
 })
 
+back2.addEventListener('click', () => {
+    // Show Step 2 box, hide Step 3 box
+    box3.classList.add('d-none');
+    box3.classList.remove('d-block');
+    box2.classList.remove('d-none');
+    box2.classList.add('d-block');
+
+    check3blue.classList.remove('d-flex');
+    check3blue.classList.add('d-none');
+    check3grey.classList.remove('d-none');
+    check3grey.classList.add('d-flex');
+
+    check2check.classList.remove('d-flex');
+    check2check.classList.add('d-none');
+    check2blue.classList.remove('d-none');
+    check2blue.classList.add('d-flex');
+
+    // Optional: if you had step 1 changes in step 2, don't touch check1/check
+});
+
 step2.addEventListener('click', () => {
     if (!lvl.value && !strnd.value) {
         alert("Please Select your Level and Strand")
@@ -86,6 +127,7 @@ step2.addEventListener('click', () => {
         alert("Please Select your Strand")
         return;
     }
+
     box2.classList.add('d-none')
     box3.classList.remove('d-none')
     box3.classList.add('d-block')
@@ -239,6 +281,27 @@ step3.addEventListener('click', () => {
     check4blue.classList.remove('d-none')
     check4blue.classList.add('d-flex')
 })
+
+back3.addEventListener('click', () => {
+    // Show Step 3, hide Step 4
+    box4.classList.add('d-none');
+    box4.classList.remove('d-block');
+    box3.classList.remove('d-none');
+    box3.classList.add('d-block');
+
+    // Step indicator updates
+    check4blue.classList.remove('d-flex');
+    check4blue.classList.add('d-none');
+    check4grey.classList.remove('d-none');
+    check4grey.classList.add('d-flex');
+
+    check3check.classList.remove('d-flex');
+    check3check.classList.add('d-none');
+    check3blue.classList.remove('d-none');
+    check3blue.classList.add('d-flex');
+
+    // Optional: keep check2check and check1 active if needed, don't touch them
+});
 
 
 // STEP LEFT VALIDATION

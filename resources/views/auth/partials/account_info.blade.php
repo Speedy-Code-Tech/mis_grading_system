@@ -1,5 +1,5 @@
-   {{-- ACCOUNT INFORMATION --}}
-   <div id="box3" class=" container h-75 mx-1 px-1 pt-5">
+{{-- ACCOUNT INFORMATION --}}
+<div id="box3" class=" container h-75 mx-1 px-1 pt-5">
     <h3 class="m-0">Set up your Account Information</h3>
     <p class="text-secondary">Want to go back? <a href="/student/login" style="color:#189993">Sign In</a>
     </p>
@@ -27,10 +27,10 @@
                 <label for="" class="fw-bold h6 m-0">Section</label> 
                 <span class="text-danger ps-2" id="errorsection"></span>
             </div>
-            <select name="section" id="section" class="form-control">
+            <select name="section_id" id="section_id" class="form-control">
                 <option value="" class="form-control" disabled selected >Select Section</option>
                 @foreach ($sections as $section)
-                    <option value="{{ $section->id }}" {{ old('section') == $section->id ? 'selected' : '' }} class="form-control">{{ $section->name }}</option>
+                    <option value="{{ $section->id }}" {{ old('section_id') == $section->id ? 'selected' : '' }} class="form-control">{{ $section->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -97,9 +97,14 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid text-end p-4">
-        <div id='step3' class="btn text-white px-4 py-3" style="background:#189993; ">Submit <img
-                style="width:20px; margin-top:-3px" src="{{ asset('img/arrow.png') }}" /></div>
+
+    <div class="container-fluid d-flex justify-content-between px-4 w-100">
+        <div id="back2" class="btn text-white px-3 py-2 btn-sm" style="background:#6c757d;">
+            Previous
+        </div>
+        <div id="step3" class="btn text-white px-3 py-2 btn-sm" style="background: #189993;">
+            Continue
+        </div>
     </div>
 </div>
 {{-- END OF ACCOUNT INFORMATION --}}

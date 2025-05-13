@@ -23,7 +23,8 @@ class DashboardController extends Controller
 
     public function strand()
     {
-        return view("admin.d-strand");
+        $strands = Department::all();
+        return view("admin.d-strand", compact('strands'));
     }
 
     public function faculty()

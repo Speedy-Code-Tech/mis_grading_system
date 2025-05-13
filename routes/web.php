@@ -72,7 +72,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkAuth:admin']], functio
     Route::prefix('/student')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('student.index');
         Route::get('/create', [StudentController::class, 'insert'])->name('student.create');
-        Route::post('/store', [StudentController::class, 'store'])->name('student.store');
+        Route::post('/store', [StudentController::class, 'create'])->name('student.store');
         Route::get('/destroy/{student}', [StudentController::class, 'destroy'])->name('student.destroy');
         Route::get('/edit/{student_id}', [StudentController::class, 'show'])->name('student.edit');
         Route::get('/view/{student_id}', [StudentController::class, 'view'])->name('student.view');

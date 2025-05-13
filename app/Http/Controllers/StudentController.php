@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Section;
 use App\Models\Student;
 use App\Models\User;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 use function Laravel\Prompts\error;
 
@@ -78,13 +80,29 @@ class StudentController extends Controller
     public function create(Request $request)
     {
         try {
-            $data = $request->only(
-                'type', 'level', 'strand',
-                'fname', 'mname', 'lname',
-                'gender', 'bdate', 'contact',
-                'email', 'password',
-                'street', 'region', 'province', 'city', 'brgy','section'
-            );
+            // dd($request, '1');
+            $data = $request->validate([
+                'type' => 'required',
+                'level' => 'required',
+                'strand' => 'required',
+                'fname' => 'required',
+                'mname' => 'required',
+                'lname' => 'required',
+                'gender' => 'required',
+                'bdate' => 'required',
+                'email' => 'required',
+                'contact' => 'required',
+                'password' => 'required',
+                'street' => 'required',
+                'region' => 'required',
+                'province' => 'required',
+                'city' => 'required',
+                'brgy' => 'required',
+                'section_id' => 'required',
+            ]);
+
+            $data['department_id'] = $data['strand'];
+            // dd($data, '2');
         
             // Create user first
             $user = User::create([
@@ -92,13 +110,38 @@ class StudentController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
             ]);
+
+            // dd($user, '3');
+            if (!$user) {
+                dd('Failed to create user');
+            }
         
             if ($user) {
                 $data['user_id'] = $user->id;
                 $data['student_id'] = 'STU-' . str_pad(Student::count() + 1, 6, '0', STR_PAD_LEFT);
         
-                $student = Student::create($data);
-        
+                $student = new Student();
+                $student->type = $data['type'];
+                $student->level = $data['level'];
+                $student->department_id = $data['department_id'];
+                $student->fname = $data['fname'];
+                $student->mname = $data['mname'];
+                $student->lname = $data['lname'];
+                $student->gender = $data['gender'];
+                $student->bdate = $data['bdate'];
+                $student->email = $data['email'];
+                $student->contact = $data['contact'];
+                $student->user_id = $data['user_id'];
+                $student->student_id = $data['student_id'];
+                $student->street = $data['street'];
+                $student->region = $data['region'];
+                $student->province = $data['province'];
+                $student->city = $data['city'];
+                $student->brgy = $data['brgy'];
+                $student->section_id = $data['section_id'];
+
+                $student->save();
+                
                 if ($student) {
                     // Both user and student created successfully
                     if (Auth::check() && Auth::user()->role == 'admin') {
@@ -108,30 +151,26 @@ class StudentController extends Controller
                     } else {
                         return redirect('/student/login')->with([
                             'msg' => 'Student Registered Successfully!',
-                            'error' => true,
                         ]);
                     }
                 } else {
                     // Failed to create student → rollback user
                     $user->delete();
                     return redirect()->back()->with([
-                        'msg' => 'Something went wrong. Please try again.',
-                        'error' => true,
+                        'error' => 'Something went wrong. Please try again.',
                     ]);
                 }
             } else {
                 return redirect()->back()->with([
-                    'msg' => 'Something went wrong. Please try again.',
-                    'error' => true,
+                    'error' => 'Something went wrong. Please try again.',
                 ]);
             }
         } catch (\Exception $e) {
+            Log::error('Student creation failed: ' . $e->getMessage());
             return redirect()->back()->with([
-                'msg' => 'Something went wrong. Please try again.',
-                'error' => true,
+                'error' => 'Something went wrong while saving student data.',
             ]);
         }
-        
     }
 
     /**
@@ -233,6 +272,8 @@ class StudentController extends Controller
     public function insert() {
         $sections = Section::all();
 
-        return view('auth.student', compact('sections'));
+        $strands = Department::all();
+
+        return view('auth.student', compact('sections', 'strands'));
     }
 }

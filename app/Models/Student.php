@@ -7,25 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     protected $fillable = [
-        'user_id',
-        'student_id',
-        'type',
-        'level',
-        'strand',
-        'fname',
-        'mname',
-        'lname',
-        'gender',
-        'bdate',
-        'contact',
-        'street',
-        'region',
-        'province',
-        'city',
-        'brgy',
+        'type', 'level', 'department_id',
+        'fname', 'mname', 'lname',
+        'gender', 'bdate', 'email', 'contact',
+        'user_id', 'student_id',
+        'street', 'region', 'province', 'city', 'brgy',
         'section_id'
     ];
-
 
     public function user() {
         return $this->belongsTo(User::class,'user_id','id');

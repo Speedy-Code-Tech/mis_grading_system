@@ -4,6 +4,11 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+
+    .right {
+        background: white;
+    }
+
     .logo {
         background:url('/img/logo.jpg');
         background-repeat: no-repeat;
@@ -14,6 +19,25 @@
     }
 </style>
 @section('content')
+    @if (session('msg'))
+        <script>
+            Swal.fire({
+                title: 'Successful',
+                text: "{{ session('msg') }}",
+                icon: 'success',
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                title: 'Error',
+                text: "{{ session('error') }}",
+                icon: 'error',
+            });
+        </script>
+    @endif
     <div class="d-flex justify-content-center align-items-center h-100" style="overflow-y: hidden">
         <div class="left container h-100 d-flex justify-content-center align-items-center logo">
             <div style="width:90%"
@@ -122,7 +146,6 @@
                 @include('auth.partials.student_info')
                 @include('auth.partials.account_info')
                 @include('auth.partials.resident_info')
-
             </form>
         </div>
 
