@@ -16,7 +16,7 @@ class TeacherController extends Controller
 
         $faculty_id = Faculty::where('user_id', Auth::user()->id)->first()->id;
 
-        $subject_teacher = SubjectTeacher::with(['subject', 'faculty', 'semester', 'section'])
+        $subject_teacher = SubjectTeacher::with(['subject', 'faculty', 'semester', 'section', 'quarter'])
             ->where('faculty_id', $faculty_id)
             ->get();
 
@@ -24,7 +24,7 @@ class TeacherController extends Controller
     }
 
     public function show($uuid) {
-        $subject_teacher = SubjectTeacher::with(['subject', 'faculty', 'semester'])
+        $subject_teacher = SubjectTeacher::with(['subject', 'faculty', 'semester', 'quarter'])
             ->where('uuid', $uuid)
             ->firstOrFail();
 

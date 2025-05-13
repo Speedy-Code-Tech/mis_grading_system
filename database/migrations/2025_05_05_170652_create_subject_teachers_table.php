@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Quarter;
 use App\Models\Section;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->foreignId('semester_id')->constrained()->onDelete('cascade');
             $table->foreignId('department_id')->constrained()->onDelete('cascade');
             $table->foreignIdFor(Section::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Quarter::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

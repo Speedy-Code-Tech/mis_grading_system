@@ -11,6 +11,7 @@ class StudentSubject extends Model
         'section_id',
         'subject_teacher_id',
         'semester_id',
+        'quarter_id',
     ];
 
     // Relationship to SubjectTeacher

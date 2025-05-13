@@ -29,11 +29,11 @@
                 <!-- Left Column -->
                 <div class="col-md-6">
                     <div class="d-flex flex-column gap-1">
-                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">TEACHER:</strong> {{ $subject_teacher->faculty->fname }} {{ $subject_teacher->faculty->lname }}</p>
-                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">ACADEMIC TRACK:</strong> GENERAL ACADEMIC STRAND</p>
+                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">TEACHER:</strong>{{ $subject_teacher->faculty->fname }} {{ $subject_teacher->faculty->lname }}</p>
+                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">ACADEMIC TRACK:</strong>GENERAL ACADEMIC STRAND</p>
                         <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">GRADE & SECTION:</strong>Grade {{ $subject_teacher->subject->level }} - {{ $subject_teacher->section->name }}</p>
-                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">SUBJECT:</strong> {{ $subject_teacher->subject->name }}</p>
-                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">REGION:</strong> V</p>
+                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">SUBJECT:</strong>{{ $subject_teacher->subject->name }}</p>
+                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">REGION:</strong>V</p>
                         <!-- <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">Data:</strong> {{ $subject_teacher }}</p> -->
                     </div>
                 </div>
@@ -41,11 +41,11 @@
                 <!-- Right Column -->
                 <div class="col-md-6">
                     <div class="d-flex flex-column gap-1">
-                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">SCHOOL YEAR:</strong> 2024-2025</p>
-                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">SCHOOL NAME:</strong> MORENO INTEGRATED SCHOOL</p>
-                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">SEMESTER:</strong> {{ $subject_teacher->semester->name }}</p>
-                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">QUARTER:</strong> 1ST QUARTER <span>&#9662;</span></p>
-                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">DIVISION:</strong> CAMARINES NORTE</p>
+                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">SCHOOL YEAR:</strong>{{ $subject_teacher->semester->start_year }}-{{ $subject_teacher->semester->end_year }}</p>
+                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">SCHOOL NAME:</strong>MORENO INTEGRATED SCHOOL</p>
+                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">SEMESTER:</strong>{{ $subject_teacher->semester->name }}</p>
+                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">QUARTER:</strong>{{ $subject_teacher->quarter->name }}</p>
+                        <p class="mb-1 text-uppercase" style="font-size: .8rem;"><strong class="me-2">DIVISION:</strong>CAMARINES NORTE</p>
                     </div>
                 </div>
             </div>
@@ -88,8 +88,6 @@
             </div>
 
             <div class="mb-4">
-                @csrf
-                <input type="hidden" name="subject_id" value="{{ $subject_teacher->subject->id }}">
                 <div class="table-responsive">
                     <table class="table table-bordered text-center align-middle">
                         <thead class="fw-bold border-bottom">

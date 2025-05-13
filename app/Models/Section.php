@@ -18,4 +18,9 @@ class Section extends Model
     {
         return $this->hasMany(Student::class);
     }
+
+    public function subjectTeachers()
+    {
+        return $this->hasMany(SubjectTeacher::class);
+    }
 }

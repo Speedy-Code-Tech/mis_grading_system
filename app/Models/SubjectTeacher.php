@@ -19,6 +19,7 @@ class SubjectTeacher extends Model
         'semester_id',
         'department_id',
         'section_id',
+        'quarter_id',
     ];
 
     public function subject()
@@ -45,5 +46,10 @@ class SubjectTeacher extends Model
     public function section()
     {
         return $this->belongsTo(Section::class, 'section_id', 'id');
+    }
+
+    public function quarter()
+    {
+        return $this->belongsTo(Quarter::class, 'quarter_id', 'id');
     }
 }

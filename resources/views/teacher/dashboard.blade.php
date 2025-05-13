@@ -49,7 +49,7 @@
                             <th class="bg-transparent">Academic Track</th>
                             <th class="bg-transparent">Grade Level</th>
                             <th class="bg-transparent">Students</th>
-                            <th class="bg-transparent">School Year</th>
+                            <th class="bg-transparent">Quarter</th>
                             <th class="bg-transparent text-end"></th>
                         </tr>
                     </thead>
@@ -64,7 +64,7 @@
                                 {{ $subject->section->students()->count() }}
                             </td>
                             <td class="bg-transparent">
-                                {{ $subject->semester->start_year }} - {{ $subject->semester->end_year }}
+                                {{ $subject->quarter->name }}
                             </td>
                             <td class="bg-transparent">
                                 <a href="{{ route('teacher.grade.view', $subject->uuid) }}" class="btn btn-sm rounded-pill w-100" style="background-color: #189993; color: white;">Enter Grades</a>

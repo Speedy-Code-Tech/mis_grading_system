@@ -30,6 +30,8 @@ class TeacherSubjectController extends Controller
     public function store(Request $request)
     {
         $subject_id = $request->input('subject_id');
+        $quarter_id = $request->input('quarter_id');
+        $uuid = $request->input('uuid');
         $grades = $request->input('grades', []);
 
         foreach ((array)$grades as $studentId => $data) {
@@ -40,12 +42,29 @@ class TeacherSubjectController extends Controller
 
             $grade = Grade::firstOrCreate(
                 ['student_id' => $studentId, 'subject_id' => $subject_id],
-                ['quarter_id' => $data['quarter_id'] ?? 1]
+                ['quarter_id' => $quarter_id ?? 1]
             );
 
             $gradeId = $grade->id;
             
             GradeDetails::where('grade_id', $gradeId)->delete();
+
+            $writtenWorkTotal = array_sum($data['written_work']);
+            $performanceTaskTotal = array_sum($data['performance_task']);
+            $examTotal = array_sum($data['exam']);
+
+            // --- Apply the percentage weights ---
+            $wwScore = ($writtenWorkTotal / 50) * 100 * 0.3;   // 30% of WW
+            $ptScore = ($performanceTaskTotal / 50) * 100 * 0.5; // 50% of PT
+            $examScore = ($examTotal / 250) * 100 * 0.2;        // 20% of Exam
+        
+            // --- Compute Final Grade ---
+            $finalGrade = $wwScore + $ptScore + $examScore;
+
+            // --- Save to the Grade model ---
+            $grade->update([
+                'final_grade' => round($finalGrade, 2)  // Rounded to 2 decimal places
+            ]);
 
             foreach (['written_work', 'performance_task', 'exam'] as $criteria) {
                 $scores = $data[$criteria] ?? [];
@@ -61,7 +80,7 @@ class TeacherSubjectController extends Controller
             }
         }
         return redirect()
-                ->route('teacher.grade.view')
+                ->route('teacher.grade.view', $uuid)
                 ->with('msg', 'Grades Saved Successfully!');
     }
 

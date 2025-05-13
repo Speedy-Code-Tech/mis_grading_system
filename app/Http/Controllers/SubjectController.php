@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Faculty;
+use App\Models\Quarter;
 use App\Models\Section;
 use App\Models\Semester;
 use App\Models\StudentSubject;
@@ -29,8 +30,11 @@ class SubjectController extends Controller
             'faculty', 
             'semester', 
             'department', 
-            'section'
+            'section',
+            'quarter',
         ])->get();
+
+        $quarters = Quarter::all();
 
         // dd($faculties);
         return view('admin.subject.index', compact(
@@ -40,6 +44,7 @@ class SubjectController extends Controller
             'faculties',
             'subjecAssignment',
             'sections',
+            'quarters',
         ));
     }
 
@@ -97,7 +102,23 @@ class SubjectController extends Controller
             'level'=>"required",
             'department_id'=>"required",
             'section_id'=>"required",
+            'quarter_id'=>"required",
         ]);
+
+        $exists = SubjectTeacher::where([
+            'subject_id'    => $data['subject_id'],
+            'faculty_id'    => $data['faculty_id'],
+            'semester_id'   => $data['semester_id'],
+            'department_id' => $data['department_id'],
+            'section_id'    => $data['section_id'],
+            'quarter_id'    => $data['quarter_id']
+        ])->exists();
+    
+        if ($exists) {
+            return redirect()->back()
+                ->with(['error' => 'This assignment already exists.'])
+                ->withInput();
+        }
 
         $data['uuid'] = Str::uuid();
 
@@ -107,6 +128,7 @@ class SubjectController extends Controller
             'subject_teacher_id' => $subjectTeacher->id,
             'section_id' => $data['section_id'],
             'semester_id' => $data['semester_id'],
+            'quarter_id' => $data['quarter_id'],
         ]);
 
         return redirect()->back()->with(['msg'=>'Assigned Teacher Succesfully']);
