@@ -79,93 +79,98 @@ class StudentController extends Controller
      */
     public function create(Request $request)
     {
-        try {
-            // dd($request, '1');
-            $data = $request->validate([
-                'type' => 'required',
-                'level' => 'required',
-                'strand' => 'required',
-                'fname' => 'required',
-                'mname' => 'required',
-                'lname' => 'required',
-                'gender' => 'required',
-                'bdate' => 'required',
-                'email' => 'required',
-                'contact' => 'required',
-                'password' => 'required',
-                'street' => 'required',
-                'region' => 'required',
-                'province' => 'required',
-                'city' => 'required',
-                'brgy' => 'required',
-                'section_id' => 'required',
-            ]);
+        $data = $request->validate([
+            'type' => 'required',
+            'level' => 'required',
+            'strand' => 'required',
+            'fname' => 'required',
+            'mname' => 'required',
+            'lname' => 'required',
+            'gender' => 'required',
+            'bdate' => 'required',
+            'email' => 'required',
+            'contact' => 'required',
+            'password' => 'required',
+            'street' => 'required',
+            'region' => 'required',
+            'province' => 'required',
+            'city' => 'required',
+            'brgy' => 'required',
+            'section_id' => 'required',
+        ]);
 
-            $data['department_id'] = $data['strand'];
-            // dd($data, '2');
-        
-            // Create user first
+        try {
+            DB::beginTransaction();
+            
+            // Create the user first
             $user = User::create([
                 'name' => $data['fname'] . ' ' . ($data['mname'] ? $data['mname'][0] : '') . '. ' . $data['lname'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
             ]);
-
-            // dd($user, '3');
+        
             if (!$user) {
-                dd('Failed to create user');
+                DB::rollBack();
+                return redirect()->back()->with([
+                    'error' => 'Failed to create user.'
+                ]);
             }
         
-            if ($user) {
-                $data['user_id'] = $user->id;
-                $data['student_id'] = 'STU-' . str_pad(Student::count() + 1, 6, '0', STR_PAD_LEFT);
-        
-                $student = new Student();
-                $student->type = $data['type'];
-                $student->level = $data['level'];
-                $student->department_id = $data['department_id'];
-                $student->fname = $data['fname'];
-                $student->mname = $data['mname'];
-                $student->lname = $data['lname'];
-                $student->gender = $data['gender'];
-                $student->bdate = $data['bdate'];
-                $student->email = $data['email'];
-                $student->contact = $data['contact'];
-                $student->user_id = $data['user_id'];
-                $student->student_id = $data['student_id'];
-                $student->street = $data['street'];
-                $student->region = $data['region'];
-                $student->province = $data['province'];
-                $student->city = $data['city'];
-                $student->brgy = $data['brgy'];
-                $student->section_id = $data['section_id'];
+            // Add user_id and student_id to the data array
+            $data['user_id'] = $user->id;
+            $data['student_id'] = 'STU-' . str_pad(Student::count() + 1, 6, '0', STR_PAD_LEFT);
 
-                $student->save();
-                
-                if ($student) {
-                    // Both user and student created successfully
-                    if (Auth::check() && Auth::user()->role == 'admin') {
-                        return redirect('/admin/student/')->with([
-                            'msg' => 'Student Registered Successfully!',
-                        ]);
-                    } else {
-                        return redirect('/student/login')->with([
-                            'msg' => 'Student Registered Successfully!',
-                        ]);
-                    }
-                } else {
-                    // Failed to create student → rollback user
-                    $user->delete();
-                    return redirect()->back()->with([
-                        'error' => 'Something went wrong. Please try again.',
-                    ]);
-                }
-            } else {
+            // If the frontend doesn't send 'track', set it to null
+            $data['department_id'] = $request->input('strand', null);
+
+            // Enable Query Log for debugging
+            DB::enableQueryLog();
+            
+            // Create the student with mass assignment
+            $student = Student::create([
+                'type' => $data['type'],
+                'level' => $data['level'],
+                'department_id' => $data['strand'],
+                'fname' => $data['fname'],
+                'mname' => $data['mname'],
+                'lname' => $data['lname'],
+                'gender' => $data['gender'],
+                'bdate' => $data['bdate'],
+                'contact' => $data['contact'],
+                'user_id' => $data['user_id'],
+                'student_id' => $data['student_id'],
+                'street' => $data['street'],
+                'region' => $data['region'],
+                'province' => $data['province'],
+                'city' => $data['city'],
+                'brgy' => $data['brgy'],
+                'section_id' => $data['section_id'],
+            ]);
+        
+            // Check the logs
+            // dd(DB::getQueryLog());
+        
+            if (!$student) {
+                DB::rollBack();
                 return redirect()->back()->with([
-                    'error' => 'Something went wrong. Please try again.',
+                    'error' => 'Failed to create student.'
+                ]);
+            }
+        
+            DB::commit(); // Commit the transaction if successful
+        
+            // Redirect based on role
+            if (Auth::check() && Auth::user()->role == 'admin') {
+                return redirect('/admin/student/')->with([
+                    'msg' => 'Student Registered Successfully!',
+                ]);
+            } else {
+                return redirect('/student/login')->with([
+                    'msg' => 'Student Registered Successfully!',
                 ]);
             }
         } catch (\Exception $e) {
+            DB::rollBack(); // Roll back the transaction if there is an error
             Log::error('Student creation failed: ' . $e->getMessage());
             return redirect()->back()->with([
                 'error' => 'Something went wrong while saving student data.',

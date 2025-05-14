@@ -9,7 +9,7 @@ class Student extends Model
     protected $fillable = [
         'type', 'level', 'department_id',
         'fname', 'mname', 'lname',
-        'gender', 'bdate', 'email', 'contact',
+        'gender', 'bdate', 'contact',
         'user_id', 'student_id',
         'street', 'region', 'province', 'city', 'brgy',
         'section_id'

@@ -34,14 +34,14 @@ class UserSeeder extends Seeder
             User::factory()->create($user);
         }
 
-        for($i = 1; $i <= 10; $i++) {
-            User::factory()->create([
-                'name' => fake()->firstName(),
-                'email' => 'user' . $i . '@gmail.com',
-                'password' => 'user' . $i,
-                'role' => 'student',
-            ]);
-        }
+        // for($i = 1; $i <= 10; $i++) {
+        //     User::factory()->create([
+        //         'name' => fake()->firstName(),
+        //         'email' => 'user' . $i . '@gmail.com',
+        //         'password' => 'user' . $i,
+        //         'role' => 'student',
+        //     ]);
+        // }
         
     }
 }
