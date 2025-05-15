@@ -77,6 +77,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkAuth:admin']], functio
         Route::get('/edit/{student_id}', [StudentController::class, 'show'])->name('student.edit');
         Route::get('/view/{student_id}', [StudentController::class, 'view'])->name('student.view');
         Route::post('/edit/{student}', [StudentController::class, 'update'])->name('student.update');
+
+        Route::get('/view-grades/{student_id}', [StudentController::class, 'viewGrades'])->name('admin.students.grades');
     });
 
 

@@ -186,6 +186,52 @@ class StudentController extends Controller
         $student = Student::where('student_id', $student_id)->firstOrFail();
         return view('admin.student.edit', ['student' => $student]);
     }
+
+    public function viewGrades($student_id) {
+        $student = Student::where('student_id', $student_id)->firstOrFail();
+
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student not found.');
+        }
+
+        // Get the section of the student
+        $section = $student->section;
+
+        if (!$section) {
+            return redirect()->back()->with('error', 'Section not found.');
+        }
+
+        // Get all subject teachers assigned to the section, and eager load their relationships
+        $subjects = $section->subjectTeachers()->with([
+            'subject.department',
+            'faculty',
+            'semester'
+        ])->get();
+
+        // Fetch the grades for the student
+        $grades = DB::table('grades')
+            ->join('subjects', 'grades.subject_id', '=', 'subjects.id')
+            ->join('subject_teachers', 'subject_teachers.subject_id', '=', 'subjects.id')
+            ->join('faculties', 'faculties.id', '=', 'subject_teachers.faculty_id') // Changed to faculties
+            ->where('grades.student_id', $student->id)
+            ->select('subjects.name as subject', 'faculties.fname as instructor', 'grades.quarter_id', 'grades.final_grade')
+            ->get()
+            ->groupBy('subject');
+
+        // Transform the data for the datatable
+        $formattedGrades = $grades->map(function ($items, $subject) {
+            return [
+                'subject' => $subject,
+                'instructor' => $items->first()->instructor,
+                'q1_grade' => optional($items->firstWhere('quarter_id', 1))->final_grade,
+                'q2_grade' => optional($items->firstWhere('quarter_id', 2))->final_grade,
+                'final_grade' => number_format((optional($items->firstWhere('quarter_id', 1))->final_grade + optional($items->firstWhere('quarter_id', 2))->final_grade) / 2, 2),
+                'remarks' => ((optional($items->firstWhere('quarter_id', 1))->final_grade + optional($items->firstWhere('quarter_id', 2))->final_grade) / 2) >= 75 ? 'Passed' : 'Failed',
+            ];
+        })->values();
+
+        return view('admin.student.view-grades', compact('formattedGrades'));
+    }
     
     public function view($student_id)
     {

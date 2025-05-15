@@ -45,6 +45,9 @@
                             <td class="bg-transparent p-2">{{ $student->section->name }}</td>
                             <td class="bg-transparent p-2">
                                 <div class="d-flex justify-center gap-1" role="group">
+                                    <a href="{{ route('admin.students.grades', $student->student_id) }}" class="btn btn-primary text-white">
+                                        <i class="bi bi-file-earmark-text"></i>
+                                    </a>
                                     <a style="background: #189993; text-decoration: none" class="btn text-white text-white edit" href="{{ route('student.edit',$student->student_id) }}" id={{ $student->id }}> 
                                         <i class="bi bi-pencil-square"></i> 
                                     </a>

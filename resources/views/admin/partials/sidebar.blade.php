@@ -73,12 +73,12 @@
         </a>
 
         <!-- Grading Section -->
-        <p class="text-center text-white fw-bold m-0">GRADING SECTION</p>
+        <!-- <p class="text-center text-white fw-bold m-0">GRADING SECTION</p>
 
         <a href="" class="py-1 ps-3 fw-normal ms-4 rounded-start"
            style="text-decoration: none; font-size: 1.2em;">
             <i class="bi bi-calculator"></i> Grading
-        </a>
+        </a> -->
     </div>
 
     <!-- Sticky Logout Button at the Bottom -->
