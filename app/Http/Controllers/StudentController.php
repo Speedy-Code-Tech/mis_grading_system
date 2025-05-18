@@ -320,10 +320,11 @@ class StudentController extends Controller
                 $bdate = $values[7];
             }
             
-            $department = Department::firstOrCreate(
-                ['course_code' => strtoupper($values[3])],
-                ['description' => '']
-            );
+            $department = Department::where('course_code', strtoupper($values[2]))->first();
+
+            $departmentId = $department ? $department->id : null;
+
+            // dd(strtoupper($values[2]));
 
             $section = Section::firstOrCreate(
                 ['name' => $values[14], 'department_id' => $department->id],
@@ -335,7 +336,7 @@ class StudentController extends Controller
                 'student_id'    => 'STU-' . str_pad(Student::count() + 1, 6, '0', STR_PAD_LEFT),
                 'type'          => $values[0],
                 'level'         => $level,
-                'department_id' => $department->id,
+                'department_id' => $departmentId,
                 'fname'         => $values[3],
                 'mname'         => $values[4],
                 'lname'         => $values[5],

@@ -34,7 +34,11 @@ class DepartmentSeeder extends Seeder
             [
                 'course_code' => 'TVL',
                 'description' => 'Technical-Vocational-Livelihood',
-            ]
+            ],
+            [
+                'course_code' => 'GAS',
+                'description' => 'General Academic Strand',
+            ],
         ];
         
         foreach ($departments as $department) {
