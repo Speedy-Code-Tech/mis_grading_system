@@ -79,6 +79,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkAuth:admin']], functio
         Route::post('/edit/{student}', [StudentController::class, 'update'])->name('student.update');
 
         Route::get('/view-grades/{student_id}', [StudentController::class, 'viewGrades'])->name('admin.students.grades');
+        Route::post('/importStudent', [StudentController::class, 'importStudent'])->name('student.import');
     });
 
 

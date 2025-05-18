@@ -8,7 +8,20 @@
                 <h4 class="fw-semibold">STUDENT LIST</h4>
                 <p class="m-0">Home - Student</p>
             </div>
-            <a href="{{ route('student.create') }}" class="btn text-white addfaculty" style="background:#189993; "><i class="bi bi-plus-lg"></i> Student</a>
+            <div class="d-flex items-center gap-2">
+                <form action="{{ route('student.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <label for="excelImport" class="btn text-white" style="background:#007bff;">
+                        <i class="bi bi-file-earmark-excel-fill"></i> Import Excel
+                    </label>
+                    <input type="file" id="excelImport" name="excel_file" accept=".xlsx, .xls" style="display: none;" onchange="this.form.submit()">
+                </form>
+
+                <a href="{{ route('student.create') }}" class="btn text-white addfaculty" style="background:#189993;">
+                    <i class="bi bi-plus-lg"></i> Student
+                </a>
+            </div>
+
         </div>
 
         @if (session('msg'))
@@ -17,6 +30,16 @@
                     title: 'Successful',
                     text: "{{ session('msg') }}",
                     icon: 'success',
+                });
+            </script>
+        @endif
+
+        @if (session('error'))
+            <script>
+                Swal.fire({
+                    title: 'Error',
+                    text: "{{ session('error') }}",
+                    icon: 'error',
                 });
             </script>
         @endif

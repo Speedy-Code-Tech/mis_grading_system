@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use SimpleXMLElement;
+use ZipArchive;
 
 use function Laravel\Prompts\error;
 
@@ -231,6 +233,126 @@ class StudentController extends Controller
         })->values();
 
         return view('admin.student.view-grades', compact('formattedGrades'));
+    }
+
+    public function importStudent(Request $request)
+    {
+        $file = $request->file('excel_file');
+
+        // Extract Excel ZIP
+        $zip = new ZipArchive();
+        if ($zip->open($file->getPathname()) === TRUE) {
+            $zip->extractTo(storage_path('app/excel_temp'));
+            $zip->close();
+        } else {
+            return redirect()->back()->with('error', 'Failed to open Excel file.');
+        }
+
+        // Load shared strings
+        $sharedStringsPath = storage_path('app/excel_temp/xl/sharedStrings.xml');
+        $sharedStrings = [];
+
+        if (file_exists($sharedStringsPath)) {
+            $sharedStringsXml = simplexml_load_file($sharedStringsPath);
+
+            foreach ($sharedStringsXml->si as $stringItem) {
+                // Some strings can have multiple <t> tags due to rich text formatting
+                if (isset($stringItem->t)) {
+                    $sharedStrings[] = (string) $stringItem->t;
+                } else {
+                    // Handle rich text with multiple runs
+                    $text = '';
+                    foreach ($stringItem->r as $run) {
+                        $text .= (string) $run->t;
+                    }
+                    $sharedStrings[] = $text;
+                }
+            }
+        }
+
+        // Load sheet1.xml
+        $sheetPath = storage_path('app/excel_temp/xl/worksheets/sheet1.xml');
+        if (!file_exists($sheetPath)) {
+            return redirect()->back()->with('error', 'Sheet1 not found in the Excel file.');
+        }
+        $xmlString = file_get_contents($sheetPath);
+        $xmlObject = new SimpleXMLElement($xmlString);
+        $rows = $xmlObject->sheetData->row;
+
+        $firstRow = true;
+
+        foreach ($rows as $row) {
+            if ($firstRow) {
+                $firstRow = false;
+                continue;
+            }
+
+            $values = [];
+            foreach ($row->c as $cell) {
+                $cellType = (string) $cell['t']; // cell type attribute
+                $cellValue = (string) $cell->v;
+
+                if ($cellType === 's') {
+                    // Shared string - get string from sharedStrings array
+                    $index = (int) $cellValue;
+                    $values[] = $sharedStrings[$index] ?? '';
+                } else {
+                    $values[] = $cellValue;
+                }
+            }
+
+            // <--- For debugging --->
+            // dd($values);
+
+            $user = User::create([
+                'name' => $values[3] . ' ' . $values[4][0] . '. ' . $values[5],
+                'email' => $values[15],
+                'password' => Hash::make('sample'),
+                'role' => 'student'
+            ]);
+
+            $level = (stripos($values[2], 'Grade 12') !== false) ? 12 : 11;
+
+            if (is_numeric($values[7])) {
+                // Convert Excel date to PHP date format
+                $bdate = \Carbon\Carbon::parse('1900-01-01')->addDays($values[7] - 2)->format('Y-m-d');
+            } else {
+                $bdate = $values[7];
+            }
+            
+            $department = Department::firstOrCreate(
+                ['course_code' => strtoupper($values[3])],
+                ['description' => '']
+            );
+
+            $section = Section::firstOrCreate(
+                ['name' => $values[14], 'department_id' => $department->id],
+                ['level' => $level]
+            );
+
+            Student::create([
+                'user_id'       => $user->id,
+                'student_id'    => 'STU-' . str_pad(Student::count() + 1, 6, '0', STR_PAD_LEFT),
+                'type'          => $values[0],
+                'level'         => $level,
+                'department_id' => $department->id,
+                'fname'         => $values[3],
+                'mname'         => $values[4],
+                'lname'         => $values[5],
+                'gender'        => $values[6],
+                'bdate'         => $bdate,
+                'contact'       => $values[8],
+                'street'        => $values[9],
+                'region'        => $values[10],
+                'province'      => $values[11],
+                'city'          => $values[12],
+                'brgy'          => $values[13],
+                'section_id'    => $section->id,
+            ]);
+            
+        }
+
+        return redirect()->back()->with('msg', 'Excel file imported successfully.');
     }
     
     public function view($student_id)
