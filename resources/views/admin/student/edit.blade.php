@@ -270,85 +270,37 @@
                     <div class="col-9 d-flex justify-content-even gap-3">
                         <div class="col">
                             <div class="btn-group d-flex flex-column gap-2">
-                                <div class="ps-0 form-check">
-                                    <input class="btn-check" type="radio" name="strand" id="strand-abm" value="ABM" required autocomplete="off"
-                                        {{ $student->strand == 'ABM' ? 'checked' : '' }}>
-                                    <label class="btn btn-outline-primary text-start d-flex align-items-start" for="strand-abm">
-                                        <i class="bi bi-briefcase me-2"></i>
-                                        <div>
-                                            <strong>ABM</strong><br>
-                                            <small>Accountancy and Business Management</small>
-                                        </div>
-                                    </label>
-                                </div>
-                            
-                                <div class="ps-0 form-check">
-                                    <input class="btn-check" type="radio" name="strand" id="strand-stem" value="STEM" required autocomplete="off"
-                                        {{ $student->strand == 'STEM' ? 'checked' : '' }}>
-                                    <label class="btn btn-outline-primary text-start d-flex align-items-start" for="strand-stem">
-                                        <i class="bi bi-bezier2 me-2"></i>
-                                        <div>
-                                            <strong>STEM</strong><br>
-                                            <small>Science, Technology, Engineering and Mathematics</small>
-                                        </div>
-                                    </label>
-                                </div>
-                            
-                                <div class="ps-0 form-check">
-                                    <input class="btn-check" type="radio" name="strand" id="strand-humss" value="HUMSS" required autocomplete="off"
-                                        {{ $student->strand == 'HUMSS' ? 'checked' : '' }}>
-                                    <label class="btn btn-outline-primary text-start d-flex align-items-start" for="strand-humss">
-                                        <i class="bi bi-people-fill me-2"></i>
-                                        <div>
-                                            <strong>HUMSS</strong><br>
-                                            <small>Humanities and Social Sciences</small>
-                                        </div>
-                                    </label>
-                                </div>
-                            
-                                <div class="ps-0 form-check">
-                                    <input class="btn-check" type="radio" name="strand" id="strand-gas" value="GAS" required autocomplete="off"
-                                        {{ $student->strand == 'GAS' ? 'checked' : '' }}>
-                                    <label class="btn btn-outline-primary text-start d-flex align-items-start" for="strand-gas">
-                                        <i class="bi bi-layout-text-window-reverse me-2"></i>
-                                        <div>
-                                            <strong>GAS</strong><br>
-                                            <small>General Academic Strand</small>
-                                        </div>
-                                    </label>
-                                </div>
-                            
-                                <div class="ps-0 form-check">
-                                    <input class="btn-check" type="radio" name="strand" id="strand-ict" value="ICT" required autocomplete="off"
-                                        {{ $student->strand == 'ICT' ? 'checked' : '' }}>
-                                    <label class="btn btn-outline-primary text-start d-flex align-items-start" for="strand-ict">
-                                        <i class="bi bi-code-slash me-2"></i>
-                                        <div>
-                                            <strong>ICT</strong><br>
-                                            <small>Information and Communications Technology</small>
-                                        </div>
-                                    </label>
-                                </div>
-                            
-                                <div class="ps-0 form-check">
-                                    <input class="btn-check" type="radio" name="strand" id="strand-he" value="HE" required autocomplete="off"
-                                        {{ $student->strand == 'HE' ? 'checked' : '' }}>
-                                    <label class="btn btn-outline-primary text-start d-flex align-items-start" for="strand-he">
-                                        <i class="bi bi-house-door-fill me-2"></i>
-                                        <div>
-                                            <strong>HE</strong><br>
-                                            <small>Home Economics</small>
-                                        </div>
-                                    </label>
-                                </div>
+                                @foreach ($tracks as $strand)
+                                    <div class="ps-0 form-check">
+                                        <input class="btn-check" type="radio" name="department_id" id="strand-{{ strtolower($strand->course_code) }}"
+                                            value="{{ $strand->id }}" required autocomplete="off"
+                                            {{ $student->department_id == $strand->id ? 'checked' : '' }}>
+
+                                        <label class="btn btn-outline-primary text-start d-flex align-items-start gap-3 p-2"
+                                            for="strand-{{ strtolower($strand->course_code) }}">
+                                            
+                                            <div class="image-wrapper">
+                                                <img src="{{ asset('img/' . strtolower($strand->course_code) . '.png') }}"
+                                                    alt="{{ $strand->course_code }} Logo"
+                                                    class="strand-image" style="width: 40px; height: 40px; object-fit: contain;" />
+                                            </div>
+
+                                            <div class="flex-grow-1">
+                                                <strong>{{ $strand->course_code }}</strong><br>
+                                                <small class="">{{ $strand->description }}</small>
+                                            </div>
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
-                            
+
                             @error('strand')
-                                <span class="text-danger fw-bold" style="font-size:10px;">{{$message}}</span>
+                                <span class="text-danger fw-bold" style="font-size: 10px;">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
                 </div>
+
                 {{-- Section --}}
                 <div class="row d-flex">
                     <div class="col-3">
@@ -356,14 +308,23 @@
                     </div>
                     <div class="col-9 d-flex justify-content-even gap-3">
                         <div class="col">
-                            <input type="text" name="section" placeholder="Section" value="{{ old('section')?old('section'):$student->section->name }}"
-                                class="form-control @error('section'){{ $class }}@enderror">
+                            <select name="section" class="form-select @error('section') is-invalid @enderror" required>
+                                <option disabled selected value="">Select a section</option>
+                                @foreach ($sections as $section)
+                                    <option value="{{ $section->id }}"
+                                        {{ (old('section') == $section->id || $student->section_id == $section->id) ? 'selected' : '' }}>
+                                        {{ $section->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                             @error('section')
-                                <span class="text-danger fw-bold" style="font-size:10px;">{{$message}}</span>
+                                <span class="text-danger fw-bold" style="font-size:10px;">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
                 </div>
+
+
                 <div class="container-fluid d-flex justify-content-end pb-5">
                     <button type="submit" class="btn btn-success"><i class="bi bi-cloud-download"></i> Save Changes</button>
                 </div>

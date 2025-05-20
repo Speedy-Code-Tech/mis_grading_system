@@ -186,7 +186,11 @@ class StudentController extends Controller
     public function show($student_id)
     {
         $student = Student::where('student_id', $student_id)->firstOrFail();
-        return view('admin.student.edit', ['student' => $student]);
+
+        $tracks = Department::all();
+
+        $sections = Section::all();
+        return view('admin.student.edit', compact('student', 'tracks', 'sections'));
     }
 
     public function viewGrades($student_id) {
@@ -372,13 +376,13 @@ class StudentController extends Controller
            $data= $request->validate([
                 'type' => 'required|string',
                 'level' => 'required|string',
-                'strand' => 'required|string',
+                'department_id' => 'required|string',
                 'fname' => 'required|string|max:255',
                 'mname' => 'nullable|string|max:255',
                 'lname' => 'required|string|max:255',
                 'gender' => 'required',
                 'bdate' => 'required|date',
-                'contact' => 'required|numeric|digits_between:10,15',
+                'contact' => 'required',
                 'email' => 'required',
                 'password' => 'nullable',
                 'street' => 'required|string|max:255',
