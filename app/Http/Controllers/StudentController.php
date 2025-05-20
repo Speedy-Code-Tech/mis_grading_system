@@ -293,11 +293,10 @@ class StudentController extends Controller
 
             $values = [];
             foreach ($row->c as $cell) {
-                $cellType = (string) $cell['t']; // cell type attribute
+                $cellType = (string) $cell['t'];
                 $cellValue = (string) $cell->v;
 
                 if ($cellType === 's') {
-                    // Shared string - get string from sharedStrings array
                     $index = (int) $cellValue;
                     $values[] = $sharedStrings[$index] ?? '';
                 } else {
@@ -305,8 +304,27 @@ class StudentController extends Controller
                 }
             }
 
-            // <--- For debugging --->
-            // dd($values);
+            // Skip if email already exists
+            if (User::where('email', $values[15])->exists()) {
+                continue;
+            }
+
+            // Convert Excel date
+            if (is_numeric($values[7])) {
+                $bdate = \Carbon\Carbon::parse('1900-01-01')->addDays($values[7] - 2)->format('Y-m-d');
+            } else {
+                $bdate = $values[7];
+            }
+
+            // Check if student already exists (same name and birthdate)
+            $existingStudent = Student::where('fname', $values[3])
+                ->where('lname', $values[5])
+                ->where('bdate', $bdate)
+                ->first();
+
+            if ($existingStudent) {
+                continue;
+            }
 
             $user = User::create([
                 'name' => $values[3] . ' ' . $values[4][0] . '. ' . $values[5],
@@ -317,18 +335,8 @@ class StudentController extends Controller
 
             $level = (stripos($values[2], 'Grade 12') !== false) ? 12 : 11;
 
-            if (is_numeric($values[7])) {
-                // Convert Excel date to PHP date format
-                $bdate = \Carbon\Carbon::parse('1900-01-01')->addDays($values[7] - 2)->format('Y-m-d');
-            } else {
-                $bdate = $values[7];
-            }
-            
             $department = Department::where('course_code', strtoupper($values[2]))->first();
-
             $departmentId = $department ? $department->id : null;
-
-            // dd(strtoupper($values[2]));
 
             $section = Section::firstOrCreate(
                 ['name' => $values[14], 'department_id' => $department->id],
@@ -354,9 +362,7 @@ class StudentController extends Controller
                 'brgy'          => $values[13],
                 'section_id'    => $section->id,
             ]);
-            
         }
-
         return redirect()->back()->with('msg', 'Excel file imported successfully.');
     }
     
