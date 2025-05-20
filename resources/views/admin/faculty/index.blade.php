@@ -173,12 +173,11 @@
                                 @enderror
                                 <select name="department_type" id="department_type" class="form-control">
                                     <option value="" disabled selected>Select a Department Type</option>
-                                    <option value="head_of_track" {{ old('department_type') == 'head_of_track' ? 'selected' : '' }}>Head of Track</option>
-                                    <option value="track_coordinator" {{ old('department_type') == 'track_coordinator' ? 'selected' : '' }}>Track Coordinator</option>
-                                    <option value="senior_teacher" {{ old('department_type') == 'senior_teacher' ? 'selected' : '' }}>Senior Teacher</option>
-                                    <option value="junior_teacher" {{ old('department_type') == 'junior_teacher' ? 'selected' : '' }}>Junior Teacher</option>
-                                    <option value="substitute_teacher" {{ old('department_type') == 'substitute_teacher' ? 'selected' : '' }}>Substitute Teacher</option>
-                                    <option value="teaching_assistant" {{ old('department_type') == 'teaching_assistant' ? 'selected' : '' }}>Teaching Assistant</option>
+                                    <option value="Teacher I" {{ old('department_type') == 'Teacher I' ? 'selected' : '' }}>Teacher I</option>
+                                    <option value="Teacher II" {{ old('department_type') == 'Teacher II' ? 'selected' : '' }}>Teacher II</option>
+                                    <option value="Teacher III" {{ old('department_type') == 'Teacher III' ? 'selected' : '' }}>Teacher III</option>
+                                    <option value="Teacher IV" {{ old('department_type') == 'Teacher IV' ? 'selected' : '' }}>Teacher IV</option>
+                                    <option value="Teacher V" {{ old('department_type') == 'Teacher V' ? 'selected' : '' }}>Teacher V</option>
                                 </select>
                             </div>
                         </div>
@@ -276,12 +275,11 @@
                                 @enderror
                                 <select name="department_type" id="department_type" class="form-control department_type">
                                     <option value="" disabled selected>Select a Department Type</option>
-                                    <option value="head_of_track" {{ old('department_type') == 'head_of_track' ? 'selected' : '' }}>Head of Track</option>
-                                    <option value="track_coordinator" {{ old('department_type') == 'track_coordinator' ? 'selected' : '' }}>Track Coordinator</option>
-                                    <option value="senior_teacher" {{ old('department_type') == 'senior_teacher' ? 'selected' : '' }}>Senior Teacher</option>
-                                    <option value="junior_teacher" {{ old('department_type') == 'junior_teacher' ? 'selected' : '' }}>Junior Teacher</option>
-                                    <option value="substitute_teacher" {{ old('department_type') == 'substitute_teacher' ? 'selected' : '' }}>Substitute Teacher</option>
-                                    <option value="teaching_assistant" {{ old('department_type') == 'teaching_assistant' ? 'selected' : '' }}>Teaching Assistant</option>
+                                    <option value="Teacher I" {{ old('department_type') == 'Teacher I' ? 'selected' : '' }}>Teacher I</option>
+                                    <option value="Teacher II" {{ old('department_type') == 'Teacher II' ? 'selected' : '' }}>Teacher II</option>
+                                    <option value="Teacher III" {{ old('department_type') == 'Teacher III' ? 'selected' : '' }}>Teacher III</option>
+                                    <option value="Teacher IV" {{ old('department_type') == 'Teacher IV' ? 'selected' : '' }}>Teacher IV</option>
+                                    <option value="Teacher V" {{ old('department_type') == 'Teacher V' ? 'selected' : '' }}>Teacher V</option>
                                 </select>
                             </div>
                         </div>

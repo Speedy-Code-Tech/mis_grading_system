@@ -20,7 +20,7 @@ class TeacherSeeder extends Seeder
             'mname' => 'Zaballero',
             'lname' => 'Adlawan',
             'department_id' => rand(1, 3),
-            'department_type' => 'head_of_track',
+            'department_type' => 'Teacher I',
             'status' => true,
         ]);
     }
