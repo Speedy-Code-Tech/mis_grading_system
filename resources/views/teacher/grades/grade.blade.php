@@ -177,6 +177,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="written_work"
                                                     name="grades[{{ $student->id }}][written_work][{{ $i }}]"
                                                     oninput="calculateTotal(this)"
                                                     value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
@@ -188,6 +189,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="written_work"
                                                     name="grades[{{ $student->id }}][written_work][]"
                                                     value="0"
                                                     oninput="calculateTotal(this)"
@@ -206,6 +208,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="performance_task"
                                                     name="grades[{{ $student->id }}][performance_task][{{ $i }}]"
                                                     oninput="calculateTotal(this)"
                                                     value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
@@ -217,6 +220,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="performance_task"
                                                     name="grades[{{ $student->id }}][performance_task][]"
                                                     value="0"
                                                     oninput="calculateTotal(this)"
@@ -235,6 +239,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="exam"
                                                     name="grades[{{ $student->id }}][exam][{{ $i }}]"
                                                     oninput="calculateTotal(this)"
                                                     value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
@@ -246,6 +251,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="exam"
                                                     name="grades[{{ $student->id }}][exam][]"
                                                     value="0"
                                                     oninput="calculateTotal(this)"
@@ -347,6 +353,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="written_work"
                                                     name="grades[{{ $student->id }}][written_work][{{ $i }}]"
                                                     oninput="calculateTotal(this)"
                                                     value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
@@ -358,6 +365,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="written_work"
                                                     name="grades[{{ $student->id }}][written_work][]"
                                                     value="0"
                                                     oninput="calculateTotal(this)"
@@ -376,6 +384,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="performance_task"
                                                     name="grades[{{ $student->id }}][performance_task][{{ $i }}]"
                                                     oninput="calculateTotal(this)"
                                                     value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
@@ -387,6 +396,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="performance_task"
                                                     name="grades[{{ $student->id }}][performance_task][]"
                                                     value="0"
                                                     oninput="calculateTotal(this)"
@@ -405,6 +415,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="exam"
                                                     name="grades[{{ $student->id }}][exam][{{ $i }}]"
                                                     oninput="calculateTotal(this)"
                                                     value="{{ rtrim(rtrim(number_format($score, 2, '.', ''), '0'), '.') }}"
@@ -416,6 +427,7 @@
                                                     type="text"
                                                     class="grade-input text-center"
                                                     data-index="{{ $i }}"
+                                                    data-type="exam"
                                                     name="grades[{{ $student->id }}][exam][]"
                                                     value="0"
                                                     oninput="calculateTotal(this)"
@@ -459,6 +471,23 @@
     <script>
         // Function definition moved to global scope
         const calculateTotal = (input) => {
+
+            let value = parseFloat(input.value);
+            const type = input.dataset.type;
+
+            let max = 100;
+            if (type === 'written_work' || type === 'performance_task') {
+                max = 10;
+            } else if (type === 'exam') {
+                max = 50;
+            }
+
+            if (value < 0) {
+                input.value = 0;
+            } else if (value > max) {
+                input.value = max;
+            }
+
             const row = input.closest('tr');
 
             const getTotal = (className) => {
