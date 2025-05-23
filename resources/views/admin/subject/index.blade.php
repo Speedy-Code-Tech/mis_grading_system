@@ -267,11 +267,7 @@
                                 <label class="fw-bold">Section</label>
                                 <select name="section_id" id="section_id" class="form-control">
                                     <option value="" disabled selected>Select a Section</option>
-                                    @foreach ($sections as $section)
-                                        <option value="{{ $section->id }}" {{ old('section_id') == $section->id ? 'selected' : '' }}>
-                                            {{ $section->name }}
-                                        </option>
-                                    @endforeach
+                                    {{-- Options will be populated by JavaScript --}}
                                 </select>
                             </div>
 
@@ -470,6 +466,10 @@
     </style>
 
     <script>
+        </script>
+
+    <script>
+        const allSections = @json($sections);
         // Quarter filters
         document.getElementById('semester_id').addEventListener('change', function () {
             const semester = this.value;
@@ -498,27 +498,68 @@
             });
         });
 
-        // Assign Instructor Listeners
-        document.querySelectorAll('.assign-teacher').forEach(button => {
-            button.addEventListener('click', function () {
-                const subjectId = this.dataset.id;
-                const subjectName = this.dataset.subjectName;
-                const subjectLevel = this.dataset.subjectLevel;
-                const departmentId = this.dataset.departmentId;
-                const departmentText = this.dataset.departmentText;
+        document.addEventListener('DOMContentLoaded', function () {
+            const levelInput = document.getElementById('level');
+            const departmentIdInput = document.getElementById('department_id');
+            const sectionSelect = document.getElementById('section_id');
 
-                // Set Subject
-                document.getElementById('subject_name').value = subjectName;
-                document.getElementById('subject_id').value = subjectId;
+            // This `allSections` variable now holds all sections from the backend
+            // It's defined in the Blade script block above.
 
-                // Set Grade Level
-                document.getElementById('level_display').value = subjectLevel;
-                document.getElementById('level').value = subjectLevel;
+            // Function to filter and populate sections
+            function filterAndPopulateSections() {
+                const selectedLevel = parseInt(levelInput.value); // Ensure it's an integer for comparison
+                const selectedDepartmentId = parseInt(departmentIdInput.value); // Ensure it's an integer
 
-                // Set Track/Department
-                document.getElementById('department_display').value = departmentText;
-                document.getElementById('department_id').value = departmentId;
+                // Clear existing options
+                sectionSelect.innerHTML = '<option value="" disabled selected>Select a Section</option>';
+
+                if (selectedLevel && selectedDepartmentId) {
+                    const filteredSections = allSections.filter(section => {
+                        // Access the department_id directly from the section object
+                        // The relationship is already loaded by `with('department')`
+                        return section.level === selectedLevel && section.department_id === selectedDepartmentId;
+                    });
+
+                    filteredSections.forEach(section => {
+                        const option = document.createElement('option');
+                        option.value = section.id;
+                        option.textContent = section.name;
+                        sectionSelect.appendChild(option);
+                    });
+                }
+            }
+
+            // Event listener for the "assign-teacher" buttons
+            document.querySelectorAll('.assign-teacher').forEach(button => {
+                button.addEventListener('click', function () {
+                    const subjectId = this.dataset.id;
+                    const subjectName = this.dataset.subjectName;
+                    const subjectLevel = this.dataset.subjectLevel;
+                    const departmentId = this.dataset.departmentId;
+                    const departmentText = this.dataset.departmentText;
+
+                    // Set Subject
+                    document.getElementById('subject_name').value = subjectName;
+                    document.getElementById('subject_id').value = subjectId;
+
+                    // Set Grade Level
+                    document.getElementById('level_display').value = subjectLevel;
+                    levelInput.value = subjectLevel; // Update the hidden input
+
+                    // Set Track/Department
+                    document.getElementById('department_display').value = departmentText;
+                    departmentIdInput.value = departmentId; // Update the hidden input
+
+                    // Trigger section population after setting level and department
+                    filterAndPopulateSections();
+                });
             });
+
+            // Also call it initially in case a subject is already selected on page load
+            if (levelInput.value && departmentIdInput.value) {
+                filterAndPopulateSections();
+            }
         });
 
         // Edit Subject Listeners

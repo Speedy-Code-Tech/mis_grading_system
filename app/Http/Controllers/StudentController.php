@@ -329,7 +329,7 @@ class StudentController extends Controller
             $user = User::create([
                 'name' => $values[3] . ' ' . $values[4][0] . '. ' . $values[5],
                 'email' => $values[15],
-                'password' => Hash::make('sample'),
+                'password' => Hash::make('student'),
                 'role' => 'student'
             ]);
 

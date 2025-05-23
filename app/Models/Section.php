@@ -23,4 +23,9 @@ class Section extends Model
     {
         return $this->hasMany(SubjectTeacher::class);
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
 }

@@ -24,7 +24,7 @@ class SubjectController extends Controller
         $departments = Department::all();
         $faculties = Faculty::all();
         $subjects = Subject::with(['faculty','department'])->get();
-        $sections = Section::all();
+        $sections = Section::with('department')->get();
         $subjecAssignment = SubjectTeacher::with([
             'subject', 
             'faculty', 
