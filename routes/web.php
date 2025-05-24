@@ -109,6 +109,7 @@ Route::group(['prefix' => 'teacher', 'middleware' => ['checkAuth:teacher']], fun
     Route::post('/grades/save', [TeacherSubjectController::class, 'store'])->name('teacher.grades.save');
     Route::post('/grades/update', [TeacherSubjectController::class, 'update'])->name('teacher.grades.update');
 
+    Route::get('/dashboard/grades/exportGradesCsv/{uuid}', [TeacherController::class, 'exportGradesCsv'])->name('teacher.grade.exportGradesCsv');
     Route::get('/dashboard/grades/view/{uuid}', [TeacherController::class, 'show'])->name('teacher.grade.view');
     Route::get('/dashboard/grades/edit/{uuid}', [TeacherController::class, 'inputGrades'])->name('teacher.grade.edit');
 });

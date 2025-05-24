@@ -82,9 +82,14 @@
                     </div>
                 </div>
 
-                <a href="{{ route('teacher.grade.edit', $uuid) }}" class="btn text-white rounded-pill" style="background-color: #189993; width: 10rem">
-                    Input Grades
-                </a>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('teacher.grade.exportGradesCsv', $uuid) }}" class="btn text-white rounded-pill" style="background-color: #189993; width: 10rem">
+                        Export Grades
+                    </a>
+                    <a href="{{ route('teacher.grade.edit', $uuid) }}" class="btn text-white rounded-pill" style="background-color: #189993; width: 10rem">
+                        Input Grades
+                    </a>
+                </div>
             </div>
 
             <div class="mb-4">
